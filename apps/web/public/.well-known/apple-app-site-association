@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["H6Y78Q6XSV.com.karehan.app"],
+        "components": [
+          {
+            "/": "/jobs/*",
+            "comment": "Deep link into a job in the TalentSouq app"
+          }
+        ]
+      }
+    ]
+  }
+}

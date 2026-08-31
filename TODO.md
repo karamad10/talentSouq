@@ -149,6 +149,9 @@ Current domain note:
 - Using this domain in the mobile app does not block the web app. We just need
   the web deployment to serve the same mobile association files under
   `/.well-known/`.
+- The web app now serves both `.well-known` files locally. iOS is filled.
+  Android still needs the real Play Console app-signing SHA-256 fingerprint in
+  `apps/web/public/.well-known/assetlinks.json`.
 - Follow `docs/domain-cutover.md` for the Namecheap/Vercel DNS steps.
 
 ### 6. Final legal and public copy

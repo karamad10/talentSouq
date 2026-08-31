@@ -60,3 +60,18 @@ test("legal pages use complete shared public layout", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "User responsibilities" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Read the Privacy Policy" })).toHaveAttribute("href", "/privacy");
 });
+
+test("mobile association files are served without redirects", async ({ request }) => {
+  const aasa = await request.get("/.well-known/apple-app-site-association", { maxRedirects: 0 });
+  expect(aasa.status()).toBe(200);
+  expect(aasa.headers()["content-type"]).toContain("application/json");
+  const aasaJson = await aasa.json();
+  expect(aasaJson.applinks.details[0].appIDs).toContain("H6Y78Q6XSV.com.karehan.app");
+  expect(aasaJson.applinks.details[0].components[0]["/"]).toBe("/jobs/*");
+
+  const assetlinks = await request.get("/.well-known/assetlinks.json", { maxRedirects: 0 });
+  expect(assetlinks.status()).toBe(200);
+  expect(assetlinks.headers()["content-type"]).toContain("application/json");
+  const assetlinksJson = await assetlinks.json();
+  expect(assetlinksJson[0].target.package_name).toBe("com.karehan.app");
+});

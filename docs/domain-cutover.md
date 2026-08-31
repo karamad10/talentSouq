@@ -47,9 +47,11 @@ files:
 - `/.well-known/apple-app-site-association`
 - `/.well-known/assetlinks.json`
 
-Before production cutover, get the final Apple Team ID, iOS bundle ID, Android
-package name, and Android SHA-256 fingerprint from the mobile app setup. Then
-serve those files from the Next.js app without redirecting them.
+The web app now includes the same files copied from the admin app. The iOS file
+is filled for `H6Y78Q6XSV.com.karehan.app`. The Android file still contains the
+placeholder `REPLACE_WITH_PLAY_APP_SIGNING_SHA256`; replace it with the real Play
+Console app-signing SHA-256 fingerprint before expecting Android App Links to
+verify.
 
 ## Supabase Auth URLs to add
 
