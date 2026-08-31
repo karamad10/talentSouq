@@ -25,6 +25,10 @@ What this check means:
   same Supabase project into `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, or copy the
   legacy `anon` key into `NEXT_PUBLIC_SUPABASE_ANON_KEY`, then restart the
   runtime.
+- Vercel must have either the `NEXT_PUBLIC_SUPABASE_*` variables or the
+  server-side aliases `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. These are
+  still public publishable values; never put a service-role/secret key into the
+  web app.
 
 Needed next to prove login/signup end-to-end:
 
