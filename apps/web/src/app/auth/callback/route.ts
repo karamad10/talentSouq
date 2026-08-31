@@ -6,6 +6,13 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const next = safeRelativePath(requestUrl.searchParams.get("next"), "/seeker");
+  const providerError = requestUrl.searchParams.get("error_description") ?? requestUrl.searchParams.get("error");
+
+  if (providerError) {
+    return NextResponse.redirect(
+      new URL(authRedirectPath({ error: providerError, next }), request.url)
+    );
+  }
 
   if (!code) {
     return NextResponse.redirect(new URL(authRedirectPath({ error: "Missing auth callback code.", next }), request.url));

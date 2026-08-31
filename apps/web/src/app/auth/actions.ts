@@ -123,7 +123,8 @@ export async function signInWithOAuth(formData: FormData) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider as Provider,
     options: {
-      redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`
+      redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      queryParams: provider === "google" ? { prompt: "select_account" } : undefined
     }
   });
 
