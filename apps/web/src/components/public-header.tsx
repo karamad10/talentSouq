@@ -13,7 +13,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false }: { loc
         <Logo inverted={overlay} />
         <nav className="desktop-nav" aria-label="Primary navigation">
           <Link href="/jobs">{copy.jobs}</Link>
-          <Link href="/#companies">{copy.companies}</Link>
+          <Link href="/companies">{copy.companies}</Link>
           <Link href="/#employers">{copy.forEmployers}</Link>
         </nav>
         <div className="header-actions">
@@ -24,7 +24,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false }: { loc
             <summary className="icon-button" aria-label="Open menu"><Menu size={22} /></summary>
             <nav className="mobile-nav" aria-label="Mobile navigation">
               <Link href="/jobs">{copy.jobs}</Link>
-              <Link href="/#companies">{copy.companies}</Link>
+              <Link href="/companies">{copy.companies}</Link>
               <Link href="/#employers">{copy.forEmployers}</Link>
               <Link href="/auth/login">{copy.login}</Link>
             </nav>

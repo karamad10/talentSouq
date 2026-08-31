@@ -172,7 +172,7 @@ Please confirm:
 ## Current status
 
 - Web foundation exists in `apps/web`.
-- Public landing, jobs, job detail, auth placeholder, seeker dashboard,
-  employer dashboard, legal placeholder, language/theme preferences, tests, and
-  generated hero image are committed.
+- Public landing, jobs, job detail, company profiles, invite landing, auth
+  placeholder, seeker dashboard, employer dashboard, legal placeholder,
+  language/theme preferences, tests, and generated hero image are committed.
 - Next blocker: real Supabase and mobile app context.

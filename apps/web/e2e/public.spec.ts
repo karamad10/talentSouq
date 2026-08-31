@@ -32,3 +32,18 @@ test("employer workspace renders hiring operations", async ({ page }) => {
   await expect(page.getByLabel("Hiring metrics")).toContainText("New applicants");
   await expect(page.getByRole("table", { name: "Vacancy management" })).toContainText("Senior Product Designer");
 });
+
+test("company profiles expose public hiring pages", async ({ page }) => {
+  await page.goto("/companies");
+  await expect(page.getByRole("heading", { name: "Meet teams building across the Gulf." })).toBeVisible();
+  await page.getByRole("link", { name: "View Nexa Commerce" }).click();
+  await expect(page).toHaveURL(/\/companies\/nexa-commerce$/);
+  await expect(page.getByRole("heading", { name: "Open roles" })).toBeVisible();
+});
+
+test("organization invite landing is safe before backend validation", async ({ page }) => {
+  await page.goto("/invite/demo-token-123");
+  await expect(page.getByRole("heading", { name: "Join your hiring team on TalentSouq." })).toBeVisible();
+  await expect(page.getByText("Backend validation pending")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Sign in to continue" })).toHaveAttribute("href", "/auth/login?mode=signup");
+});
