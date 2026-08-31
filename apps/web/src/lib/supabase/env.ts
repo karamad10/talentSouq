@@ -3,15 +3,20 @@ export type SupabasePublicEnv = {
   publishableKey: string;
 };
 
-export function getSupabaseEnv(): SupabasePublicEnv | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const publishableKey =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_ANON_KEY;
+function firstUsableValue(values: Array<string | undefined>) {
+  return values.find((value) => value && !value.includes("your-project") && !value.includes("your-key"));
+}
 
-  if (!url || !publishableKey || url.includes("your-project") || publishableKey.includes("your-key")) {
+export function getSupabaseEnv(): SupabasePublicEnv | null {
+  const url = firstUsableValue([process.env.SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_URL]);
+  const publishableKey = firstUsableValue([
+    process.env.SUPABASE_PUBLISHABLE_KEY,
+    process.env.SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ]);
+
+  if (!url || !publishableKey || publishableKey.startsWith("sb_secret_")) {
     return null;
   }
 

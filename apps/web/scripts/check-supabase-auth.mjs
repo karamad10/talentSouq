@@ -48,12 +48,17 @@ for (const file of envFiles) {
   }
 }
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const publishableKey =
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  process.env.SUPABASE_PUBLISHABLE_KEY ||
-  process.env.SUPABASE_ANON_KEY;
+function firstUsableValue(values) {
+  return values.find((value) => value && !value.includes("your-project") && !value.includes("your-key"));
+}
+
+const supabaseUrl = firstUsableValue([process.env.SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_URL]);
+const publishableKey = firstUsableValue([
+  process.env.SUPABASE_PUBLISHABLE_KEY,
+  process.env.SUPABASE_ANON_KEY,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+]);
 
 function summarizeKey(key) {
   if (!key) {
@@ -80,6 +85,11 @@ if (!supabaseUrl || !publishableKey) {
   fail(
     "NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (or NEXT_PUBLIC_SUPABASE_ANON_KEY) must be set.",
   );
+  process.exit();
+}
+
+if (publishableKey.startsWith("sb_secret_")) {
+  fail("The configured Supabase key is a secret key. Use a publishable key or legacy anon key for this web app.");
   process.exit();
 }
 
