@@ -47,3 +47,16 @@ test("organization invite landing is safe before backend validation", async ({ p
   await expect(page.getByText("Backend validation pending")).toBeVisible();
   await expect(page.getByRole("link", { name: "Sign in to continue" })).toHaveAttribute("href", "/auth/login?mode=signup");
 });
+
+test("legal pages use complete shared public layout", async ({ page }) => {
+  await page.goto("/privacy");
+  await expect(page.getByRole("heading", { name: "Privacy Policy" })).toBeVisible();
+  await expect(page.getByText("Last updated: 11 August 2026")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Data we collect" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "privacy@talentsouq.com" }).first()).toHaveAttribute("href", "mailto:privacy@talentsouq.com");
+  await page.getByRole("link", { name: "Read the Terms of Service" }).click();
+  await expect(page).toHaveURL(/\/terms$/);
+  await expect(page.getByRole("heading", { name: "Terms of Service" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "User responsibilities" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Read the Privacy Policy" })).toHaveAttribute("href", "/privacy");
+});
