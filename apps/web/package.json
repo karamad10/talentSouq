@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "e2e": "playwright test",
+    "check:auth": "node scripts/check-supabase-auth.mjs",
     "check:secrets": "! rg -n 'SUPABASE_SERVICE_ROLE_KEY|service_role' src public"
   },
   "dependencies": {

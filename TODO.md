@@ -7,6 +7,32 @@ variables, or the connected service dashboard.
 
 ## Needed from Karam first
 
+### 0. Current auth check
+
+The web app is already wired to Supabase Auth for project
+`mosozzwqubqrbarrpijn`. Local auth connectivity now checks out when this
+command passes:
+
+```bash
+pnpm --filter @talentsouq/web check:auth
+```
+
+What this check means:
+
+- If it says the auth key is accepted, the app can reach Supabase Auth and the
+  public key is valid.
+- If it says `Invalid API key`, copy the full `website` publishable key from the
+  same Supabase project into `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, or copy the
+  legacy `anon` key into `NEXT_PUBLIC_SUPABASE_ANON_KEY`, then restart the
+  runtime.
+
+Needed next to prove login/signup end-to-end:
+
+- One disposable test seeker email/password.
+- One disposable test employer email/password, or approval for Codex to create
+  test accounts.
+- The same Supabase env vars added in Vercel for the web project.
+
 ### 1. Supabase project access
 
 Needed so the web app can use the same accounts, profiles, jobs, applications,
