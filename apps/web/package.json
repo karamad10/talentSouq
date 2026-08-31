@@ -11,6 +11,7 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "check:auth": "node scripts/check-supabase-auth.mjs",
+    "create:test-accounts": "node scripts/create-test-accounts.mjs",
     "check:secrets": "! rg -n 'SUPABASE_SERVICE_ROLE_KEY|service_role' src public"
   },
   "dependencies": {

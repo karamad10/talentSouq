@@ -28,10 +28,17 @@ What this check means:
 
 Needed next to prove login/signup end-to-end:
 
-- One disposable test seeker email/password.
-- One disposable test employer email/password, or approval for Codex to create
-  test accounts.
+- Disposable test accounts are being created in Supabase and documented in the
+  ignored local file `TEST_ACCOUNTS.local.md`.
+- If the accounts say `Email not confirmed`, confirm them in Supabase Dashboard
+  → Authentication → Users before using them.
 - The same Supabase env vars added in Vercel for the web project.
+
+To create a fresh local batch later:
+
+```bash
+pnpm --filter @talentsouq/web create:test-accounts
+```
 
 ### 1. Supabase project access
 
@@ -134,6 +141,15 @@ Please provide or confirm access for:
 - Final `.well-known/apple-app-site-association` content.
 - Final `.well-known/assetlinks.json` content, including the Android SHA-256
   app-signing fingerprint.
+
+Current domain note:
+
+- `www.talentsouq.it.com` and `talentsouq.it.com` currently resolve to Namecheap
+  parking, so Vercel correctly reports `Invalid Configuration`.
+- Using this domain in the mobile app does not block the web app. We just need
+  the web deployment to serve the same mobile association files under
+  `/.well-known/`.
+- Follow `docs/domain-cutover.md` for the Namecheap/Vercel DNS steps.
 
 ### 6. Final legal and public copy
 
