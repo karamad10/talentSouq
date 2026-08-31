@@ -17,3 +17,18 @@ test("language preference produces an RTL document", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("طموحك");
 });
+
+test("seeker workspace renders the application tracker", async ({ page }) => {
+  await page.goto("/seeker");
+  await expect(page.getByRole("heading", { name: "Good momentum, Sarah." })).toBeVisible();
+  await expect(page.getByRole("table", { name: "Application tracking" })).toContainText("Interview");
+  await page.getByRole("link", { name: "Find roles" }).click();
+  await expect(page).toHaveURL(/\/jobs$/);
+});
+
+test("employer workspace renders hiring operations", async ({ page }) => {
+  await page.goto("/employer");
+  await expect(page.getByRole("heading", { name: "Nexa Commerce hiring desk." })).toBeVisible();
+  await expect(page.getByLabel("Hiring metrics")).toContainText("New applicants");
+  await expect(page.getByRole("table", { name: "Vacancy management" })).toContainText("Senior Product Designer");
+});
