@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const theme = cookieStore.get("ts-theme")?.value === "dark" ? "dark" : "light";
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-theme={theme} className={`${inter.variable} ${arabic.variable}`}>
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-theme={theme} data-scroll-behavior="smooth" className={`${inter.variable} ${arabic.variable}`}>
       <body>{children}</body>
     </html>
   );

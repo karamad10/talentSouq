@@ -11,7 +11,7 @@ export default defineConfig({
     { name: "mobile-chrome", use: { ...devices["Pixel 7"] } }
   ],
   webServer: {
-    command: "pnpm dev",
+    command: "TALENTSOUQ_DISABLE_AUTH_GUARDS=1 pnpm dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI
   }

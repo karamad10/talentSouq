@@ -2,6 +2,7 @@ import { BriefcaseBusiness, Building2, LayoutDashboard, MessageSquare, Search, S
 import type { Route } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { signOut } from "@/app/auth/actions";
 import { Logo } from "@/components/logo";
 
 type NavItem = {
@@ -36,5 +37,5 @@ export function AppShell({ active, children }: AppShellProps) {
   return <main className="workspace"><aside className="workspace-sidebar"><Logo /><nav aria-label={`${active} workspace`} className="workspace-nav">{nav[active].map((item) => {
     const Icon = item.icon;
     return <Link key={item.href} href={item.href} aria-current={item.href === `/${active}` ? "page" : undefined}><Icon size={18} />{item.label}</Link>;
-  })}</nav><div className="workspace-sidebar-note"><span>Backend pending</span><p>Live data connects after Supabase access is available.</p></div></aside><section className="workspace-main">{children}</section></main>;
+  })}</nav><form action={signOut} className="signout-form"><button className="filter-button" type="submit">Sign out</button></form><div className="workspace-sidebar-note"><span>Backend ready</span><p>Protected routes use Supabase when the environment is configured.</p></div></aside><section className="workspace-main">{children}</section></main>;
 }

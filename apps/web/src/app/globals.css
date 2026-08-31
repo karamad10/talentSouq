@@ -240,9 +240,13 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .role-choice input { position: absolute; opacity: 0; }
 .role-choice span { display: block; padding: 14px; border: 1px solid var(--line); border-radius: 10px; text-align: center; cursor: pointer; }
 .role-choice input:checked + span { color: var(--teal); border-color: var(--teal); background: var(--teal-pale); }
+.auth-fields { display: contents; }
+.form-alert { margin-bottom: 18px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; font-weight: 700; }
+.form-alert.error { color: var(--danger); background: color-mix(in srgb, var(--danger) 9%, var(--surface)); }
+.form-alert.success { color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); }
 .form-divider { display: flex; align-items: center; gap: 14px; margin-block: 26px; color: var(--ink-soft); font-size: 11px; }
 .form-divider::before, .form-divider::after { flex: 1; height: 1px; content: ""; background: var(--line); }
-.social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }.google-g { color: #4285f4; font-weight: 800; }
+.social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }.social-buttons form { display: contents; }.google-g { color: #4285f4; font-weight: 800; }
 .switch-auth { margin-top: 26px; text-align: center; font-size: 13px; }.switch-auth a { color: var(--teal); font-weight: 700; }
 .form-note { padding: 12px; border-radius: 9px; color: var(--ink-soft); background: var(--surface-soft); font-size: 10px; line-height: 1.5; }
 
@@ -257,6 +261,9 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .workspace-sidebar-note { margin-top: auto; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); }
 .workspace-sidebar-note span { color: var(--teal); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .workspace-sidebar-note p { margin: 7px 0 0; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
+.signout-form { margin-top: auto; }
+.signout-form + .workspace-sidebar-note { margin-top: 0; }
+.signout-form .filter-button { width: 100%; justify-content: center; }
 .workspace-main { width: min(100% - 56px, 1180px); margin-inline: auto; padding-block: 46px 80px; }
 .workspace-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; margin-bottom: 28px; }
 .workspace-header h1 { max-width: 760px; margin-bottom: 14px; font-size: clamp(2.6rem, 5vw, 5rem); }

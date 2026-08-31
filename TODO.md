@@ -175,4 +175,9 @@ Please confirm:
 - Public landing, jobs, job detail, company profiles, invite landing, auth
   placeholder, seeker dashboard, employer dashboard, legal placeholder,
   language/theme preferences, tests, and generated hero image are committed.
-- Next blocker: real Supabase and mobile app context.
+- Supabase SSR auth utilities, PKCE callback, password login/signup, Google and
+  Apple OAuth start actions, sign-out, and protected route proxy are implemented.
+- Next blocker: the local env now points to the Supabase API URL, but the
+  connected Supabase account does not list project `mosozzwqubqrbarrpijn`, and
+  that project's publishable key is currently rejected as invalid. Real login
+  needs the correct active TalentSouq project access and matching publishable key.
