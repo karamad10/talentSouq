@@ -244,6 +244,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .form-alert { margin-bottom: 18px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; font-weight: 700; }
 .form-alert.error { color: var(--danger); background: color-mix(in srgb, var(--danger) 9%, var(--surface)); }
 .form-alert.success { color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); }
+.minor-form-link { justify-self: end; margin: -6px 0 18px; color: var(--teal); font-size: 12px; font-weight: 800; }
 .form-divider { display: flex; align-items: center; gap: 14px; margin-block: 26px; color: var(--ink-soft); font-size: 11px; }
 .form-divider::before, .form-divider::after { flex: 1; height: 1px; content: ""; background: var(--line); }
 .social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }.social-buttons form { display: contents; }.google-g { color: #4285f4; font-weight: 800; }

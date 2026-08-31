@@ -35,6 +35,18 @@ function failurePath(mode: AuthMode, formData: FormData, error: string) {
   });
 }
 
+function authPath(pathname: string, values: Record<string, string | undefined>) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(values)) {
+    if (value) {
+      params.set(key, value);
+    }
+  }
+
+  const query = params.toString();
+  return query ? `${pathname}?${query}` : pathname;
+}
+
 function redirectTo(path: string): never {
   redirect(path as Route);
 }
@@ -120,6 +132,56 @@ export async function signInWithOAuth(formData: FormData) {
   }
 
   redirectTo(data.url);
+}
+
+export async function requestPasswordReset(formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+
+  if (!email) {
+    redirectTo(authPath("/auth/forgot-password", { error: "Enter the email address on your TalentSouq account." }));
+  }
+
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch {
+    redirectTo(authPath("/auth/forgot-password", { error: "Supabase is not configured for this environment yet." }));
+  }
+
+  const origin = await getOrigin();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/auth/reset-password")}`
+  });
+
+  if (error) {
+    redirectTo(authPath("/auth/forgot-password", { error: error.message }));
+  }
+
+  redirectTo(authPath("/auth/forgot-password", { message: "Check your email for a password reset link." }));
+}
+
+export async function updatePassword(formData: FormData) {
+  const password = String(formData.get("password") ?? "");
+  const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+  if (password.length < 8 || password !== confirmPassword) {
+    redirectTo(authPath("/auth/reset-password", { error: "Use matching passwords with at least 8 characters." }));
+  }
+
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch {
+    redirectTo(authPath("/auth/reset-password", { error: "Supabase is not configured for this environment yet." }));
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    redirectTo(authPath("/auth/reset-password", { error: error.message }));
+  }
+
+  redirectTo(authRedirectPath({ message: "Your password was updated. Log in with the new password." }));
 }
 
 export async function signOut() {
