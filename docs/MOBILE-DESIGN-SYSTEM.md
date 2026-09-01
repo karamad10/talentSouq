@@ -16,6 +16,44 @@ TalentSouq has two workspace types. They share authentication and brand chrome, 
 
 One login may eventually have access to multiple organizations or roles. The active workspace must always be explicit in the UI. Never show company editing inside a person profile, or personal CV fields inside company settings. Role tint is informational only; actions use the shared primary brand color.
 
+### Account rules (mandatory)
+
+The authenticated user and the active profile are different concepts:
+
+1. **Authentication account** is the Supabase user/session: email, verification, sign-in providers, security, and global notification preferences.
+2. **Seeker profile** is a person record linked to that user. It contains personal identity and career data.
+3. **Employer workspace** is a company record linked through organization membership. It contains company and hiring data; a user acts on behalf of the organization according to their membership role.
+
+The same email may have a seeker profile and belong to one or more employer organizations. Never infer the active workspace from email, name, or the last page visited. Resolve it from the authenticated session plus explicit role/membership selection.
+
+| Surface / capability | Seeker account shows | Employer account shows |
+| --- | --- | --- |
+| Identity switcher | Person name, avatar/initial, headline; available organizations if the user has them | Company name/logo, active organization, membership role; option to return to personal profile if allowed |
+| Home | Profile completeness, match quality, saved jobs, application progress, offers/interviews, unread messages, recommended roles | Open jobs, applicant counts, pipeline movement, interviews needing action, candidate matches, credits/plan, team alerts |
+| Profile | About, CV, experience, education, skills, languages, certificates, links, preferences, visibility | Company about, logo/branding, details, contact, media, company posts; never personal CV fields |
+| Discovery | Job search, URL-addressable filters, saved searches, alerts, job details, apply | Candidate search, candidate filters, invitations, folders; never expose private seeker fields without permission |
+| Workflows | Apply, withdraw, track status, respond to offer, save, message | Create/publish/pause jobs, review applicants, move ATS stages, schedule interviews, send assessments, message candidates |
+| Billing | Seeker plan or paid features only if enabled; no organization billing | Organization plan, seats, credits, invoices, billing permissions |
+| Navigation labels | Discover jobs, Applications, Offers & interviews, Saved & alerts, AI companion, My profile | Jobs, Find candidates, ATS pipeline, Interviews, Assessments, Company profile, Team & permissions, Plan & credits |
+
+### Visibility and permission boundaries
+
+- A seeker can edit only their own person profile and submissions.
+- An employer member can edit only company data allowed by their organization role; billing and member administration are restricted to permitted roles.
+- Employer views may display seeker application data only in the context of a job, invitation, or permitted talent search result.
+- Seeker views must not expose private employer notes, internal ATS stages, team data, credits, or billing.
+- Employer views must not expose a seeker’s private contact/CV fields unless the seeker has made them visible or the workflow grants access.
+- Every route must enforce the server-side permission check; hiding a nav item is not authorization.
+- A role change or organization switch resets navigation context, page title, breadcrumbs, cached queries, and action targets. Never carry a seeker action into an employer route (or vice versa).
+
+### Required account-aware UI behavior
+
+- Show a persistent workspace identity near the main navigation: **Personal profile** for seekers, **Company workspace** for employers.
+- Put the active role and organization in page metadata and accessible labels, not color alone.
+- Use role tint only for passive identity/status treatments. Primary, destructive, and success actions retain shared semantic tokens.
+- Empty, loading, error, and permission-denied states must be written for the active account type (for example, “No applications yet” is not the employer empty state).
+- Links between workspaces must be explicit and safe. The local preview switcher is UI-only and must never imply an authenticated role change.
+
 ## Color tokens
 
 These are the exact mobile tokens. Hex values are case-insensitive; preserve the semantic names when mapping to CSS variables.
