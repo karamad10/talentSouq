@@ -22,11 +22,11 @@ test("seeker workspace navigation opens focused sections", async ({ page }) => {
   await page.goto("/seeker");
   await expect(page.getByRole("heading", { name: "Good morning, Sarah." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("aria-current", "page");
-  await page.getByRole("link", { name: "Discover jobs" }).click();
+  await page.getByLabel("seeker workspace").getByRole("link", { name: "Discover jobs" }).click();
   await expect(page).toHaveURL(/\/seeker\/jobs$/);
   await expect(page.getByRole("heading", { name: "Find your next role" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Discover jobs" })).toHaveAttribute("aria-current", "page");
-  await page.getByRole("link", { name: "Applications" }).click();
+  await expect(page.getByLabel("seeker workspace").getByRole("link", { name: "Discover jobs" })).toHaveAttribute("aria-current", "page");
+  await page.getByLabel("seeker workspace").getByRole("link", { name: "Applications" }).click();
   await expect(page).toHaveURL(/\/seeker\/applications$/);
   await expect(page.getByRole("heading", { name: "Applications" })).toBeVisible();
 });
@@ -34,12 +34,12 @@ test("seeker workspace navigation opens focused sections", async ({ page }) => {
 test("employer workspace is separate and route based", async ({ page }) => {
   await page.goto("/employer");
   await expect(page.getByRole("heading", { name: "Hiring overview" })).toBeVisible();
-  await expect(page.locator(".workspace-header").getByText("Company workspace")).toBeVisible();
-  await page.getByRole("link", { name: "ATS pipeline" }).click();
+  await expect(page.locator(".dashboard-lead").getByText("Company workspace")).toBeVisible();
+  await page.getByLabel("employer workspace").getByRole("link", { name: "ATS pipeline" }).click();
   await expect(page).toHaveURL(/\/employer\/pipeline$/);
   await expect(page.getByRole("heading", { name: "ATS pipeline" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "ATS pipeline" })).toHaveAttribute("aria-current", "page");
-  await page.getByRole("link", { name: "Company profile" }).click();
+  await expect(page.getByLabel("employer workspace").getByRole("link", { name: "ATS pipeline" })).toHaveAttribute("aria-current", "page");
+  await page.getByLabel("employer workspace").getByRole("link", { name: "Company profile" }).click();
   await expect(page).toHaveURL(/\/employer\/company$/);
   await expect(page.getByRole("heading", { name: "Nexa Commerce" })).toBeVisible();
 });
