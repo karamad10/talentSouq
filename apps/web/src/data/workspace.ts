@@ -105,6 +105,21 @@ export const employerSummary = {
   openRoles: 5,
   newApplicants: 24,
   interviews: 6,
+  company: {
+    industry: "Commerce technology",
+    size: "51–200 employees",
+    location: "Dubai, UAE",
+    website: "nexacommerce.example",
+    completeness: 82,
+    description: "A regional commerce platform helping growing brands run simpler storefront and fulfilment operations.",
+    followers: 1840,
+    following: 96
+  },
+  tasks: [
+    { title: "Review 7 new applicants", detail: "Senior Product Designer", when: "Today", href: "/employer/pipeline" as const },
+    { title: "Send assessment", detail: "Frontend Engineer shortlist", when: "Today", href: "/employer/assessments" as const },
+    { title: "Confirm interview panel", detail: "Noor Omar · Product Designer", when: "Tomorrow", href: "/employer/interviews" as const }
+  ],
   pipeline: [
     { name: "Maya Alami", role: "Product Designer", stage: "New applicant", score: 95 },
     { name: "Liam Khan", role: "Product Designer", stage: "Shortlisted", score: 91 },
@@ -115,5 +130,29 @@ export const employerSummary = {
     { title: "Senior Product Designer", status: "Active", applicants: 24, updated: "Updated today" },
     { title: "Frontend Engineer", status: "Active", applicants: 18, updated: "Updated yesterday" },
     { title: "People Operations Partner", status: "Draft", applicants: 0, updated: "Draft saved" }
-  ]
+  ],
+  funnel: [
+    { label: "New", count: 24 }, { label: "Review", count: 12 }, { label: "Shortlist", count: 8 },
+    { label: "Assessment", count: 5 }, { label: "Interview", count: 4 }, { label: "Offer", count: 2 }
+  ],
+  interviewsList: [
+    { candidate: "Noor Omar", role: "Product Designer", date: "Today · 2:00 PM GST", mode: "Video", panel: "Maya, Omar" },
+    { candidate: "Liam Khan", role: "Product Designer", date: "Tomorrow · 10:30 AM GST", mode: "On-site", panel: "Maya, Sarah" },
+    { candidate: "Rami Farah", role: "Frontend Engineer", date: "Thu · 3:00 PM GST", mode: "Video", panel: "Omar, Leen" }
+  ],
+  assessments: [
+    { name: "Product thinking exercise", provider: "TalentSouq", sent: 8, completed: 5 },
+    { name: "Frontend practical", provider: "TestGorilla", sent: 5, completed: 3 }
+  ],
+  candidates: [
+    { name: "Dina Saleh", headline: "Senior Product Designer", location: "Dubai, UAE", score: 96, desired: "AED 30k" },
+    { name: "Yousef Haddad", headline: "Product Design Lead", location: "Riyadh, KSA", score: 91, desired: "SAR 32k" },
+    { name: "Lina Abbas", headline: "UX Researcher", location: "Remote · GCC", score: 88, desired: "AED 24k" }
+  ],
+  members: [
+    { name: "Maya Hassan", email: "maya@nexacommerce.example", role: "Owner" },
+    { name: "Omar Rahman", email: "omar@nexacommerce.example", role: "Recruiter" },
+    { name: "Leen Saad", email: "leen@nexacommerce.example", role: "Hiring manager" }
+  ],
+  plan: { name: "Growth", credits: 168, renewal: "October 1, 2026", seats: "3 of 5" }
 };

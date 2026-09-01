@@ -18,19 +18,30 @@ test("language preference produces an RTL document", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText("طموحك");
 });
 
-test("seeker workspace renders the application tracker", async ({ page }) => {
+test("seeker workspace navigation opens focused sections", async ({ page }) => {
   await page.goto("/seeker");
-  await expect(page.getByRole("heading", { name: "Good momentum, Sarah." })).toBeVisible();
-  await expect(page.getByRole("table", { name: "Application tracking" })).toContainText("Interview");
-  await page.getByRole("link", { name: "Find roles" }).click();
-  await expect(page).toHaveURL(/\/jobs$/);
+  await expect(page.getByRole("heading", { name: "Good morning, Sarah." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("aria-current", "page");
+  await page.getByRole("link", { name: "Discover jobs" }).click();
+  await expect(page).toHaveURL(/\/seeker\/jobs$/);
+  await expect(page.getByRole("heading", { name: "Find your next role" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Discover jobs" })).toHaveAttribute("aria-current", "page");
+  await page.getByRole("link", { name: "Applications" }).click();
+  await expect(page).toHaveURL(/\/seeker\/applications$/);
+  await expect(page.getByRole("heading", { name: "Applications" })).toBeVisible();
 });
 
-test("employer workspace renders hiring operations", async ({ page }) => {
+test("employer workspace is separate and route based", async ({ page }) => {
   await page.goto("/employer");
-  await expect(page.getByRole("heading", { name: "Nexa Commerce hiring desk." })).toBeVisible();
-  await expect(page.getByLabel("Hiring metrics")).toContainText("New applicants");
-  await expect(page.getByRole("table", { name: "Vacancy management" })).toContainText("Senior Product Designer");
+  await expect(page.getByRole("heading", { name: "Hiring overview" })).toBeVisible();
+  await expect(page.locator(".workspace-header").getByText("Company workspace")).toBeVisible();
+  await page.getByRole("link", { name: "ATS pipeline" }).click();
+  await expect(page).toHaveURL(/\/employer\/pipeline$/);
+  await expect(page.getByRole("heading", { name: "ATS pipeline" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "ATS pipeline" })).toHaveAttribute("aria-current", "page");
+  await page.getByRole("link", { name: "Company profile" }).click();
+  await expect(page).toHaveURL(/\/employer\/company$/);
+  await expect(page.getByRole("heading", { name: "Nexa Commerce" })).toBeVisible();
 });
 
 test("company profiles expose public hiring pages", async ({ page }) => {

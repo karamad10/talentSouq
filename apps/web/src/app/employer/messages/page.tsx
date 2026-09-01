@@ -1,0 +1,7 @@
+import type { Metadata } from "next";
+import { MessageSquare, Search } from "lucide-react";
+import { SectionCard, WorkspaceHeader } from "@/components/workspace-ui";
+
+export const metadata: Metadata = { title: "Employer messages" };
+const threads = [{ name: "Noor Omar", role: "Product Designer", message: "Thursday afternoon works well.", time: "12m" }, { name: "Rami Farah", role: "Frontend Engineer", message: "I’ve completed the assessment.", time: "1h" }, { name: "Dina Saleh", role: "Talent search", message: "Thanks for the invitation.", time: "Yesterday" }];
+export default function EmployerMessagesPage() { return <><WorkspaceHeader eyebrow="Inbox" title="Candidate messages" description="Keep recruiter and candidate conversations connected to the relevant role and application." /><div className="inbox-layout"><SectionCard title="Conversations" action={<Search size={16} />}><div className="thread-list">{threads.map((thread, index) => <button type="button" aria-current={index === 0 ? "true" : undefined} key={thread.name}><span>{thread.name.slice(0, 2)}</span><div><strong>{thread.name}</strong><p>{thread.message}</p></div><small>{thread.time}</small></button>)}</div></SectionCard><SectionCard title="Noor Omar" description="Senior Product Designer"><div className="message-placeholder"><MessageSquare size={28} /><strong>Interview availability</strong><p>Conversation history, attachments, and recruiter notes will appear here.</p><button className="button button-primary button-small">Reply</button></div></SectionCard></div></>; }

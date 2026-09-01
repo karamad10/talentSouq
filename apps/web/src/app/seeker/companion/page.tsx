@@ -1,0 +1,9 @@
+import type { Metadata } from "next";
+import { Bell, MapPin, Sparkles, Target } from "lucide-react";
+import { SectionCard, WorkspaceHeader } from "@/components/workspace-ui";
+import { seekerSummary } from "@/data/workspace";
+
+export const metadata: Metadata = { title: "AI job companion" };
+export default function CompanionPage() { return <><WorkspaceHeader eyebrow="Match intelligence" title="AI job companion" description="A guided search brief that finds and explains stronger-fit roles each week." action={{ href: "/seeker/jobs", label: "View matches" }} />
+  <div className="workspace-content-grid"><SectionCard title="Your search brief" description="Built from the companion setup flow."><div className="companion-summary"><Sparkles size={22} /><p>{seekerSummary.companion.summary}</p><div>{seekerSummary.companion.skills.map((skill) => <span key={skill}>{skill}</span>)}</div><footer><strong>{seekerSummary.companion.cooldown}</strong><span>Weekly matches on</span></footer></div></SectionCard><SectionCard title="Preferences"><div className="detail-list"><div><Target size={17} /><span>Seniority</span><strong>Senior / Lead</strong></div><div><MapPin size={17} /><span>Location</span><strong>UAE + GCC remote</strong></div><div><Bell size={17} /><span>Digest</span><strong>Every Monday</strong></div></div></SectionCard></div>
+  <SectionCard title="This week’s match signals" description="Why the companion is recommending these roles."><div className="insight-grid"><article><strong>Design systems</strong><p>Appears in 8 high-fit roles and is a proven strength.</p></article><article><strong>Commerce</strong><p>Your domain experience improves ranking across retail platforms.</p></article><article><strong>Leadership scope</strong><p>Team mentorship is becoming a common requirement.</p></article></div></SectionCard></>; }
