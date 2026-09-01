@@ -1,3 +1,43 @@
+@layer theme, base, legacy, components, utilities;
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-line: var(--line);
+  --color-teal: var(--teal);
+  --color-teal-dark: var(--teal-dark);
+  --color-teal-pale: var(--teal-pale);
+  --color-coral: var(--coral);
+  --color-coral-dark: var(--coral-dark);
+  --color-orange: var(--orange);
+  --color-success: var(--success);
+  --color-success-pale: var(--success-pale);
+  --color-danger: var(--danger);
+  --color-danger-pale: var(--danger-pale);
+  --color-attention: var(--attention);
+  --color-attention-pale: var(--attention-pale);
+  --color-surface-strong: var(--surface-strong);
+  --color-on-surface-strong: var(--on-surface-strong);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-lg: var(--shadow-lg);
+
+  --font-sans: var(--font-inter), Arial, sans-serif;
+  --font-arabic: var(--font-arabic), Arial, sans-serif;
+  --font-display: var(--font-inter), Arial, sans-serif;
+}
+
+@layer legacy {
+
 :root {
   --ink: #102c33;
   --ink-deep: #061d24;
@@ -14,6 +54,10 @@
   --orange: #e6a053;
   --success: #2d8a62;
   --danger: #c94848;
+  --success-pale: color-mix(in srgb, var(--success) 14%, var(--surface));
+  --danger-pale: color-mix(in srgb, var(--danger) 12%, var(--surface));
+  --attention: #9a5b19;
+  --attention-pale: color-mix(in srgb, var(--orange) 20%, var(--surface));
   --shadow-sm: 0 8px 24px rgba(6, 29, 36, .07);
   --shadow-lg: 0 28px 80px rgba(6, 29, 36, .14);
   --radius-sm: 10px;
@@ -83,6 +127,7 @@
   --coral-dark: #EA7C20;
   --success: #35A167;
   --danger: #EA6058;
+  --attention: #F2C68C;
   --ts-paper: #0D1315;
   --ts-surface: #151D20;
   --ts-surface-2: #1B2427;
@@ -578,7 +623,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .dashboard-metric-link[data-tone="attention"] { border-color: color-mix(in srgb, var(--coral) 38%, var(--line)); }
 .dashboard-metric-link[data-tone="attention"] > svg:first-child { color: var(--coral); }
 .dashboard-main-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(300px, .82fr); gap: var(--ts-space-200); }
-.dashboard-main-grid > .workspace-section { height: calc(100% - 16px); }
+.dashboard-main-grid > * { height: calc(100% - var(--ts-space-200)); }
 .dashboard-main-grid-equal { grid-template-columns: 1fr 1fr; }
 .dashboard-directory { margin-top: var(--ts-space-200); padding: var(--ts-space-250); border: 1px solid var(--line); border-radius: var(--ts-radius-lg); background: var(--surface); }
 .dashboard-directory > header { display: flex; justify-content: space-between; gap: var(--ts-space-300); margin-bottom: var(--ts-space-200); }
@@ -771,7 +816,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
   .workspace-nav a { min-width: 120px; }
   .workspace-content-grid, .inbox-layout { grid-template-columns: 1fr; }
   .dashboard-lead, .dashboard-main-grid { grid-template-columns: 1fr; }
-  .dashboard-main-grid > .workspace-section { height: auto; }
+  .dashboard-main-grid > * { height: auto; }
   .dashboard-directory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .compact-filters, .profile-columns-wide { grid-template-columns: repeat(2, 1fr); }
   .talent-grid { grid-template-columns: 1fr 1fr; }
@@ -823,4 +868,6 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+
 }
