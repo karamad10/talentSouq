@@ -1,5 +1,6 @@
-import { ArrowUpRight, Bookmark, MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import Link from "next/link";
+import { BookmarkToggle } from "@/components/interaction-ui";
 import type { Job } from "@/data/jobs";
 
 export function JobCard({ job }: { job: Job }) {
@@ -7,7 +8,7 @@ export function JobCard({ job }: { job: Job }) {
     <article className="job-card">
       <div className="job-card-top">
         <div className="company-mark" style={{ backgroundColor: job.accent }} aria-hidden="true">{job.initials}</div>
-        <button className="save-button" type="button" aria-label={`Save ${job.title}`}><Bookmark size={19} /></button>
+        <BookmarkToggle storageKey={`talentsouq:job:${job.id}:saved`} label={job.title} />
       </div>
       <p className="job-company">{job.company}</p>
       <h3><Link href={`/jobs/${job.id}`}>{job.title}</Link></h3>

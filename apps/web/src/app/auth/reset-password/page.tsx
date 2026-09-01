@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { updatePassword } from "@/app/auth/actions";
 import { Logo } from "@/components/logo";
+import { LoadingSubmit } from "@/components/interaction-ui";
 import { getSupabaseEnv } from "@/lib/supabase/env";
 
 export default async function ResetPasswordPage({
@@ -60,9 +61,9 @@ export default async function ResetPasswordPage({
               <span>Confirm new password</span>
               <input type="password" name="confirmPassword" autoComplete="new-password" required minLength={8} />
             </label>
-            <button className="button button-primary button-full" type="submit" disabled={!authEnabled}>
+            <LoadingSubmit className="button button-primary button-full" type="submit" disabled={!authEnabled} pendingLabel="Updating password…">
               Update password
-            </button>
+            </LoadingSubmit>
           </form>
           <p className="switch-auth">
             Need a new link? <Link href={"/auth/forgot-password" as Route}>Send another reset email</Link>

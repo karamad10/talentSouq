@@ -2,6 +2,7 @@ import { ArrowLeft, Mail } from "lucide-react";
 import Link from "next/link";
 import { requestPasswordReset } from "@/app/auth/actions";
 import { Logo } from "@/components/logo";
+import { LoadingSubmit } from "@/components/interaction-ui";
 import { getSupabaseEnv } from "@/lib/supabase/env";
 
 export default async function ForgotPasswordPage({
@@ -55,9 +56,9 @@ export default async function ForgotPasswordPage({
               <span>Email address</span>
               <input type="email" name="email" autoComplete="email" required placeholder="you@example.com" />
             </label>
-            <button className="button button-primary button-full" type="submit" disabled={!authEnabled}>
+            <LoadingSubmit className="button button-primary button-full" type="submit" disabled={!authEnabled} pendingLabel="Sending reset link…">
               Send reset link
-            </button>
+            </LoadingSubmit>
           </form>
           <p className="switch-auth">
             Remembered it? <Link href="/auth/login">Log in</Link>
