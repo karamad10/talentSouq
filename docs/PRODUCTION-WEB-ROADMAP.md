@@ -2,6 +2,8 @@
 
 Last updated: 1 September 2026
 
+The mobile source audit and exact implementation tokens are documented in [`MOBILE-DESIGN-SYSTEM.md`](./MOBILE-DESIGN-SYSTEM.md). Treat that document as the visual and interaction contract for all new web workspace pages.
+
 ## Product rule: two profiles, two workspaces
 
 TalentSouq has two different account experiences. They must not be merged into one dashboard or one profile editor.

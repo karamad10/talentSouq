@@ -20,6 +20,25 @@
   --radius-md: 18px;
   --radius-lg: 28px;
   --container: 1180px;
+  /* Mobile parity tokens: use these for new product workspace UI. */
+  --ts-paper: #FAFBFC;
+  --ts-surface: #FFFFFF;
+  --ts-surface-2: #F1F4F5;
+  --ts-ink: #0B1B23;
+  --ts-muted: #5C6B73;
+  --ts-subtle: #626D74;
+  --ts-line: #E7EBED;
+  --ts-field-border: #7E8A90;
+  --ts-primary: #0E6E63;
+  --ts-primary-deep: #0B5A51;
+  --ts-primary-tint: #E6F2F0;
+  --ts-accent: #EA7C20;
+  --ts-success: #177344;
+  --ts-danger: #B42318;
+  --ts-radius-sm: 8px;
+  --ts-radius-md: 10px;
+  --ts-radius-lg: 14px;
+  --ts-space-screen: 20px;
 }
 
 [data-theme="dark"] {
@@ -470,6 +489,12 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .workspace-sidebar-actions { display: grid; gap: 3px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
 .workspace-sidebar-actions a, .workspace-sidebar-actions button { display: flex; width: 100%; min-height: 36px; align-items: center; gap: 9px; padding: 0 10px; border: 0; border-radius: 7px; color: var(--ink-soft); background: transparent; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
 .workspace-sidebar-actions a:hover, .workspace-sidebar-actions button:hover { color: var(--teal); background: var(--teal-pale); }
+.dev-workspace-switcher { display: grid; gap: 6px; padding: 10px; border: 1px dashed color-mix(in srgb, var(--ts-primary) 42%, var(--line)); border-radius: var(--ts-radius-md); background: color-mix(in srgb, var(--ts-primary-tint) 55%, var(--surface)); }
+.dev-workspace-switcher > span { color: var(--ts-primary); font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.dev-workspace-switcher > div { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.dev-workspace-switcher a { min-height: 30px; display: grid; place-items: center; border-radius: 7px; color: var(--ink-soft); font-size: 11px; font-weight: 700; }
+.dev-workspace-switcher a[aria-pressed="true"] { color: var(--ts-primary); background: var(--ts-surface); box-shadow: 0 1px 4px rgba(11,27,35,.08); }
+.dev-workspace-switcher small { color: var(--ink-soft); font-size: 9px; line-height: 1.3; }
 .workspace-main { width: min(100% - 48px, 1180px); padding-block: 34px 64px; }
 .workspace-header.compact { align-items: flex-end; margin-bottom: 24px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
 .workspace-header.compact h1 { margin: 3px 0 7px; font-size: clamp(2rem, 3.4vw, 3.2rem); letter-spacing: -.045em; }

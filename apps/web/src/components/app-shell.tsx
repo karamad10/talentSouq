@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { signOut } from "@/app/auth/actions";
 import { Logo } from "@/components/logo";
+import { DevWorkspaceSwitcher } from "@/components/dev-workspace-switcher";
 
 type NavItem = {
   href: Route;
@@ -61,7 +62,7 @@ export function AppShell({ active, children }: AppShellProps) {
     ? { eyebrow: "Personal profile", name: "Sarah Ahmed", meta: "Senior Product Designer", initial: "SA", href: "/seeker/profile" as Route }
     : { eyebrow: "Company workspace", name: "Nexa Commerce", meta: "Employer account", initial: "NC", href: "/employer/company" as Route };
 
-  return <main className="workspace"><aside className="workspace-sidebar"><Logo /><Link className="workspace-identity" href={identity.href}><span>{identity.initial}</span><div><small>{identity.eyebrow}</small><strong>{identity.name}</strong><em>{identity.meta}</em></div></Link><nav aria-label={`${active} workspace`} className="workspace-nav">{nav[active].map((group) => <div className="workspace-nav-group" key={group.label}><span>{group.label}</span>{group.items.map((item) => {
+  return <main className="workspace"><aside className="workspace-sidebar"><Logo /><Link className="workspace-identity" href={identity.href}><span>{identity.initial}</span><div><small>{identity.eyebrow}</small><strong>{identity.name}</strong><em>{identity.meta}</em></div></Link><DevWorkspaceSwitcher /><nav aria-label={`${active} workspace`} className="workspace-nav">{nav[active].map((group) => <div className="workspace-nav-group" key={group.label}><span>{group.label}</span>{group.items.map((item) => {
     const Icon = item.icon;
     const isCurrent = item.exact ? pathname === item.href : pathname.startsWith(item.href);
     return <Link key={item.href} href={item.href} aria-current={isCurrent ? "page" : undefined}><Icon size={17} />{item.label}</Link>;
