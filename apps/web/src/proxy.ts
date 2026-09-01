@@ -13,6 +13,16 @@ export async function proxy(request: NextRequest) {
     return response;
   }
 
+  // Next.js Link prefetches fire in the background for every link on screen and don't
+  // represent a real navigation. Letting them run the Supabase session refresh below causes
+  // many concurrent refresh attempts against the same (soon-to-rotate) refresh token, which
+  // Supabase's rotation/reuse detection treats as a replay attack and revokes the session —
+  // logging the user out with no way back in except a fresh login. Skip refresh entirely for
+  // prefetches; a real navigation right behind it will refresh the session normally.
+  if (request.headers.get("next-router-prefetch") || request.headers.get("purpose") === "prefetch") {
+    return response;
+  }
+
   const supabase = createServerClient(env.url, env.publishableKey, {
     cookies: {
       getAll() {

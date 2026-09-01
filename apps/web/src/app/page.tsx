@@ -6,10 +6,11 @@ import { JobCard } from "@/components/job-card";
 import { Logo } from "@/components/logo";
 import { PublicHeader } from "@/components/public-header";
 import { jobs } from "@/data/jobs";
+import { getSessionUser } from "@/lib/auth/session";
 import { dictionary, isLocale } from "@/lib/i18n";
 
 export default async function HomePage() {
-  const cookieStore = await cookies();
+  const [cookieStore, user] = await Promise.all([cookies(), getSessionUser()]);
   const rawLocale = cookieStore.get("ts-locale")?.value;
   const locale = isLocale(rawLocale) ? rawLocale : "en";
   const theme = cookieStore.get("ts-theme")?.value === "dark" ? "dark" : "light";
@@ -20,7 +21,7 @@ export default async function HomePage() {
       <section className="hero">
         <Image className="hero-image" src="/images/talentsouq-hero.webp" alt="Professionals collaborating in a contemporary Gulf workplace" fill priority sizes="100vw" />
         <div className="hero-shade" />
-        <PublicHeader locale={locale} theme={theme} overlay />
+        <PublicHeader locale={locale} theme={theme} overlay user={user} />
         <div className="container hero-content">
           <p className="eyebrow hero-eyebrow"><Sparkles size={16} aria-hidden="true" />{copy.hero.eyebrow}</p>
           <h1>{copy.hero.titleStart}<br /><em>{copy.hero.titleAccent}</em></h1>

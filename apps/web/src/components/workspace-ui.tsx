@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
 
-export function WorkspaceHeader({ eyebrow, title, description, action }: { eyebrow: string; title: string; description: string; action?: { href: Route; label: string } }) {
+export function WorkspaceHeader({ eyebrow, title, description, action, actionSlot }: { eyebrow: string; title: string; description: string; action?: { href: Route; label: string }; actionSlot?: ReactNode }) {
   return (
     <header className="mb-[var(--ts-space-300)] flex flex-wrap items-end justify-between gap-6 border-b border-line pb-[var(--ts-space-250)] max-[680px]:items-start">
       <div>
@@ -14,11 +14,11 @@ export function WorkspaceHeader({ eyebrow, title, description, action }: { eyebr
         <h1 className="mt-[var(--ts-space-025)] mb-[var(--ts-space-075)] text-[length:var(--ts-text-page)] tracking-[-0.04em] max-[680px]:text-[2.25rem]">{title}</h1>
         <p className="max-w-[680px] text-sm leading-[1.55] text-ink-soft">{description}</p>
       </div>
-      {action ? (
+      {actionSlot ?? (action ? (
         <Link href={action.href} className={cn(buttonVariants({ tone: "primary", size: "sm" }), "max-[680px]:w-auto")}>
           {action.label}
         </Link>
-      ) : null}
+      ) : null)}
     </header>
   );
 }
