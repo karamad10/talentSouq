@@ -3,12 +3,30 @@ import { jobs } from "@/data/jobs";
 export const seekerSummary = {
   name: "Sarah Ahmed",
   headline: "Senior Product Designer",
+  location: "Dubai, UAE",
+  availability: "Open to hybrid and remote roles",
   matchScore: 92,
   profileStrength: "Excellent",
   visibility: 78,
   responseRate: 64,
   weeklyViews: 41,
   interviews: 2,
+  unreadMessages: 4,
+  pendingInvites: 2,
+  savedJobs: 7,
+  externalApplications: 1,
+  profile: {
+    followers: 128,
+    following: 42,
+    completeness: 88,
+    cvStatus: "CV uploaded · parsed today",
+    headline: "Senior Product Designer helping regional teams ship calmer commerce tools.",
+    skills: ["Product strategy", "Figma", "Design systems", "User research", "Arabic", "English"],
+    experience: ["Lead Product Designer · SouqOps", "Product Designer · Northstar Mobility"],
+    education: ["BA Design Systems · University of Sharjah"],
+    languages: ["Arabic · Native", "English · Fluent"],
+    certifications: ["Design Leadership Certificate", "UX Research Methods"]
+  },
   readiness: [
     { label: "Profile depth", value: 92, tone: "strong" },
     { label: "CV uploaded", value: 88, tone: "strong" },
@@ -23,7 +41,18 @@ export const seekerSummary = {
   applications: [
     { company: "Nexa Commerce", role: "Senior Product Designer", stage: "Interview", updated: "Today", score: 92, nextStep: "Pick interview slots" },
     { company: "Cedar Labs", role: "Frontend Engineer", stage: "Reviewed", updated: "Yesterday", score: 86, nextStep: "Await recruiter note" },
-    { company: "Mira Health", role: "Growth Marketing Manager", stage: "Submitted", updated: "2 days ago", score: 74, nextStep: "Add growth examples" }
+    { company: "Mira Health", role: "Growth Marketing Manager", stage: "Submitted", updated: "2 days ago", score: 74, nextStep: "Add growth examples" },
+    { company: "Bayt Labs", role: "Design Systems Lead", stage: "Offer", updated: "3 days ago", score: 90, nextStep: "Review offer package" }
+  ],
+  applicationViews: [
+    { label: "Easy applies", count: 3 },
+    { label: "External applies", count: 1 },
+    { label: "Interviews", count: 2 },
+    { label: "Offers", count: 1 }
+  ],
+  offers: [
+    { company: "Bayt Labs", role: "Design Systems Lead", salary: "AED 34k/mo", deadline: "Respond by Thursday", status: "Offer received" },
+    { company: "Nexa Commerce", role: "Senior Product Designer", salary: "Range shared after interview", deadline: "Interview tomorrow", status: "Final round" }
   ],
   savedSearches: [
     { name: "Hybrid design roles", count: 12, trend: "+4 fresh" },
@@ -36,6 +65,38 @@ export const seekerSummary = {
     { label: "Interview", count: 2 },
     { label: "Offer", count: 0 }
   ],
+  filters: {
+    categories: ["Design", "Product", "Engineering", "Marketing", "People"],
+    employmentTypes: ["Full-time", "Part-time", "Contract", "Freelance"],
+    workModes: ["On-site", "Remote", "Hybrid"],
+    salary: ["AED 15k–25k", "AED 25k–35k", "AED 35k+"],
+    experience: ["Entry", "Mid", "Senior", "Lead", "Executive"],
+    education: ["High school", "Diploma", "Bachelor’s", "Master’s"],
+    genderPreference: ["Any", "Female preferred", "Male preferred"],
+    countries: ["UAE", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"],
+    postedWithin: ["7 days", "30 days", "90 days"]
+  },
+  notifications: [
+    { title: "Nexa Commerce moved you to interview", meta: "Application status · 12m ago" },
+    { title: "4 new jobs match Hybrid design roles", meta: "Saved search · 1h ago" },
+    { title: "CV parsing completed", meta: "Profile · Today" }
+  ],
+  messages: [
+    { from: "Maya · Nexa Commerce", subject: "Can you share interview availability?", time: "12m" },
+    { from: "Omar · Cedar Labs", subject: "We reviewed your portfolio", time: "1h" },
+    { from: "TalentSouq Assistant", subject: "Your weekly match digest is ready", time: "Today" }
+  ],
+  feed: [
+    { kind: "Post", title: "Noor shared a hiring update from Abu Dhabi", body: "Frontend and data roles are moving quickly this week." },
+    { kind: "News", title: "GCC product roles up 18% this month", body: "Hybrid design leadership searches are clustering around Dubai and Riyadh." },
+    { kind: "Post", title: "Cedar Labs posted a portfolio tip", body: "Show the business outcome beside the design process." }
+  ],
+  companion: {
+    summary: "Senior product/design systems roles, hybrid or remote, UAE-first with GCC openness.",
+    skills: ["Design systems", "Research", "Commerce", "Leadership"],
+    weeklyMatches: true,
+    cooldown: "Manual run available now"
+  },
   recommendedJobs: jobs.slice(0, 3)
 };
 

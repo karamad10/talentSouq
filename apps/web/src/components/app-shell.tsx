@@ -1,4 +1,4 @@
-import { BriefcaseBusiness, Building2, LayoutDashboard, MessageSquare, Search, Settings, UserRound } from "lucide-react";
+import { Bookmark, BriefcaseBusiness, Building2, Gem, LayoutDashboard, MessageSquare, Search, Settings, Sparkles, UserRound } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -19,10 +19,13 @@ type AppShellProps = {
 const nav: Record<AppShellProps["active"], NavItem[]> = {
   seeker: [
     { href: "/seeker", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/jobs", label: "Find jobs", icon: Search },
+    { href: "/seeker#discover", label: "Discover jobs", icon: Search },
     { href: "/seeker#applications", label: "Applications", icon: BriefcaseBusiness },
-    { href: "/seeker#profile", label: "Profile", icon: UserRound },
-    { href: "/seeker#messages", label: "Messages", icon: MessageSquare }
+    { href: "/seeker#offers", label: "Offers", icon: Gem },
+    { href: "/seeker#saved", label: "Saved", icon: Bookmark },
+    { href: "/seeker#messages", label: "Messages", icon: MessageSquare },
+    { href: "/seeker#profile-system", label: "Profile", icon: UserRound },
+    { href: "/seeker#companion", label: "AI companion", icon: Sparkles }
   ],
   employer: [
     { href: "/employer", label: "Dashboard", icon: LayoutDashboard },
