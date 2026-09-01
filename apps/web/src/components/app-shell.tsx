@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 import { signOut } from "@/app/auth/actions";
 import { Logo } from "@/components/logo";
 import { DevWorkspaceSwitcher } from "@/components/dev-workspace-switcher";
+import { ThemeToggle } from "@/components/preferences";
 
 type NavItem = {
   href: Route;
@@ -66,5 +67,5 @@ export function AppShell({ active, children }: AppShellProps) {
     const Icon = item.icon;
     const isCurrent = item.exact ? pathname === item.href : pathname.startsWith(item.href);
     return <Link key={item.href} href={item.href} aria-current={isCurrent ? "page" : undefined}><Icon size={17} />{item.label}</Link>;
-  })}</div>)}</nav><div className="workspace-sidebar-actions"><Link href={active === "seeker" ? "/seeker/messages" : "/employer/messages"}><Bell size={16} /> Notifications</Link><form action={signOut}><button type="submit">Sign out</button></form></div></aside><section className="workspace-main">{children}</section></main>;
+  })}</div>)}</nav><div className="workspace-sidebar-actions"><Link href={active === "seeker" ? "/seeker/messages" : "/employer/messages"}><Bell size={16} /> Notifications</Link><div className="workspace-display-controls"><ThemeToggle /><span>Theme</span></div><form action={signOut}><button type="submit">Sign out</button></form></div></aside><section className="workspace-main">{children}</section></main>;
 }

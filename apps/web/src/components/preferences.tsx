@@ -1,7 +1,7 @@
 "use client";
 
 import { Languages, Moon, Sun } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 
 export function Preferences({ initialLocale, initialTheme }: { initialLocale: Locale; initialTheme: "light" | "dark" }) {
@@ -35,4 +35,22 @@ export function Preferences({ initialLocale, initialTheme }: { initialLocale: Lo
       </button>
     </div>
   );
+}
+
+export function ThemeToggle() {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const id = window.setTimeout(() => setTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light"), 0);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  function toggleTheme() {
+    const next = theme === "light" ? "dark" : "light";
+    document.cookie = `ts-theme=${next}; path=/; max-age=31536000; samesite=lax`;
+    document.documentElement.dataset.theme = next;
+    setTheme(next);
+  }
+
+  return <button className="icon-button theme-button" type="button" onClick={toggleTheme} aria-label={theme === "light" ? "Use dark theme" : "Use light theme"}>{theme === "light" ? <Moon size={17} aria-hidden="true" /> : <Sun size={17} aria-hidden="true" />}</button>;
 }
