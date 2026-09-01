@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight, BriefcaseBusiness, Building2, CalendarDays, ClipboardCheck, CreditCard, FolderKanban, MessageSquare, Search, UserPlus, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { DashboardLead, DashboardLinkGrid, DashboardMetricLinks } from "@/components/dashboard-primitives";
+import { StatusBadge } from "@/components/app-ui";
 import { SectionCard } from "@/components/workspace-ui";
 import { employerSummary } from "@/data/workspace";
 
@@ -27,7 +28,7 @@ export default function EmployerDashboardPage() {
       </SectionCard>
     </div>
     <SectionCard title="Active jobs" description="Performance across current listings." action={<Link className="arrow-link" href="/employer/jobs">Manage jobs <ArrowUpRight size={15} /></Link>}>
-      <div className="data-table" role="table" aria-label="Active jobs"><div role="row"><strong>Role</strong><strong>Status</strong><strong>Applicants</strong><strong>Updated</strong></div>{employerSummary.vacancies.map((job) => <div role="row" key={job.title}><span>{job.title}</span><span><mark>{job.status}</mark></span><span>{job.applicants}</span><span>{job.updated}</span></div>)}</div>
+      <div className="data-table" role="table" aria-label="Active jobs"><div role="row"><strong>Role</strong><strong>Status</strong><strong>Applicants</strong><strong>Updated</strong></div>{employerSummary.vacancies.map((job) => <div role="row" key={job.title}><span>{job.title}</span><span><StatusBadge tone={job.status === "Active" ? "success" : "neutral"}>{job.status}</StatusBadge></span><span>{job.applicants}</span><span>{job.updated}</span></div>)}</div>
     </SectionCard>
     <DashboardLinkGrid title="Run your hiring workspace" description="Move from job creation to a confident hiring decision without losing context." items={[
       { href: "/employer/jobs", icon: BriefcaseBusiness, title: "Jobs", description: "Create, publish, pause, and assess listing performance.", meta: `${employerSummary.openRoles} open roles` },
