@@ -22,7 +22,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-theme={theme} data-scroll-behavior="smooth" className={`${inter.variable} ${arabic.variable}`}>
-      <body>{children}</body>
+      {/* Browser extensions such as Grammarly add data-* attributes to body before hydration. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
