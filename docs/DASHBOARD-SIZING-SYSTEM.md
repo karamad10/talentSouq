@@ -11,6 +11,14 @@ This is the size contract for TalentSouq’s authenticated web workspace. It is 
 - Buttons, inputs, tabs, and sidebar links: `40px` default; primary navigation uses `44px`.
 - Cards use `14px` radius, `16–24px` padding, and `8–16px` internal gaps.
 - Layout uses a 248px sidebar and a 1180px maximum content canvas.
+- **Stat/metric numbers** (the big number in a `StatCard`, `StatTile`, funnel
+  row, saved-search list, offer card, or application-view tab) are `1.625rem`
+  (26px) everywhere. Before 1 September 2026 this ranged 20–36px depending on
+  which component rendered it (`.funnel-row strong` 30px, `.metric-grid
+  strong` 36px, `.offer-grid strong` 20px, etc.) — normalized to one value in
+  `globals.css`. Don't reintroduce a one-off size for this role; use
+  `StatCard`/`StatTile` (`docs/WEB-UI-SYSTEM.md`) for new instances instead of
+  a raw `<strong>`.
 
 ## Rules for reusable components
 
