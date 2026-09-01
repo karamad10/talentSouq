@@ -5,15 +5,19 @@ import type { Route } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { authRedirectPath, safeRelativePath } from "@/lib/auth/redirects";
+import { configuredWebOrigin, resolveWebOrigin } from "@/lib/auth/web-origin";
 import { createClient } from "@/lib/supabase/server";
 
 type AuthMode = "login" | "signup";
 
-async function getOrigin() {
+async function getWebOrigin() {
   const headerStore = await headers();
-  const host = headerStore.get("host") ?? "localhost:3000";
-  const protocol = headerStore.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  return `${protocol}://${host}`;
+  return resolveWebOrigin({
+    configuredOrigin: configuredWebOrigin(),
+    host: headerStore.get("host"),
+    forwardedHost: headerStore.get("x-forwarded-host"),
+    forwardedProtocol: headerStore.get("x-forwarded-proto")
+  });
 }
 
 function getCredentials(formData: FormData) {
@@ -90,7 +94,7 @@ export async function signUpWithPassword(formData: FormData) {
     redirectTo(failurePath("signup", formData, "Supabase is not configured for this environment yet."));
   }
 
-  const origin = await getOrigin();
+  const origin = await getWebOrigin();
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -119,7 +123,7 @@ export async function signInWithOAuth(formData: FormData) {
     redirectTo(authRedirectPath({ error: "Supabase is not configured for this environment yet.", next }));
   }
 
-  const origin = await getOrigin();
+  const origin = await getWebOrigin();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider as Provider,
     options: {
@@ -149,7 +153,7 @@ export async function requestPasswordReset(formData: FormData) {
     redirectTo(authPath("/auth/forgot-password", { error: "Supabase is not configured for this environment yet." }));
   }
 
-  const origin = await getOrigin();
+  const origin = await getWebOrigin();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/auth/reset-password")}`
   });
