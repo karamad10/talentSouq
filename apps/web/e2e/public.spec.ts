@@ -34,7 +34,7 @@ test("seeker workspace navigation opens focused sections", async ({ page }) => {
 test("employer workspace is separate and route based", async ({ page }) => {
   await page.goto("/employer");
   await expect(page.getByRole("heading", { name: "Hiring overview" })).toBeVisible();
-  await expect(page.locator(".dashboard-lead").getByText("Company workspace")).toBeVisible();
+  await expect(page.getByRole("banner").getByText("Nexa Commerce")).toBeVisible();
   await page.getByLabel("employer workspace").getByRole("link", { name: "ATS pipeline" }).click();
   await expect(page).toHaveURL(/\/employer\/pipeline$/);
   await expect(page.getByRole("heading", { name: "ATS pipeline" })).toBeVisible();

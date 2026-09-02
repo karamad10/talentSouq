@@ -5,11 +5,13 @@ import { cn } from "@/lib/cn";
 export const badgeVariants = cva("inline-flex items-center gap-1 rounded-full font-extrabold", {
   variants: {
     tone: {
-      neutral: "bg-surface-soft text-ink-soft",
+      neutral: "bg-ts-slate-tint text-ts-muted",
       teal: "bg-teal-pale text-teal",
-      success: "bg-success-pale text-success",
+      brand: "bg-ts-primary-tint text-ts-primary-deep",
+      success: "bg-ts-success-tint text-ts-success",
       attention: "bg-attention-pale text-attention",
-      danger: "bg-danger-pale text-danger"
+      danger: "bg-ts-danger-tint text-ts-danger",
+      premium: "bg-ts-accent-tint text-ts-accent-deep"
     },
     size: {
       sm: "px-2 py-0.5 text-[11px]",

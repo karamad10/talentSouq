@@ -97,7 +97,17 @@ export const seekerSummary = {
     weeklyMatches: true,
     cooldown: "Manual run available now"
   },
-  recommendedJobs: jobs.slice(0, 3)
+  recommendedJobs: jobs.slice(0, 3),
+  week: [
+    { title: "Choose your interview time with Nexa Commerce", detail: "Senior Product Designer · they are waiting on your availability", when: "This week", tone: "brand" as const },
+    { title: "Offer from Bayt Labs", detail: "Design Systems Lead · review the offer package", when: "Respond by Thursday", tone: "success" as const },
+    { title: "7 new roles in “Dubai senior roles”", detail: "Fresh matches from your saved search", when: "Today", tone: "brand" as const }
+  ],
+  matches: [
+    { title: "Senior Product Designer", company: "Nexa Commerce", location: "Dubai, UAE", score: 92 },
+    { title: "Growth Marketing Manager", company: "Mira Health", location: "Riyadh, KSA", score: 74 },
+    { title: "Frontend Engineer", company: "Cedar Labs", location: "Abu Dhabi, UAE", score: 86 }
+  ]
 };
 
 export const employerSummary = {
@@ -154,5 +164,20 @@ export const employerSummary = {
     { name: "Omar Rahman", email: "omar@nexacommerce.example", role: "Recruiter" },
     { name: "Leen Saad", email: "leen@nexacommerce.example", role: "Hiring manager" }
   ],
-  plan: { name: "Growth", credits: 168, renewal: "October 1, 2026", seats: "3 of 5" }
+  plan: { name: "Growth", credits: 168, renewal: "October 1, 2026", seats: "3 of 5" },
+  responses: [
+    { job: "Senior Product Designer", status: "Active" as const, total: 24, fresh: 7, shortlisted: 8, rejected: 3, views: 673, reviewedPct: 92, updated: "Updated today" },
+    { job: "Frontend Engineer", status: "Active" as const, total: 18, fresh: 5, shortlisted: 4, rejected: 2, views: 512, reviewedPct: 72, updated: "Updated yesterday" },
+    { job: "People Operations Partner", status: "Draft" as const, total: 0, fresh: 0, shortlisted: 0, rejected: 0, views: 0, reviewedPct: 0, updated: "Draft saved" }
+  ],
+  creditMeters: [
+    { label: "Job posts", used: 3, total: 10 },
+    { label: "CV search", used: 42, total: 100 },
+    { label: "AI credits", used: 12, total: 50 },
+    { label: "Assessments", used: 5, total: 20 }
+  ],
+  savedSearches: [
+    { name: "Senior designers · Dubai", fresh: 12 },
+    { name: "Frontend · GCC", fresh: 5 }
+  ]
 };
