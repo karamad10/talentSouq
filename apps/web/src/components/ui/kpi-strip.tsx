@@ -15,7 +15,7 @@ function KpiCell({ item, first }: { item: KpiItem; first: boolean }) {
   const body = (
     <>
       <span className="text-xs font-semibold text-ts-muted">{item.label}</span>
-      <strong className="text-[22px] leading-[26px] font-bold tracking-[-0.02em] text-ts-ink">{item.value}</strong>
+      <strong className="text-2xl leading-7 font-bold tracking-[-0.02em] text-ts-ink">{item.value}</strong>
       {item.detail ? (
         <small
           className={cn(
@@ -28,7 +28,7 @@ function KpiCell({ item, first }: { item: KpiItem; first: boolean }) {
       ) : null}
     </>
   );
-  const cellClass = cn("flex min-w-0 flex-col gap-1.5 px-4 py-3.5", !first && "border-s border-ts-line");
+  const cellClass = cn("flex min-w-0 flex-col gap-1.5 px-5 py-4", !first && "border-s border-ts-line");
   if (item.href) {
     return (
       <Link href={item.href} className={cn(cellClass, "transition-colors hover:bg-ts-surface-2/60")}>

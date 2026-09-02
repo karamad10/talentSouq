@@ -95,7 +95,7 @@ export const workspaceSearch: Record<WorkspaceRole, { action: Route; placeholder
   employer: { action: "/employer/candidates", placeholder: "Search candidates, jobs, messages…", label: "Search your workspace" }
 };
 
-export const workspaceUnread: Record<WorkspaceRole, { messages: number; messagesHref: Route; notificationsHref: Route }> = {
-  seeker: { messages: seekerSummary.unreadMessages, messagesHref: "/seeker/messages", notificationsHref: "/seeker/notifications" },
-  employer: { messages: 5, messagesHref: "/employer/messages", notificationsHref: "/employer/notifications" }
+export const workspaceUnread: Record<WorkspaceRole, { messages: number; messagesHref: Route; notifications: number; notificationsHref: Route }> = {
+  seeker: { messages: seekerSummary.unreadMessages, messagesHref: "/seeker/messages", notifications: seekerSummary.notifications.length, notificationsHref: "/seeker/notifications" },
+  employer: { messages: 5, messagesHref: "/employer/messages", notifications: employerSummary.tasks.length, notificationsHref: "/employer/notifications" }
 };

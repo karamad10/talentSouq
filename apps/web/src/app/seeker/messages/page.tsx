@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { MessageSquare } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
+import { MessageThread } from "@/components/dashboard/message-thread";
 import { ArrowLink, SectionPanel } from "@/components/dashboard/section-panel";
-import { PreviewActionButton } from "@/components/interaction-ui";
-import { buttonVariants } from "@/components/ui/button";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
 import { cn } from "@/lib/cn";
@@ -51,20 +49,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
           </ul>
         </SectionPanel>
         <SectionPanel title={active.from} description={active.subject}>
-          <div className="flex flex-col items-center gap-2 rounded-ts-md border border-dashed border-ts-line px-6 py-10 text-center">
-            <MessageSquare size={24} aria-hidden="true" className="text-ts-muted" />
-            <strong className="text-sm font-semibold text-ts-ink">Select and continue a conversation</strong>
-            <p className="m-0 max-w-96 text-[13px] leading-relaxed text-ts-muted">Full realtime threads, attachments, and read states will connect here.</p>
-            <PreviewActionButton
-              type="button"
-              className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-8 rounded-ts-md px-3 text-[13px]")}
-              storageKey={`seeker-message-reply-${active.from}`}
-              pendingLabel="Opening…"
-              successLabel="Composer ready"
-            >
-              Reply
-            </PreviewActionButton>
-          </div>
+          <MessageThread key={activeIndex} counterpart={active.from.split(" ")[0]} history={[{ from: "them", text: active.subject, when: active.time }]} />
         </SectionPanel>
       </div>
     </>

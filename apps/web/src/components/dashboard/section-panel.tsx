@@ -4,32 +4,35 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/** Command Deck card shell: flat surface, hairline border, compact header. */
+/**
+ * Command Deck card shell: flat surface, hairline border, and a light grey
+ * full-bleed title band so blocks are easy to scan.
+ */
 export function SectionPanel({
   title,
   description,
   action,
   children,
   className,
-  bleed = false
+  bodyClassName
 }: {
   title: string;
   description?: string;
   action?: ReactNode;
   children: ReactNode;
   className?: string;
-  bleed?: boolean;
+  bodyClassName?: string;
 }) {
   return (
-    <section className={cn("rounded-ts-lg border border-ts-line bg-ts-surface", bleed ? "overflow-hidden pt-4" : "p-4", className)}>
-      <div className={cn("flex flex-wrap items-center justify-between gap-3", bleed ? "px-4 pb-3" : "pb-3")}>
+    <section className={cn("flex min-h-0 flex-col overflow-hidden rounded-ts-lg border border-ts-line bg-ts-surface", className)}>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ts-line bg-ts-surface-2/50 px-5 py-3">
         <div className="min-w-0">
-          <h2 className="m-0 text-sm font-semibold tracking-[-0.01em] text-ts-ink">{title}</h2>
+          <h2 className="m-0 text-[15px] font-semibold tracking-[-0.01em] text-ts-ink">{title}</h2>
           {description ? <p className="m-0 mt-0.5 text-xs text-ts-muted">{description}</p> : null}
         </div>
         {action}
       </div>
-      {children}
+      <div className={cn("min-h-0 flex-1 p-5", bodyClassName)}>{children}</div>
     </section>
   );
 }

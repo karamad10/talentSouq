@@ -1,7 +1,9 @@
-import { Bell, MessageSquare, Search } from "lucide-react";
+import { MessageSquare, Search } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { workspaceIdentity, workspaceSearch, workspaceUnread, type WorkspaceRole } from "@/components/shell/nav-config";
+import { NotificationBell } from "@/components/shell/notification-bell";
+import { seenStorageKey } from "@/lib/notifications";
 import { WorkspaceChip } from "@/components/shell/workspace-chip";
 
 export function AppBar({ active }: { active: WorkspaceRole }) {
@@ -32,14 +34,7 @@ export function AppBar({ active }: { active: WorkspaceRole }) {
         </form>
         <div className="min-w-0 flex-1" />
         <div className="flex items-center gap-1.5">
-          <Link
-            href={unread.notificationsHref}
-            aria-label="Notifications"
-            className="relative inline-flex size-8 items-center justify-center rounded-ts-sm text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink"
-          >
-            <Bell size={17} aria-hidden="true" />
-            <span aria-hidden="true" className="absolute end-1.5 top-1.5 size-1.5 rounded-full bg-ts-danger" />
-          </Link>
+          <NotificationBell href={unread.notificationsHref} total={unread.notifications} storageKey={seenStorageKey(active)} />
           <Link
             href={unread.messagesHref}
             aria-label={`Messages, ${unread.messages} unread`}

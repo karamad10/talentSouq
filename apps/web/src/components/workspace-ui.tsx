@@ -36,15 +36,15 @@ export function StatCard({ icon: Icon, value, label, detail }: { icon: LucideIco
 
 export function SectionCard({ title, description, action, children, className = "" }: { title: string; description?: string; action?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <Card padding="none" className={cn("mt-4 rounded-ts-lg border-ts-line bg-ts-surface p-4", className)}>
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+    <Card padding="none" className={cn("mt-4 overflow-hidden rounded-ts-lg border-ts-line bg-ts-surface", className)}>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ts-line bg-ts-surface-2/50 px-5 py-3">
         <div className="min-w-0">
-          <h2 className="m-0 text-sm font-semibold tracking-[-0.01em] text-ts-ink">{title}</h2>
+          <h2 className="m-0 text-[15px] font-semibold tracking-[-0.01em] text-ts-ink">{title}</h2>
           {description ? <p className="m-0 mt-0.5 max-w-2xl text-xs text-ts-muted">{description}</p> : null}
         </div>
         {action}
       </div>
-      {children}
+      <div className="p-5">{children}</div>
     </Card>
   );
 }

@@ -28,3 +28,4 @@ export { Skeleton, SkeletonRows } from "./skeleton";
 export { ErrorState } from "./error-state";
 export { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator, MenuLabel } from "./menu";
 export { Drawer } from "./drawer";
+export { Dialog, DialogClose } from "./dialog";

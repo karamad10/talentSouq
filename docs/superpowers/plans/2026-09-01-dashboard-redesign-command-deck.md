@@ -254,6 +254,18 @@ Delete `DashboardLead`/`DashboardMetricLinks`/`DashboardLinkGrid` from `dashboar
 ### Task 18: Docs + full regression
 Update `docs/WEB-UI-SYSTEM.md` + `docs/DASHBOARD-SIZING-SYSTEM.md` with the Command Deck shell/component inventory. Full two-pass verification: (1) existing tests — `pnpm -r lint && pnpm -r typecheck && pnpm -r test && (cd apps/web && pnpm e2e)`; (2) new tests enumerated and run; then the wrap-up summary.
 
+## Round 2 — Karam's testing feedback (2026-09-02)
+
+- [x] R1 Global: looser sizing (24px KPI numerals, 15px panel titles, p-5 bodies, 22px page titles); card titles get a light grey full-bleed header band (SectionPanel + SectionCard).
+- [x] R2 Home: "Pipeline this week" redesigned — one proportional segmented bar + legend with quiet conversion notes (rings removed); both homes cap at the viewport ≥1180px with internally scrolling columns.
+- [x] R3 Jobs: sort fixed (removed the duplicate hidden `sort` input that made searchParams an array — the select console error; params now normalized via toScalar; sort auto-submits, adds "Most responses"); full filter workbench (category/employment/mode really filter via new per-job data fields); "Post a job" → real `/employer/jobs/new` form with a `?created=` success notice; home button points there too.
+- [x] R4 Candidates: country select; "More filters" expands real Experience/Education/Salary groups (state survives submits); confusing toggle chips removed.
+- [x] R5 Pipeline: candidate detail dialog (documents, message/advance/reject actions); card footers aligned with mt-auto + truncation; `employerBoard` seam generates the real per-stage populations (funnel counts are cumulative → 12/4/3/1/2/2 current, totalling the 24 in pipeline) with capped columns + "+N more" into the list view.
+- [x] R6 Interviews: Join → meeting-link dialog with copy-to-clipboard; Feedback → dialog form with saved state. Assessments: New assessment dialog adds a local draft row (client library component).
+- [x] R7 Messages: real composer both roles — thread history (employer histories in the data seam), Enter-to-send, local append with "Just now".
+- [x] R8 Notifications: bell shows a numeric unread count sourced from the same data as the page; rows render unread (tint + New badge) until visited; opening marks seen (localStorage + window event) which clears the badge. Fixed en route: seenStorageKey had to live in a plain module (server pages can't call client-module exports).
+- [x] Round 2 verification: build + tsc + eslint clean, vitest 39/39, Playwright 16/16.
+
 ## Execution log (live)
 
 - [x] Task 1 tokens in @theme · Task 2 StatusPill · Task 3 primitives · Task 4 Radix overlays (Menu/Drawer; jsdom menu test replaced by Playwright coverage note) · Task 5 data seam — 27 unit tests green.

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bell, Search, SlidersHorizontal } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
+import { FilterGroup, toArray } from "@/components/dashboard/filter-group";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { JobCard } from "@/components/job-card";
 import { PreviewActionButton } from "@/components/interaction-ui";
@@ -17,10 +18,6 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = { title: "Discover jobs", description: "Search and filter jobs." };
 
 type JobsSearchParams = { q?: string; location?: string; view?: string; Category?: string | string[]; "Work mode"?: string | string[]; Employment?: string | string[] };
-
-function toArray(value: string | string[] | undefined) {
-  return value === undefined ? [] : Array.isArray(value) ? value : [value];
-}
 
 export default async function SeekerJobsPage({ searchParams }: { searchParams: Promise<JobsSearchParams> }) {
   const query = await searchParams;
@@ -125,24 +122,3 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
   );
 }
 
-function FilterGroup({ title, values, selected }: { title: string; values: string[]; selected: string[] }) {
-  return (
-    <fieldset className="m-0 min-w-0 border-0 p-0">
-      <legend className="mb-1.5 p-0 text-xs font-semibold text-ts-muted">{title}</legend>
-      <div className="flex flex-col gap-1">
-        {values.map((value) => (
-          <label key={value} className="inline-flex cursor-pointer items-center gap-2 text-[13px] text-ts-ink">
-            <input
-              type="checkbox"
-              name={title}
-              value={value}
-              defaultChecked={selected.includes(value)}
-              className="size-4 accent-ts-primary"
-            />
-            <span>{value}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}

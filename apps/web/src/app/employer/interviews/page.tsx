@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
 import { CalendarDays, MonitorPlay } from "lucide-react";
 import type { Route } from "next";
+import { FeedbackDisclosure, JoinMeetingDialog } from "@/components/dashboard/interview-actions";
 import { SectionPanel } from "@/components/dashboard/section-panel";
-import { PreviewActionButton } from "@/components/interaction-ui";
 import { Avatar } from "@/components/ui/avatar";
 import { EmptyState } from "@/components/ui/empty-state";
 import { KpiStrip } from "@/components/ui/kpi-strip";
 import { Tabs } from "@/components/ui/tabs";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { employerSummary } from "@/data/workspace";
-import { cn } from "@/lib/cn";
-import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = { title: "Interview center" };
 
@@ -77,25 +75,8 @@ export default async function InterviewsPage({ searchParams }: { searchParams: P
                     </p>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    {item.mode === "Video" ? (
-                      <PreviewActionButton
-                        type="button"
-                        className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-8 rounded-ts-md px-3 text-[13px]")}
-                        storageKey={`employer-interview-join-${item.candidate}`}
-                        pendingLabel="Opening…"
-                        successLabel="Link opened"
-                      >
-                        Join
-                      </PreviewActionButton>
-                    ) : null}
-                    <PreviewActionButton
-                      type="button"
-                      className="inline-flex h-8 items-center rounded-ts-md border border-ts-field bg-ts-surface px-2.5 text-[13px] font-semibold text-ts-ink transition-colors hover:bg-ts-surface-2"
-                      storageKey={`employer-interview-feedback-${item.candidate}`}
-                      successLabel="Feedback saved"
-                    >
-                      Feedback
-                    </PreviewActionButton>
+                    {item.mode === "Video" ? <JoinMeetingDialog candidate={item.candidate} date={item.date} /> : null}
+                    <FeedbackDisclosure candidate={item.candidate} />
                   </div>
                 </div>
               </li>

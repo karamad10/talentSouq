@@ -22,26 +22,25 @@ export default async function EmployerDashboardPage({ searchParams }: { searchPa
   const interviewRange = params.range === "today" ? "today" : "week";
 
   return (
-    <>
-      <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
+    <div className="flex flex-col gap-4 min-[1180px]:h-[calc(100vh-104px)]">
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="m-0 text-xl font-bold tracking-[-0.02em] text-ts-ink">Hiring overview</h1>
-          <p className="m-0 mt-1 text-[13px] text-ts-muted">
+          <h1 className="m-0 text-[22px] font-bold tracking-[-0.02em] text-ts-ink">Hiring overview</h1>
+          <p className="m-0 mt-1 text-sm text-ts-muted">
             {employerSummary.newApplicants} new applicants this week across {employerSummary.openRoles} open roles.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Link href="/employer/candidates" className={cn(buttonVariants({ tone: "secondary", size: "sm" }), "min-h-8 rounded-ts-md px-3 text-[13px]")}>
+          <Link href="/employer/candidates" className={cn(buttonVariants({ tone: "secondary", size: "sm" }), "min-h-9 rounded-ts-md px-3.5 text-[13px]")}>
             Search CVs
           </Link>
-          <Link href="/employer/jobs" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-8 rounded-ts-md px-3 text-[13px]")}>
+          <Link href="/employer/jobs/new" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-9 rounded-ts-md px-3.5 text-[13px]")}>
             Post a job
           </Link>
         </div>
       </header>
 
       <KpiStrip
-        className="mb-4"
         items={[
           { label: "Open roles", value: employerSummary.openRoles, href: "/employer/jobs" },
           { label: "New applicants", value: employerSummary.newApplicants, detail: "last 7 days", href: "/employer/pipeline" },
@@ -52,8 +51,8 @@ export default async function EmployerDashboardPage({ searchParams }: { searchPa
         ]}
       />
 
-      <div className="grid items-start gap-4 min-[1180px]:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="flex min-w-0 flex-col gap-4">
+      <div className="grid min-h-0 flex-1 items-start gap-4 min-[1180px]:grid-cols-[minmax(0,1fr)_340px] min-[1180px]:items-stretch">
+        <div className="flex min-w-0 flex-col gap-4 min-[1180px]:min-h-0 min-[1180px]:overflow-y-auto min-[1180px]:pe-0.5">
           <SectionPanel
             title="Jobs & responses"
             description="How each listing is performing and how much of it you have reviewed."
@@ -101,8 +100,10 @@ export default async function EmployerDashboardPage({ searchParams }: { searchPa
           </SectionPanel>
         </div>
 
-        <EmployerRail interviewRange={interviewRange} />
+        <div className="min-w-0 min-[1180px]:min-h-0 min-[1180px]:overflow-y-auto min-[1180px]:pe-0.5">
+          <EmployerRail interviewRange={interviewRange} />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

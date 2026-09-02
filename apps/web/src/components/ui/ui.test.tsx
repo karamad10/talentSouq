@@ -130,7 +130,7 @@ describe("command deck primitives", () => {
     expect(screen.getByRole("button", { name: "Refresh listing" })).toBeInTheDocument();
   });
 
-  it("renders one link per funnel stage and a conversion ring between stages", () => {
+  it("renders one link per funnel stage with conversion notes between stages", () => {
     render(
       <FunnelBars
         ariaLabel="Hiring pipeline"
@@ -142,8 +142,8 @@ describe("command deck primitives", () => {
       />
     );
     expect(screen.getAllByRole("link")).toHaveLength(3);
-    expect(screen.getByRole("img", { name: "50% advance to Review" })).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "17% advance to Offer" })).toBeInTheDocument();
+    expect(screen.getByText("50% advance to Review")).toBeInTheDocument();
+    expect(screen.getByText("17% advance to Offer")).toBeInTheDocument();
   });
 
   // The Menu/Drawer wrappers are exercised end-to-end in Playwright (Radix

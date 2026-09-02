@@ -25,21 +25,20 @@ export default async function SeekerDashboardPage({ searchParams }: { searchPara
         : seekerSummary.applications;
 
   return (
-    <>
-      <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
+    <div className="flex flex-col gap-4 min-[1180px]:h-[calc(100vh-104px)]">
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="m-0 text-xl font-bold tracking-[-0.02em] text-ts-ink">Good morning, Sarah.</h1>
-          <p className="m-0 mt-1 text-[13px] text-ts-muted">
+          <h1 className="m-0 text-[22px] font-bold tracking-[-0.02em] text-ts-ink">Good morning, Sarah.</h1>
+          <p className="m-0 mt-1 text-sm text-ts-muted">
             2 items need a reply · {freshTotal} fresh matches across your alerts.
           </p>
         </div>
-        <Link href="/seeker/jobs" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-8 rounded-ts-md px-3 text-[13px]")}>
+        <Link href="/seeker/jobs" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-9 rounded-ts-md px-3.5 text-[13px]")}>
           Discover jobs
         </Link>
       </header>
 
       <KpiStrip
-        className="mb-4"
         items={[
           { label: "Applications", value: seekerSummary.applications.length, href: "/seeker/applications" },
           { label: "In progress", value: 5, href: "/seeker/applications" },
@@ -50,8 +49,8 @@ export default async function SeekerDashboardPage({ searchParams }: { searchPara
         ]}
       />
 
-      <div className="grid items-start gap-4 min-[1180px]:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="flex min-w-0 flex-col gap-4">
+      <div className="grid min-h-0 flex-1 items-start gap-4 min-[1180px]:grid-cols-[minmax(0,1fr)_340px] min-[1180px]:items-stretch">
+        <div className="flex min-w-0 flex-col gap-4 min-[1180px]:min-h-0 min-[1180px]:overflow-y-auto min-[1180px]:pe-0.5">
           <SectionPanel
             title="Application tracker"
             description="Every live application with its stage, match, and the next thing to do."
@@ -94,8 +93,10 @@ export default async function SeekerDashboardPage({ searchParams }: { searchPara
           </SectionPanel>
         </div>
 
-        <SeekerRail />
+        <div className="min-w-0 min-[1180px]:min-h-0 min-[1180px]:overflow-y-auto min-[1180px]:pe-0.5">
+          <SeekerRail />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
