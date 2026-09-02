@@ -1,19 +1,53 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, BriefcaseBusiness, CalendarDays, ExternalLink, PartyPopper } from "lucide-react";
-import Link from "next/link";
-import { SectionCard, StatCard, WorkspaceHeader } from "@/components/workspace-ui";
+import type { Route } from "next";
+import { ApplicationsTable } from "@/components/dashboard/application-tracker";
+import { SectionPanel } from "@/components/dashboard/section-panel";
+import { KpiStrip } from "@/components/ui/kpi-strip";
+import { Tabs } from "@/components/ui/tabs";
+import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
 
 export const metadata: Metadata = { title: "Applications", description: "Track Easy Apply and external applications." };
 
-const applicationViewIcons = [BriefcaseBusiness, ExternalLink, CalendarDays, PartyPopper];
+const viewTabs = [
+  { key: "all", label: "All" },
+  { key: "easy", label: "Easy Apply" },
+  { key: "external", label: "External" },
+  { key: "interviews", label: "Interviews" }
+] as const;
 
 export default async function ApplicationsPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
   const { view = "all" } = await searchParams;
-  return <><WorkspaceHeader eyebrow="Tracking" title="Applications" description="Track Easy Apply, external applications, employer activity, and next steps." />
-    <div className="section-tabs">{["all", "easy", "external", "interviews"].map((tab) => <Link key={tab} href={`/seeker/applications?view=${tab}`} aria-current={view === tab ? "page" : undefined}>{tab === "easy" ? "Easy Apply" : tab[0].toUpperCase() + tab.slice(1)}</Link>)}</div>
-    <section className="metric-grid metric-grid-four">{seekerSummary.applicationViews.map((item, index) => <StatCard key={item.label} icon={applicationViewIcons[index]} value={item.count} label={item.label} />)}</section>
-    <SectionCard title="Application tracker" description="Select an application to open messages, the posting, or withdrawal controls.">
-      <div className="data-table application-table" role="table"><div role="row"><strong>Role</strong><strong>Company</strong><strong>Stage</strong><strong>Match</strong><strong>Next step</strong><strong>Updated</strong></div>{seekerSummary.applications.map((item) => <Link href="/seeker/applications" role="row" key={item.role}><span>{item.role}</span><span>{item.company}</span><span><mark>{item.stage}</mark></span><span className="match-cell">{item.score}%</span><span>{item.nextStep}</span><span>{item.updated} <ArrowUpRight size={13} /></span></Link>)}</div>
-    </SectionCard></>;
+  const easyApplies = seekerSummary.applications.length - seekerSummary.externalApplications;
+  const rows =
+    view === "easy"
+      ? seekerSummary.applications.slice(0, easyApplies)
+      : view === "external"
+        ? seekerSummary.applications.slice(-seekerSummary.externalApplications)
+        : view === "interviews"
+          ? seekerSummary.applications.filter((item) => item.stage === "Interview")
+          : seekerSummary.applications;
+
+  return (
+    <>
+      <WorkspaceHeader eyebrow="Tracking" title="Applications" description="Track Easy Apply, external applications, employer activity, and next steps." />
+      <KpiStrip
+        className="mb-4"
+        items={seekerSummary.applicationViews.map((item) => ({ label: item.label, value: item.count }))}
+      />
+      <SectionPanel title="Application tracker" description="Select an application to open messages, the posting, or withdrawal controls.">
+        <div className="flex flex-col gap-3">
+          <Tabs
+            ariaLabel="Filter applications"
+            items={viewTabs.map((tab) => ({
+              label: tab.label,
+              href: (tab.key === "all" ? "/seeker/applications" : `/seeker/applications?view=${tab.key}`) as Route,
+              current: view === tab.key
+            }))}
+          />
+          <ApplicationsTable rows={rows} />
+        </div>
+      </SectionPanel>
+    </>
+  );
 }

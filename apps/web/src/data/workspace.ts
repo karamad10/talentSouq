@@ -1,5 +1,31 @@
 import { jobs } from "@/data/jobs";
 
+/** Platform-wide filter vocabularies, shared by seeker and employer surfaces. */
+export const workspaceFilters = {
+  categories: ["Design", "Product", "Engineering", "Marketing", "People"],
+  employmentTypes: ["Full-time", "Part-time", "Contract", "Freelance"],
+  workModes: ["On-site", "Remote", "Hybrid"],
+  salary: ["AED 15k–25k", "AED 25k–35k", "AED 35k+"],
+  experience: ["Entry", "Mid", "Senior", "Lead", "Executive"],
+  education: ["High school", "Diploma", "Bachelor’s", "Master’s"],
+  genderPreference: ["Any", "Female preferred", "Male preferred"],
+  countries: ["UAE", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman"],
+  postedWithin: ["7 days", "30 days", "90 days"]
+};
+
+/**
+ * The ATS funnel vocabulary: cumulative stage labels in order, each with the
+ * application status a candidate holds while CURRENTLY in that stage.
+ */
+export const ATS_STAGES = [
+  { label: "New", status: "New applicant" },
+  { label: "Review", status: "Under review" },
+  { label: "Shortlist", status: "Shortlisted" },
+  { label: "Assessment", status: "Assessment" },
+  { label: "Interview", status: "Interview" },
+  { label: "Offer", status: "Offer" }
+] as const;
+
 export const seekerSummary = {
   name: "Sarah Ahmed",
   headline: "Senior Product Designer",
@@ -97,7 +123,17 @@ export const seekerSummary = {
     weeklyMatches: true,
     cooldown: "Manual run available now"
   },
-  recommendedJobs: jobs.slice(0, 3)
+  recommendedJobs: jobs.slice(0, 3),
+  week: [
+    { title: "Choose your interview time with Nexa Commerce", detail: "Senior Product Designer · they are waiting on your availability", when: "This week", tone: "brand" as const },
+    { title: "Offer from Bayt Labs", detail: "Design Systems Lead · review the offer package", when: "Respond by Thursday", tone: "success" as const },
+    { title: "7 new roles in “Dubai senior roles”", detail: "Fresh matches from your saved search", when: "Today", tone: "brand" as const }
+  ],
+  matches: [
+    { title: "Senior Product Designer", company: "Nexa Commerce", location: "Dubai, UAE", score: 92 },
+    { title: "Growth Marketing Manager", company: "Mira Health", location: "Riyadh, KSA", score: 74 },
+    { title: "Frontend Engineer", company: "Cedar Labs", location: "Abu Dhabi, UAE", score: 86 }
+  ]
 };
 
 export const employerSummary = {
@@ -154,5 +190,95 @@ export const employerSummary = {
     { name: "Omar Rahman", email: "omar@nexacommerce.example", role: "Recruiter" },
     { name: "Leen Saad", email: "leen@nexacommerce.example", role: "Hiring manager" }
   ],
-  plan: { name: "Growth", credits: 168, renewal: "October 1, 2026", seats: "3 of 5" }
+  plan: { name: "Growth", credits: 168, renewal: "October 1, 2026", seats: "3 of 5" },
+  responses: [
+    { job: "Senior Product Designer", status: "Active" as const, category: "Design", type: "Full-time", mode: "Hybrid", location: "Dubai, UAE", total: 24, fresh: 7, shortlisted: 8, rejected: 3, views: 673, reviewedPct: 92, updated: "Updated today" },
+    { job: "Frontend Engineer", status: "Active" as const, category: "Engineering", type: "Full-time", mode: "Remote", location: "Abu Dhabi, UAE", total: 18, fresh: 5, shortlisted: 4, rejected: 2, views: 512, reviewedPct: 72, updated: "Updated yesterday" },
+    { job: "People Operations Partner", status: "Draft" as const, category: "People", type: "Contract", mode: "Hybrid", location: "Dubai, UAE", total: 0, fresh: 0, shortlisted: 0, rejected: 0, views: 0, reviewedPct: 0, updated: "Draft saved" }
+  ],
+  creditMeters: [
+    { label: "Job posts", used: 3, total: 10 },
+    { label: "CV search", used: 42, total: 100 },
+    { label: "AI credits", used: 12, total: 50 },
+    { label: "Assessments", used: 5, total: 20 }
+  ],
+  savedSearches: [
+    { name: "Senior designers · Dubai", fresh: 12 },
+    { name: "Frontend · GCC", fresh: 5 }
+  ],
+  messageThreads: [
+    {
+      name: "Noor Omar",
+      role: "Product Designer",
+      time: "12m",
+      history: [
+        { from: "them" as const, text: "Hi Maya — thanks for moving me forward. What times work for the final interview?", when: "Yesterday · 4:12 PM" },
+        { from: "me" as const, text: "Great news to share! Would Thursday or Friday afternoon suit you?", when: "Yesterday · 5:03 PM" },
+        { from: "them" as const, text: "Thursday afternoon works well.", when: "12m ago" }
+      ]
+    },
+    {
+      name: "Rami Farah",
+      role: "Frontend Engineer",
+      time: "1h",
+      history: [
+        { from: "me" as const, text: "Hi Rami — we've sent over the frontend practical. Take your time this week.", when: "Monday · 10:20 AM" },
+        { from: "them" as const, text: "I've completed the assessment.", when: "1h ago" }
+      ]
+    },
+    {
+      name: "Dina Saleh",
+      role: "Talent search",
+      time: "Yesterday",
+      history: [{ from: "them" as const, text: "Thanks for the invitation.", when: "Yesterday · 2:41 PM" }]
+    }
+  ]
 };
+
+/**
+ * Deterministic applicant board: one candidate row per unit in the ATS funnel,
+ * so stage counts on the dashboard match what the board actually shows.
+ * The four featured `employerSummary.pipeline` candidates lead their stages.
+ */
+const BOARD_FIRST_NAMES = ["Maya", "Liam", "Noor", "Rami", "Dina", "Yousef", "Lina", "Omar", "Sara", "Khalid", "Aisha", "Tariq", "Huda", "Faris", "Layla", "Zaid", "Mona", "Hassan", "Rania", "Sami"];
+const BOARD_LAST_NAMES = ["Alami", "Khan", "Omar", "Farah", "Saleh", "Haddad", "Abbas", "Rahman", "Saad", "Hassan", "Nasser", "Aziz", "Karam", "Mansour"];
+const BOARD_ROLES = ["Product Designer", "Frontend Engineer", "Growth Marketing Manager"];
+
+type BoardCandidate = { name: string; role: string; stage: string; score: number };
+
+function buildBoard(): BoardCandidate[] {
+  // The funnel counts are cumulative (24 entered, 12 reached review, ...);
+  // a candidate's CURRENT stage is the difference between adjacent stages,
+  // so the 24 "in pipeline" split up as 12/4/3/1/2/2 across the board.
+  const stageStatuses: Array<{ status: string; count: number }> = [
+    { status: "New applicant", count: 12 },
+    { status: "Under review", count: 4 },
+    { status: "Shortlisted", count: 3 },
+    { status: "Assessment", count: 1 },
+    { status: "Interview", count: 2 },
+    { status: "Offer", count: 2 }
+  ];
+  const featured = employerSummary.pipeline;
+  const rows: BoardCandidate[] = [];
+  let cursor = 0;
+  for (const { status, count } of stageStatuses) {
+    for (let i = 0; i < count; i += 1) {
+      const lead = featured.find((candidate) => candidate.stage === status);
+      if (i === 0 && lead) {
+        rows.push({ ...lead, stage: status });
+        continue;
+      }
+      const name = `${BOARD_FIRST_NAMES[cursor % BOARD_FIRST_NAMES.length]} ${BOARD_LAST_NAMES[(cursor + 3) % BOARD_LAST_NAMES.length]}`;
+      rows.push({
+        name,
+        role: BOARD_ROLES[cursor % BOARD_ROLES.length],
+        stage: status,
+        score: 94 - ((cursor * 3) % 25)
+      });
+      cursor += 1;
+    }
+  }
+  return rows;
+}
+
+export const employerBoard: BoardCandidate[] = buildBoard();

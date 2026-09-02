@@ -1,12 +1,46 @@
 import type { Metadata } from "next";
-import { CheckCircle2, ClipboardCheck, Send } from "lucide-react";
-import { PreviewActionButton } from "@/components/interaction-ui";
-import { buttonVariants } from "@/components/ui/button";
-import { SectionCard, StatCard, WorkspaceHeader } from "@/components/workspace-ui";
+import { Check } from "lucide-react";
+import { AssessmentLibrary } from "@/components/dashboard/assessment-library";
+import { SectionPanel } from "@/components/dashboard/section-panel";
+import { KpiStrip } from "@/components/ui/kpi-strip";
+import { WorkspaceHeader } from "@/components/workspace-ui";
 import { employerSummary } from "@/data/workspace";
 
 export const metadata: Metadata = { title: "Assessment center" };
-export default function AssessmentsPage() { return <><WorkspaceHeader eyebrow="Evaluate" title="Assessment center" description="Create reusable assessments, connect providers, send tests, and track completion." actionSlot={<PreviewActionButton type="button" className={buttonVariants({ tone: "primary", size: "sm" })} storageKey="employer-assessments-new" pendingLabel="Creating…" successLabel="Draft created">New assessment</PreviewActionButton>} />
-  <section className="metric-grid metric-grid-three"><StatCard icon={ClipboardCheck} value="2" label="Templates" /><StatCard icon={Send} value="13" label="Sent" /><StatCard icon={CheckCircle2} value="8" label="Completed" /></section>
-  <SectionCard title="Assessment library"><div className="data-table" role="table"><div role="row"><strong>Name</strong><strong>Provider</strong><strong>Sent</strong><strong>Completed</strong></div>{employerSummary.assessments.map((item) => <div role="row" key={item.name}><span>{item.name}</span><span>{item.provider}</span><span>{item.sent}</span><span>{item.completed}</span></div>)}</div></SectionCard>
-  <SectionCard title="Provider setup" description="Supports provider name and tokenized assessment URL, then sends unique candidate links."><div className="feature-checklist"><span>✓ Reusable templates</span><span>✓ External provider URLs</span><span>✓ Candidate send history</span><span>✓ Completion tracking</span></div></SectionCard></>; }
+
+const providerFeatures = ["Reusable templates", "External provider URLs", "Candidate send history", "Completion tracking"];
+
+export default function AssessmentsPage() {
+  return (
+    <>
+      <WorkspaceHeader
+        eyebrow="Evaluate"
+        title="Assessment center"
+        description="Create reusable assessments, connect providers, send tests, and track completion."
+      />
+      <KpiStrip
+        className="mb-4"
+        items={[
+          { label: "Templates", value: 2 },
+          { label: "Sent", value: 13 },
+          { label: "Completed", value: 8 }
+        ]}
+      />
+      <AssessmentLibrary initial={employerSummary.assessments} />
+      <SectionPanel
+        className="mt-4"
+        title="Provider setup"
+        description="Supports provider name and tokenized assessment URL, then sends unique candidate links."
+      >
+        <div className="grid grid-cols-2 gap-2 max-[680px]:grid-cols-1">
+          {providerFeatures.map((feature) => (
+            <span key={feature} className="inline-flex items-center gap-2 text-[13px] text-ts-ink">
+              <Check size={14} aria-hidden="true" className="shrink-0 text-ts-success" />
+              {feature}
+            </span>
+          ))}
+        </div>
+      </SectionPanel>
+    </>
+  );
+}

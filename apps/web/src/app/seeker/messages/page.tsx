@@ -1,9 +1,57 @@
 import type { Metadata } from "next";
-import { Bell, MessageSquare, Search } from "lucide-react";
-import { SectionCard, WorkspaceHeader } from "@/components/workspace-ui";
+import type { Route } from "next";
+import Link from "next/link";
+import { MessageThread } from "@/components/dashboard/message-thread";
+import { ArrowLink, SectionPanel } from "@/components/dashboard/section-panel";
+import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = { title: "Messages" };
-export default function MessagesPage() { return <><WorkspaceHeader eyebrow="Inbox" title="Messages" description="Conversations with employers, application updates, and TalentSouq notifications." />
-  <div className="inbox-layout"><SectionCard title="Conversations" action={<button className="icon-button" aria-label="Search messages"><Search size={16} /></button>}><div className="thread-list">{seekerSummary.messages.map((message, index) => <button type="button" aria-current={index === 0 ? "true" : undefined} key={message.subject}><span>{message.from.slice(0, 2).toUpperCase()}</span><div><strong>{message.from}</strong><p>{message.subject}</p></div><small>{message.time}</small></button>)}</div></SectionCard><SectionCard title="Maya · Nexa Commerce" description="Senior Product Designer"><div className="message-placeholder"><MessageSquare size={28} /><strong>Select and continue a conversation</strong><p>Full realtime threads, attachments, and read states will connect here.</p><button className="button button-primary button-small" type="button">Reply</button></div></SectionCard></div>
-  <SectionCard title="Notifications" action={<button className="text-button" type="button"><Bell size={15} /> Notification settings</button>}><div className="notification-list">{seekerSummary.notifications.map((item) => <article key={item.title}><span /><div><strong>{item.title}</strong><p>{item.meta}</p></div></article>)}</div></SectionCard></>; }
+
+export default async function MessagesPage({ searchParams }: { searchParams: Promise<{ thread?: string }> }) {
+  const { thread } = await searchParams;
+  const activeIndex = Math.min(Math.max(Number(thread ?? 0) || 0, 0), seekerSummary.messages.length - 1);
+  const active = seekerSummary.messages[activeIndex];
+
+  return (
+    <>
+      <WorkspaceHeader
+        eyebrow="Inbox"
+        title="Messages"
+        description="Conversations with employers and application updates."
+        actionSlot={<ArrowLink href={"/seeker/notifications" as Route}>View notifications</ArrowLink>}
+      />
+      <div className="grid items-start gap-4 min-[981px]:grid-cols-[minmax(0,360px)_minmax(0,1fr)]">
+        <SectionPanel title="Conversations">
+          <ul className="m-0 flex list-none flex-col p-0">
+            {seekerSummary.messages.map((message, index) => (
+              <li key={message.subject} className={index > 0 ? "border-t border-ts-line" : undefined}>
+                <Link
+                  href={`/seeker/messages?thread=${index}` as Route}
+                  aria-current={index === activeIndex ? "true" : undefined}
+                  className={cn(
+                    "flex items-center gap-3 rounded-ts-md px-2 py-2.5 transition-colors",
+                    index === activeIndex ? "bg-ts-primary-tint/60" : "hover:bg-ts-surface-2"
+                  )}
+                >
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
+                    {message.from.slice(0, 2).toUpperCase()}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <strong className="block truncate text-[13px] font-semibold text-ts-ink">{message.from}</strong>
+                    <span className="block truncate text-xs text-ts-muted">{message.subject}</span>
+                  </span>
+                  <small className="shrink-0 text-[11px] text-ts-muted">{message.time}</small>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </SectionPanel>
+        <SectionPanel title={active.from} description={active.subject}>
+          <MessageThread key={activeIndex} counterpart={active.from.split(" ")[0]} history={[{ from: "them", text: active.subject, when: active.time }]} />
+        </SectionPanel>
+      </div>
+    </>
+  );
+}

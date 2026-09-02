@@ -1,19 +1,19 @@
 # TalentSouq web UI system
 
-Last updated: 1 September 2026. This is the web implementation companion to [the mobile design system](./MOBILE-DESIGN-SYSTEM.md).
+Last updated: 2 September 2026 (Command Deck workspace redesign). This is the web implementation companion to [the mobile design system](./MOBILE-DESIGN-SYSTEM.md).
 
 ## Research-backed rules
 
-| Area | Standard applied to TalentSouq |
-| --- | --- |
-| Text contrast | Normal text must meet WCAG AA 4.5:1; large text may use 3:1. Do not use color alone for state. |
-| Component contrast | Borders, icons, focus indicators, and control boundaries target at least 3:1 against adjacent surfaces. |
-| Touch/pointer targets | 44px is the TalentSouq default for task controls; 24px is the WCAG AA floor where spacing is sufficient. |
-| Body copy | 15px / 22px minimum for product content. Metadata is 13px / 18px; compact labels are 11px / 15px only when not the sole way to complete a task. |
-| Type hierarchy | Use Inter / IBM Plex Sans Arabic 400 for body, 500–600 for UI labels, 700 for page and metric emphasis. Use a small intentional scale rather than arbitrary one-off font sizes. |
-| Arabic/RTL | Arabic uses the Arabic font stack and needs taller line-height. Avoid fixed-height text containers and let compact horizontal layouts stack at smaller widths. |
-| Layout density | Desktop workspace sections use 16px gaps, 20–24px panel padding, and 8/10/14px radii. Keep each dashboard row focused on one decision or one workflow. |
-| Motion | Only opacity/transform transitions; short hover and entry transitions; no motion-dependent meaning; respect reduced motion. |
+| Area                  | Standard applied to TalentSouq                                                                                                                                                                         |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Text contrast         | Normal text must meet WCAG AA 4.5:1; large text may use 3:1. Do not use color alone for state.                                                                                                         |
+| Component contrast    | Borders, icons, focus indicators, and control boundaries target at least 3:1 against adjacent surfaces.                                                                                                |
+| Touch/pointer targets | 44px is the TalentSouq default for task controls; 24px is the WCAG AA floor where spacing is sufficient. Dense workspace rows may use 32–40px controls with adequate spacing.                          |
+| Body copy             | 14px / 1.5 for dense workspace content (15px / 22px for reading surfaces). Metadata is 13px / 18px; compact labels are 11–12px only when not the sole way to complete a task.                          |
+| Type hierarchy        | Use Inter / IBM Plex Sans Arabic 400 for body, 500–600 for UI labels, 700 for page and metric emphasis. Use a small intentional scale rather than arbitrary one-off font sizes.                        |
+| Arabic/RTL            | Arabic uses the Arabic font stack and needs taller line-height. Avoid fixed-height text containers; use logical properties only, and mirror directional icons with `rtl:-scale-x-100`.                 |
+| Layout density        | Command Deck density: 16px section gaps, 16px panel padding, 8/10/14px radii (`rounded-ts-sm/md/lg`), 36px nav rows, 52px table rows. Keep each dashboard row focused on one decision or one workflow. |
+| Motion                | Only opacity/transform/color transitions; short hover and entry transitions; no motion-dependent meaning; respect reduced motion. Shadows are reserved for floating surfaces (menus, drawers).         |
 
 Source research: [WCAG contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum), [WCAG target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html), [Material type scales](https://m3.material.io/styles/typography/type-scale-tokens), [Apple interface tips](https://developer.apple.com/design/tips/).
 
@@ -51,18 +51,18 @@ at `ui/index.ts`), not from raw `globals.css` classes. Each primitive is
 props, and merges caller `className`s correctly via `cn()`
 (`src/lib/cn.ts`, `clsx` + `tailwind-merge`):
 
-| Component | Use for |
-| --- | --- |
+| Component                     | Use for                                                                                                                                                                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Button` (+ `buttonVariants`) | Any button or link styled as a button. `tone`: primary/secondary/coral/ghost/danger. `size`: sm/md/lg. `pending` shows a spinner and disables the control. Export `buttonVariants({...})` to style a `next/link` as a button. |
-| `Card` (+ `cardVariants`) | Any bordered/elevated box. `tone`: surface/soft/strong. `padding`: none/sm/md/lg. `elevated` adds a shadow. |
-| `Badge` (+ `badgeVariants`) | Status pills/tags. `tone`: neutral/teal/success/attention/danger. |
-| `Field`, `Input` | Form fields. `Field` wraps a label + `Input` + error text; use bare `Input` for search bars. |
-| `StatTile` | A labelled number with an optional up/down trend, in a `Card`. |
-| `Avatar` | Initials or photo, `tone` for the identity-color, `size` sm/md/lg. |
-| `ProgressBar` | Labelled, accessible progress/meter bar. |
-| `EmptyState` | Icon + title + description + optional action link. |
-| `SegmentedControl` | Client-side controlled two/three-way toggle (`"use client"`). |
-| `DataTable` | Column-driven table (`role="row"`/`role="cell"` grid), replaces hand-rolled `grid-template-columns` per page. |
+| `Card` (+ `cardVariants`)     | Any bordered/elevated box. `tone`: surface/soft/strong. `padding`: none/sm/md/lg. `elevated` adds a shadow.                                                                                                                   |
+| `Badge` (+ `badgeVariants`)   | Status pills/tags. `tone`: neutral/teal/success/attention/danger.                                                                                                                                                             |
+| `Field`, `Input`              | Form fields. `Field` wraps a label + `Input` + error text; use bare `Input` for search bars.                                                                                                                                  |
+| `StatTile`                    | A labelled number with an optional up/down trend, in a `Card`.                                                                                                                                                                |
+| `Avatar`                      | Initials or photo, `tone` for the identity-color, `size` sm/md/lg.                                                                                                                                                            |
+| `ProgressBar`                 | Labelled, accessible progress/meter bar.                                                                                                                                                                                      |
+| `EmptyState`                  | Icon + title + description + optional action link.                                                                                                                                                                            |
+| `SegmentedControl`            | Client-side controlled two/three-way toggle (`"use client"`).                                                                                                                                                                 |
+| `DataTable`                   | Column-driven table (`role="row"`/`role="cell"` grid), replaces hand-rolled `grid-template-columns` per page.                                                                                                                 |
 
 The workspace-specific composites in `src/components/workspace-ui.tsx`
 (`WorkspaceHeader`, `StatCard`, `SectionCard`, `InfoList`) and

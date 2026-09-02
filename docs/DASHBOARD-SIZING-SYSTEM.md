@@ -15,7 +15,7 @@ This is the size contract for TalentSouq’s authenticated web workspace. It is 
   row, saved-search list, offer card, or application-view tab) are `1.625rem`
   (26px) everywhere. Before 1 September 2026 this ranged 20–36px depending on
   which component rendered it (`.funnel-row strong` 30px, `.metric-grid
-  strong` 36px, `.offer-grid strong` 20px, etc.) — normalized to one value in
+strong` 36px, `.offer-grid strong` 20px, etc.) — normalized to one value in
   `globals.css`. Don't reintroduce a one-off size for this role; use
   `StatCard`/`StatTile` (`docs/WEB-UI-SYSTEM.md`) for new instances instead of
   a raw `<strong>`.
