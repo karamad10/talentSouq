@@ -5,12 +5,20 @@ This is the size contract for TalentSouq’s authenticated web workspace. It is 
 ## Foundation
 
 - Spacing rhythm: `2, 4, 6, 8, 12, 16, 20, 24, 32, 40px`.
-- Default dashboard body: `14px / 1.5`; dense table text `13px`.
-- Metadata: `13px`; captions and dense labels: `12px`; badge/counter text may use `11px` when it is never the sole way to complete a task.
-- Section/panel titles: `14px/600` inside panels, page title `20px/700`; the big fluid display scale is reserved for public pages.
-- Buttons and inputs: `40px` default, `32–36px` for compact workspace toolbars; nav rows `36px` (44px touch equivalence comes from spacing); primary CTAs never below `32px`.
-- Cards/panels use `14px` radius (`rounded-ts-lg`), `16px` padding, and `8–16px` internal gaps; KPI cells and table rows separate with hairlines instead of nested boxes.
-- Layout: Command Deck shell — 56px sticky app bar, 220px nav rail (horizontal chip bar under 981px), 1440px maximum shell width, content region fluid with an optional 340px right rail on home dashboards.
+- Default dashboard body: `14px / 1.5`.
+- Metadata: `13px`; captions and dense labels: `12px` (never smaller for new UI).
+- Section titles: `20px`; workspace page title: fluid `30–40px`.
+- Buttons, inputs, tabs, and sidebar links: `40px` default; primary navigation uses `44px`.
+- Cards use `14px` radius, `16–24px` padding, and `8–16px` internal gaps.
+- Layout uses a 248px sidebar and a 1180px maximum content canvas.
+- **Stat/metric numbers** (the big number in a `StatCard`, `StatTile`, funnel
+  row, saved-search list, offer card, or application-view tab) are `1.625rem`
+  (26px) everywhere. Before 1 September 2026 this ranged 20–36px depending on
+  which component rendered it (`.funnel-row strong` 30px, `.metric-grid
+strong` 36px, `.offer-grid strong` 20px, etc.) — normalized to one value in
+  `globals.css`. Don't reintroduce a one-off size for this role; use
+  `StatCard`/`StatTile` (`docs/WEB-UI-SYSTEM.md`) for new instances instead of
+  a raw `<strong>`.
 
 ## Rules for reusable components
 

@@ -4,14 +4,62 @@
 **Prepared:** 2026-08-31  
 **Implementation plan:** [`implementation-plan.md`](implementation-plan.md)
 
+## Quickstart
+
+Requires Node.js 22+ and [pnpm](https://pnpm.io) (`packageManager` is pinned in
+`package.json`; run `corepack enable` if you don't have pnpm yet).
+
+```bash
+git clone <this repo> && cd TalentSouq-ui
+pnpm install
+
+cp apps/web/.env.example apps/web/.env.local
+# then fill in NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+# from Project Settings → API in the Supabase dashboard (public values only —
+# never put a service-role key in apps/web)
+
+pnpm dev            # http://localhost:3000
+```
+
+All commands below run from the repo root — no need to `cd apps/web` first:
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Start the web app locally (`localhost:3000`) |
+| `pnpm dev:open` | Same, but skips the seeker/employer login guard so you can browse `/seeker` and `/employer` without signing in first (local-only escape hatch) |
+| `pnpm build` | Production build |
+| `pnpm start` | Run a production build locally (run `pnpm build` first) |
+| `pnpm test` | Unit/component tests (Vitest) |
+| `pnpm e2e` | End-to-end tests (Playwright) — builds and boots the app itself |
+| `pnpm typecheck` | TypeScript, no emit |
+| `pnpm lint` | ESLint |
+| `pnpm check` | `typecheck` + `lint` + `test` in one shot — run this before opening a PR |
+| `pnpm check:auth` | Verifies the Supabase env vars in `.env.local` are valid and reachable |
+
+If `pnpm check:auth` reports `Invalid API key`, see [`TODO.md`](TODO.md) for
+what to fix in the Supabase dashboard and `.env.local`.
+
 ## Current implementation
 
-The first web foundation now lives in `apps/web`: Next.js App Router, React,
-TypeScript, public landing/jobs/job-detail/legal routes, English/Arabic
-direction handling, light/dark preferences, a generated hero image, and baseline
-type/lint/unit/e2e validation. Auth is intentionally presented as a disabled UI
-placeholder until the production Supabase browser credentials, callback URLs,
-and policies are connected.
+The web app in `apps/web` (Next.js App Router, React 19, TypeScript, Tailwind
+CSS v4) covers: public landing/jobs/company/legal routes, email/password and
+Google/Apple OAuth sign-in against the production Supabase project, and full
+seeker/employer workspace shells (dashboards, applications, jobs, candidates,
+pipeline, profile, billing, etc.) built on a shared component library at
+`apps/web/src/components/ui/` (Button, Card, Badge, Field, StatTile,
+DataTable, and friends — see
+[`docs/WEB-UI-SYSTEM.md`](docs/WEB-UI-SYSTEM.md)). Most workspace data is
+still local/typed mock data rather than live Supabase queries — see
+[`docs/PRODUCTION-WEB-ROADMAP.md`](docs/PRODUCTION-WEB-ROADMAP.md) for what's
+wired to the database versus still mock, and
+[`docs/WEB-INTERACTION-STATUS.md`](docs/WEB-INTERACTION-STATUS.md) for which
+buttons/forms are real versus local-preview-only.
+
+**Known outstanding setup step:** Google/Apple OAuth completes but won't land
+you back in the app until the Supabase project's **Site URL** and **Redirect
+URLs** allow-list (Authentication → URL Configuration in the Supabase
+dashboard) include `http://localhost:3000/auth/callback` and
+`https://talentsouq.it.com/auth/callback` — see `TODO.md` §2.
 
 ## 1. Objective
 

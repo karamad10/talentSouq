@@ -56,6 +56,11 @@ Additional employer routes to implement after the main data wiring: `/employer/j
 - Give every major mobile feature a dedicated web route.
 - Establish compact desktop proportions and responsive behavior.
 - Keep mock data behind a single typed data layer so it can be replaced without rewriting pages.
+- Tailwind CSS v4 + a CVA component library (`apps/web/src/components/ui/`)
+  is now the foundation for new/rebuilt UI — see
+  [`WEB-UI-SYSTEM.md`](./WEB-UI-SYSTEM.md). The shared workspace shell and
+  both home dashboards are migrated; most other routes still render through
+  the original `globals.css` classes, which remain supported.
 
 ### Phase 2 — Supabase data and permissions
 

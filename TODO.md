@@ -9,12 +9,12 @@ variables, or the connected service dashboard.
 
 ### 0. Current auth check
 
-The web app is already wired to Supabase Auth for project
-`mosozzwqubqrbarrpijn`. Local auth connectivity now checks out when this
-command passes:
+The web app is wired to Supabase Auth for project `mosozzwqubqrbarrpijn`, and
+email/password login is confirmed working end to end locally. Run this to
+verify your own local `.env.local` is set up correctly:
 
 ```bash
-pnpm --filter @talentsouq/web check:auth
+pnpm check:auth
 ```
 
 What this check means:
@@ -41,7 +41,7 @@ Needed next to prove login/signup end-to-end:
 To create a fresh local batch later:
 
 ```bash
-pnpm --filter @talentsouq/web create:test-accounts
+pnpm create:test-accounts
 ```
 
 ### 1. Supabase project access
@@ -71,17 +71,26 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 
 Do not add `SUPABASE_SERVICE_ROLE_KEY` to `apps/web`.
 
-### 2. Supabase Auth redirect settings
+### 2. Supabase Auth redirect settings — confirmed blocking, still pending
 
-Needed so web login, signup, password reset, verification, Google, and Apple
-auth can work without breaking the existing mobile app.
+Email/password login already works end to end locally. **Google (and likely
+Apple) OAuth does not**: it completes on Google's side and Supabase issues a
+redirect, but the redirect target isn't on the project's allow-list, so
+GoTrue silently falls back to the Site URL (which appears to be the mobile
+`talentsouq://` deep link) instead of `/auth/callback` — the user never lands
+back in the web app and has to log in again.
 
-Please confirm or allow Codex to configure these URLs in Supabase Auth:
+Fix in the Supabase dashboard at
+`https://supabase.com/dashboard/project/mosozzwqubqrbarrpijn/auth/url-configuration`:
 
-- `http://localhost:3000/auth/callback`
-- Preview deployment callback URL after Vercel is created.
-- `https://talentsouq.it.com/auth/callback`
-- Existing mobile deep-link redirects must stay in place.
+- Set **Site URL** to `https://talentsouq.it.com` (not the mobile scheme).
+- Add to **Redirect URLs**: `http://localhost:3000/auth/callback`,
+  `http://localhost:3000/**`, `https://talentsouq.it.com/auth/callback`,
+  `https://talentsouq.it.com/**`, plus the preview deployment callback URL
+  once Vercel exists. Keep the existing `talentsouq://` entry for mobile.
+
+This isn't something Codex can change — the Supabase MCP tools available here
+don't expose Auth URL configuration, only DB/logs/etc.
 
 ### 3. Mobile app reference access
 
@@ -220,13 +229,26 @@ Please confirm:
 
 ## Current status
 
-- Web foundation exists in `apps/web`.
-- Public landing, jobs, job detail, company profiles, invite landing, auth
-  placeholder, seeker dashboard, employer dashboard, legal placeholder,
-  language/theme preferences, tests, and generated hero image are committed.
+- Web foundation exists in `apps/web`, connected to the real production
+  Supabase project `mosozzwqubqrbarrpijn`.
+- Public landing, jobs, job detail, company profiles, invite landing, seeker
+  dashboard, employer dashboard, legal placeholder, language/theme
+  preferences, tests, and generated hero image are committed.
 - Supabase SSR auth utilities, PKCE callback, password login/signup, Google and
-  Apple OAuth start actions, sign-out, and protected route proxy are implemented.
-- Next blocker: the local env now points to the Supabase API URL, but the
-  connected Supabase account does not list project `mosozzwqubqrbarrpijn`, and
-  that project's publishable key is currently rejected as invalid. Real login
-  needs the correct active TalentSouq project access and matching publishable key.
+  Apple OAuth start actions, sign-out, and protected route proxy are
+  implemented. **Email/password login works end to end** (verified with a
+  live account: login → browse → back to dashboard, session persists).
+- The marketing site is session-aware: signed-in users see their identity and
+  a link to their workspace in the header instead of "Log in"/"Join now"
+  (`apps/web/src/lib/auth/session.ts`, `PublicHeader`).
+- `apps/web/src/proxy.ts` refreshes the Supabase session on every request; it
+  now skips Next.js's background link-prefetch requests, which were racing to
+  refresh the same refresh token near expiry and getting the session revoked
+  by Supabase's rotation/reuse protection (the "logged out, have to log in
+  again" bug).
+- Next blocker: **Google OAuth** — see §2 above, needs a Supabase dashboard
+  config change only Karam can make.
+- Most workspace pages (jobs, applications, candidates, pipeline, profile,
+  billing, etc.) still render from local typed mock data
+  (`apps/web/src/data/workspace.ts`), not live Supabase queries — see
+  `docs/PRODUCTION-WEB-ROADMAP.md` for the wiring order.

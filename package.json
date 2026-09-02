@@ -7,9 +7,15 @@
   },
   "scripts": {
     "dev": "pnpm --filter @talentsouq/web dev",
+    "dev:open": "TALENTSOUQ_DISABLE_AUTH_GUARDS=1 pnpm --filter @talentsouq/web dev",
     "build": "pnpm --filter @talentsouq/web build",
+    "start": "pnpm --filter @talentsouq/web start",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "e2e": "pnpm --filter @talentsouq/web e2e",
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "check:auth": "pnpm --filter @talentsouq/web check:auth",
+    "create:test-accounts": "pnpm --filter @talentsouq/web create:test-accounts"
   }
 }
