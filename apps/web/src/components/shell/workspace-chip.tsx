@@ -21,12 +21,12 @@ export function WorkspaceChip({ identity }: { identity: WorkspaceIdentity }) {
   return (
     <>
       <Menu>
-        <MenuTrigger className="flex h-8 items-center gap-2 rounded-full bg-ts-surface-2 ps-1.5 pe-3 text-[13px] font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint">
-          <span aria-hidden="true" className="grid size-6 place-items-center rounded-full bg-ts-primary-tint text-[10px] font-bold text-ts-primary-deep">
+        <MenuTrigger className="flex h-11 items-center gap-2.5 rounded-full bg-ts-surface-2 ps-2 pe-3.5 text-sm font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint">
+          <span aria-hidden="true" className="grid size-7.5 place-items-center rounded-full bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
             {identity.initials}
           </span>
           <span className="max-w-40 truncate">{identity.name}</span>
-          <ChevronDown size={14} aria-hidden="true" className="text-ts-muted" />
+          <ChevronDown size={15} aria-hidden="true" className="text-ts-muted" />
         </MenuTrigger>
         <MenuContent align="start">
           <MenuLabel>{identity.eyebrow}</MenuLabel>

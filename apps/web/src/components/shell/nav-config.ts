@@ -67,7 +67,7 @@ export const navGroups: Record<WorkspaceRole, NavGroup[]> = {
     {
       label: "Organization",
       items: [
-        { href: "/employer/messages", label: "Messages", icon: MessageSquare, count: 5 },
+        { href: "/employer/messages", label: "Messages", icon: MessageSquare, count: employerSummary.unreadMessages },
         { href: "/employer/notifications", label: "Notifications", icon: Bell },
         { href: "/employer/company", label: "Company profile", icon: Building2 },
         { href: "/employer/team", label: "Team & permissions", icon: UsersRound },
@@ -97,5 +97,5 @@ export const workspaceSearch: Record<WorkspaceRole, { action: Route; placeholder
 
 export const workspaceUnread: Record<WorkspaceRole, { messages: number; messagesHref: Route; notifications: number; notificationsHref: Route }> = {
   seeker: { messages: seekerSummary.unreadMessages, messagesHref: "/seeker/messages", notifications: seekerSummary.notifications.length, notificationsHref: "/seeker/notifications" },
-  employer: { messages: 5, messagesHref: "/employer/messages", notifications: employerSummary.tasks.length, notificationsHref: "/employer/notifications" }
+  employer: { messages: employerSummary.unreadMessages, messagesHref: "/employer/messages", notifications: employerSummary.tasks.length, notificationsHref: "/employer/notifications" }
 };

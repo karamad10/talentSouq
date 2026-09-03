@@ -37,7 +37,9 @@ export const seekerSummary = {
   responseRate: 64,
   weeklyViews: 41,
   interviews: 2,
-  unreadMessages: 4,
+  get unreadMessages() {
+    return this.messages.length;
+  },
   pendingInvites: 2,
   savedJobs: 7,
   externalApplications: 1,
@@ -77,8 +79,56 @@ export const seekerSummary = {
     { label: "Offers", count: 1 }
   ],
   offers: [
-    { company: "Bayt Labs", role: "Design Systems Lead", salary: "AED 34k/mo", deadline: "Respond by Thursday", status: "Offer received" },
-    { company: "Nexa Commerce", role: "Senior Product Designer", salary: "Range shared after interview", deadline: "Interview tomorrow", status: "Final round" }
+    {
+      id: "bayt-labs-design-systems-lead",
+      company: "Bayt Labs",
+      role: "Design Systems Lead",
+      salary: "AED 34k/mo",
+      deadline: "Respond by Thursday",
+      status: "Offer received",
+      threadId: "bayt-labs",
+      jobId: "design-systems-lead",
+      contact: "Lina Abbas · Talent Partner",
+      location: "Dubai, UAE · Hybrid (3 days on-site)",
+      start: "Start date negotiable from 1 November",
+      breakdown: [
+        { label: "Base salary", value: "AED 34,000 / month" },
+        { label: "Annual bonus", value: "Up to 15% of base" },
+        { label: "Housing allowance", value: "Included in base" },
+        { label: "Annual leave", value: "25 days + public holidays" },
+        { label: "Health cover", value: "Family plan, fully paid" },
+        { label: "Learning budget", value: "AED 8,000 / year" }
+      ],
+      timeline: [
+        { label: "Offer sent", detail: "Yesterday · 11:02 AM", done: true },
+        { label: "Package reviewed by you", detail: "Open the breakdown below", done: false },
+        { label: "Decision due", detail: "Thursday · 6:00 PM GST", done: false }
+      ]
+    },
+    {
+      id: "nexa-commerce-senior-product-designer",
+      company: "Nexa Commerce",
+      role: "Senior Product Designer",
+      salary: "Range shared after interview",
+      deadline: "Interview tomorrow",
+      status: "Final round",
+      threadId: "maya-nexa",
+      jobId: "senior-product-designer",
+      contact: "Maya Hassan · Hiring Manager",
+      location: "Dubai, UAE · Hybrid",
+      start: "Team is hiring for a Q4 start",
+      breakdown: [
+        { label: "Advertised range", value: "AED 28,000 – 34,000 / month" },
+        { label: "Interview format", value: "60 min portfolio + 30 min team fit" },
+        { label: "Panel", value: "Maya Hassan, Omar Rahman" },
+        { label: "Location", value: "Video call · GST" }
+      ],
+      timeline: [
+        { label: "Portfolio review passed", detail: "Monday", done: true },
+        { label: "Availability requested", detail: "Maya is waiting on your slots", done: false },
+        { label: "Final interview", detail: "Tomorrow · 10:30 AM GST", done: false }
+      ]
+    }
   ],
   savedSearches: [
     { name: "Hybrid design roles", count: 12, trend: "+4 fresh" },
@@ -103,14 +153,70 @@ export const seekerSummary = {
     postedWithin: ["7 days", "30 days", "90 days"]
   },
   notifications: [
-    { title: "Nexa Commerce moved you to interview", meta: "Application status · 12m ago" },
-    { title: "4 new jobs match Hybrid design roles", meta: "Saved search · 1h ago" },
-    { title: "CV parsing completed", meta: "Profile · Today" }
+    { id: "n-interview", kind: "interview" as const, title: "Nexa Commerce moved you to interview", meta: "Senior Product Designer · pick a slot before Thursday", time: "12m ago", group: "Today", href: "/seeker/offers" },
+    { id: "n-message-maya", kind: "message" as const, title: "Maya asked for your interview availability", meta: "Nexa Commerce · 2 replies waiting", time: "12m ago", group: "Today", href: "/seeker/messages" },
+    { id: "n-alert-hybrid", kind: "alert" as const, title: "4 new jobs match “Hybrid design roles”", meta: "Saved search · 12 roles tracked", time: "1h ago", group: "Today", href: "/seeker/saved" },
+    { id: "n-message-omar", kind: "message" as const, title: "Omar reviewed your portfolio", meta: "Cedar Labs · Frontend Engineer", time: "1h ago", group: "Today", href: "/seeker/messages" },
+    { id: "n-view", kind: "profile" as const, title: "Your profile was viewed 6 times today", meta: "3 recruiters from Dubai and Riyadh", time: "3h ago", group: "Today", href: "/seeker/profile" },
+    { id: "n-cv", kind: "profile" as const, title: "CV parsing completed", meta: "12 skills and 2 roles added to your profile", time: "Today", group: "Today", href: "/seeker/profile" },
+    { id: "n-offer", kind: "offer" as const, title: "Bayt Labs sent you an offer", meta: "Design Systems Lead · AED 34k/mo · respond by Thursday", time: "Yesterday", group: "Earlier", href: "/seeker/offers" },
+    { id: "n-status-cedar", kind: "application" as const, title: "Cedar Labs reviewed your application", meta: "Frontend Engineer · moved to Reviewed", time: "Yesterday", group: "Earlier", href: "/seeker/applications" },
+    { id: "n-alert-dubai", kind: "alert" as const, title: "7 new jobs match “Dubai senior roles”", meta: "Saved search · 16 roles tracked", time: "Yesterday", group: "Earlier", href: "/seeker/saved" },
+    { id: "n-digest", kind: "system" as const, title: "Your weekly match digest is ready", meta: "13 fresh matches, 3 above 85% fit", time: "2 days ago", group: "Earlier", href: "/seeker/companion" },
+    { id: "n-status-mira", kind: "application" as const, title: "Mira Health opened your application", meta: "Growth Marketing Manager · add growth examples", time: "2 days ago", group: "Earlier", href: "/seeker/applications" },
+    { id: "n-assessment", kind: "application" as const, title: "Assessment invitation expires in 3 days", meta: "Nexa Commerce · product thinking exercise", time: "3 days ago", group: "Earlier", href: "/seeker/applications" },
+    { id: "n-followed", kind: "profile" as const, title: "Cedar Labs started following your profile", meta: "You now appear in their talent pool", time: "4 days ago", group: "Earlier", href: "/seeker/profile" },
+    { id: "n-salary", kind: "system" as const, title: "Design salaries in Dubai moved up 4%", meta: "Your desired range is still within market", time: "5 days ago", group: "Earlier", href: "/seeker/jobs" }
   ],
   messages: [
-    { from: "Maya · Nexa Commerce", subject: "Can you share interview availability?", time: "12m" },
-    { from: "Omar · Cedar Labs", subject: "We reviewed your portfolio", time: "1h" },
-    { from: "TalentSouq Assistant", subject: "Your weekly match digest is ready", time: "Today" }
+    {
+      id: "maya-nexa",
+      from: "Maya · Nexa Commerce",
+      company: "Nexa Commerce",
+      role: "Senior Product Designer",
+      subject: "Can you share interview availability?",
+      time: "12m",
+      history: [
+        { from: "them" as const, text: "Hi Sarah — the panel loved your portfolio. We would like to book the final interview this week.", when: "Yesterday · 3:40 PM" },
+        { from: "me" as const, text: "That is great news, thank you! Happy to make time.", when: "Yesterday · 6:12 PM" },
+        { from: "them" as const, text: "Can you share interview availability? Thursday or Friday afternoon both work on our side.", when: "12m ago" }
+      ]
+    },
+    {
+      id: "omar-cedar",
+      from: "Omar · Cedar Labs",
+      company: "Cedar Labs",
+      role: "Frontend Engineer",
+      subject: "We reviewed your portfolio",
+      time: "1h",
+      history: [
+        { from: "them" as const, text: "Morning Sarah — we reviewed your portfolio and the systems work stood out.", when: "1h ago" },
+        { from: "them" as const, text: "Would you be open to a 30 minute intro call next week?", when: "1h ago" }
+      ]
+    },
+    {
+      id: "bayt-labs",
+      from: "Lina · Bayt Labs",
+      company: "Bayt Labs",
+      role: "Design Systems Lead",
+      subject: "Offer package is attached",
+      time: "Yesterday",
+      history: [
+        { from: "them" as const, text: "Hi Sarah, the offer package for Design Systems Lead is ready: AED 34k/month plus the usual benefits.", when: "Yesterday · 11:02 AM" },
+        { from: "them" as const, text: "Let me know if you would like to walk through it together before Thursday.", when: "Yesterday · 11:03 AM" }
+      ]
+    },
+    {
+      id: "talentsouq-assistant",
+      from: "TalentSouq Assistant",
+      company: "TalentSouq",
+      role: "Weekly digest",
+      subject: "Your weekly match digest is ready",
+      time: "Today",
+      history: [
+        { from: "them" as const, text: "13 fresh matches this week. Three are above 85% fit, and two are hybrid roles in Dubai.", when: "Today · 7:00 AM" }
+      ]
+    }
   ],
   feed: [
     { kind: "Post", title: "Noor shared a hiring update from Abu Dhabi", body: "Frontend and data roles are moving quickly this week." },
@@ -141,6 +247,9 @@ export const employerSummary = {
   openRoles: 5,
   newApplicants: 24,
   interviews: 6,
+  get unreadMessages() {
+    return this.messageThreads.length;
+  },
   company: {
     industry: "Commerce technology",
     size: "51–200 employees",
@@ -172,18 +281,39 @@ export const employerSummary = {
     { label: "Assessment", count: 5 }, { label: "Interview", count: 4 }, { label: "Offer", count: 2 }
   ],
   interviewsList: [
-    { candidate: "Noor Omar", role: "Product Designer", date: "Today · 2:00 PM GST", mode: "Video", panel: "Maya, Omar" },
-    { candidate: "Liam Khan", role: "Product Designer", date: "Tomorrow · 10:30 AM GST", mode: "On-site", panel: "Maya, Sarah" },
-    { candidate: "Rami Farah", role: "Frontend Engineer", date: "Thu · 3:00 PM GST", mode: "Video", panel: "Omar, Leen" }
+    { candidate: "Noor Omar", role: "Product Designer", date: "Today · 2:00 PM GST", mode: "Video", panel: "Maya, Omar", stage: "Final interview", feedbackDue: false },
+    { candidate: "Liam Khan", role: "Product Designer", date: "Tomorrow · 10:30 AM GST", mode: "On-site", panel: "Maya, Sarah", stage: "Portfolio review", feedbackDue: false },
+    { candidate: "Rami Farah", role: "Frontend Engineer", date: "Thu · 3:00 PM GST", mode: "Video", panel: "Omar, Leen", stage: "Technical", feedbackDue: false }
+  ],
+  pastInterviews: [
+    { candidate: "Dina Saleh", role: "Product Designer", date: "Yesterday · 11:00 AM GST", mode: "Video", panel: "Maya, Omar", stage: "Portfolio review", feedbackDue: true },
+    { candidate: "Khalid Nasser", role: "Product Designer", date: "Monday · 4:00 PM GST", mode: "On-site", panel: "Maya", stage: "Team fit", feedbackDue: true },
+    { candidate: "Tariq Mansour", role: "Frontend Engineer", date: "Last Friday · 1:00 PM GST", mode: "Video", panel: "Omar, Leen", stage: "Technical", feedbackDue: false }
+  ],
+  invoices: [
+    { id: "INV-2026-09", date: "1 September 2026", amount: "AED 2,400", status: "Paid", period: "September 2026" },
+    { id: "INV-2026-08", date: "1 August 2026", amount: "AED 2,400", status: "Paid", period: "August 2026" },
+    { id: "INV-2026-07", date: "1 July 2026", amount: "AED 2,400", status: "Paid", period: "July 2026" },
+    { id: "INV-2026-06", date: "1 June 2026", amount: "AED 1,800", status: "Paid", period: "June 2026" }
+  ],
+  pendingInvites: [
+    { email: "hala@nexacommerce.example", role: "Recruiter", sent: "Sent 2 days ago" },
+    { email: "yara@nexacommerce.example", role: "Viewer", sent: "Sent yesterday" }
   ],
   assessments: [
     { name: "Product thinking exercise", provider: "TalentSouq", sent: 8, completed: 5 },
     { name: "Frontend practical", provider: "TestGorilla", sent: 5, completed: 3 }
   ],
   candidates: [
-    { name: "Dina Saleh", headline: "Senior Product Designer", location: "Dubai, UAE", score: 96, desired: "AED 30k" },
-    { name: "Yousef Haddad", headline: "Product Design Lead", location: "Riyadh, KSA", score: 91, desired: "SAR 32k" },
-    { name: "Lina Abbas", headline: "UX Researcher", location: "Remote · GCC", score: 88, desired: "AED 24k" }
+    { name: "Dina Saleh", headline: "Senior Product Designer", location: "Dubai, UAE", country: "UAE", score: 96, desired: "AED 30k", experience: "Senior", education: "Bachelor’s", availability: "1 month notice", lastActive: "Active today", skills: ["Design systems", "Figma", "Commerce"] },
+    { name: "Yousef Haddad", headline: "Product Design Lead", location: "Riyadh, KSA", country: "Saudi Arabia", score: 91, desired: "SAR 32k", experience: "Lead", education: "Master’s", availability: "2 months notice", lastActive: "Active 2 days ago", skills: ["Leadership", "Design systems", "Arabic"] },
+    { name: "Lina Abbas", headline: "UX Researcher", location: "Remote · GCC", country: "UAE", score: 88, desired: "AED 24k", experience: "Senior", education: "Master’s", availability: "Immediate", lastActive: "Active today", skills: ["User research", "Interviews", "Synthesis"] },
+    { name: "Khalid Nasser", headline: "Product Designer", location: "Abu Dhabi, UAE", country: "UAE", score: 84, desired: "AED 22k", experience: "Mid", education: "Bachelor’s", availability: "Immediate", lastActive: "Active this week", skills: ["Figma", "Prototyping", "Accessibility"] },
+    { name: "Aisha Karam", headline: "Design Systems Engineer", location: "Dubai, UAE", country: "UAE", score: 82, desired: "AED 28k", experience: "Senior", education: "Bachelor’s", availability: "1 month notice", lastActive: "Active today", skills: ["Design systems", "TypeScript", "Tokens"] },
+    { name: "Tariq Mansour", headline: "Senior Frontend Engineer", location: "Doha, Qatar", country: "Qatar", score: 79, desired: "QAR 30k", experience: "Senior", education: "Bachelor’s", availability: "3 months notice", lastActive: "Active last week", skills: ["React", "TypeScript", "Accessibility"] },
+    { name: "Huda Aziz", headline: "UX Writer", location: "Remote · GCC", country: "UAE", score: 74, desired: "AED 18k", experience: "Mid", education: "Diploma", availability: "Immediate", lastActive: "Active this week", skills: ["UX writing", "Arabic", "Content design"] },
+    { name: "Faris Rahman", headline: "Junior Product Designer", location: "Manama, Bahrain", country: "Bahrain", score: 66, desired: "AED 14k", experience: "Entry", education: "Bachelor’s", availability: "Immediate", lastActive: "Active today", skills: ["Figma", "Prototyping"] },
+    { name: "Rania Hassan", headline: "Head of Design", location: "Riyadh, KSA", country: "Saudi Arabia", score: 63, desired: "SAR 45k", experience: "Executive", education: "Master’s", availability: "3 months notice", lastActive: "Active last week", skills: ["Leadership", "Hiring", "Product strategy"] }
   ],
   members: [
     { name: "Maya Hassan", email: "maya@nexacommerce.example", role: "Owner" },
@@ -205,6 +335,18 @@ export const employerSummary = {
   savedSearches: [
     { name: "Senior designers · Dubai", fresh: 12 },
     { name: "Frontend · GCC", fresh: 5 }
+  ],
+  notifications: [
+    { id: "e-new-applicants", kind: "application" as const, title: "7 new applicants on Senior Product Designer", meta: "3 above 90% match · none reviewed yet", time: "18m ago", group: "Today", href: "/employer/pipeline" },
+    { id: "e-message-noor", kind: "message" as const, title: "Noor Omar confirmed Thursday afternoon", meta: "Product Designer · final interview", time: "12m ago", group: "Today", href: "/employer/messages" },
+    { id: "e-assessment", kind: "application" as const, title: "Rami Farah completed the frontend practical", meta: "Score available for review", time: "1h ago", group: "Today", href: "/employer/assessments" },
+    { id: "e-interview-today", kind: "interview" as const, title: "Interview today at 2:00 PM GST", meta: "Noor Omar · panel Maya, Omar", time: "Today", group: "Today", href: "/employer/interviews" },
+    { id: "e-job-views", kind: "system" as const, title: "Senior Product Designer passed 673 views", meta: "92% of responses reviewed", time: "3h ago", group: "Today", href: "/employer/jobs" },
+    { id: "e-credits", kind: "system" as const, title: "42 of 100 CV search credits used", meta: "Growth plan renews October 1, 2026", time: "Yesterday", group: "Earlier", href: "/employer/billing" },
+    { id: "e-draft", kind: "application" as const, title: "People Operations Partner is still a draft", meta: "Publish it to start collecting applicants", time: "Yesterday", group: "Earlier", href: "/employer/jobs" },
+    { id: "e-team", kind: "profile" as const, title: "Leen Saad joined as a hiring manager", meta: "Team & permissions updated", time: "2 days ago", group: "Earlier", href: "/employer/team" },
+    { id: "e-saved-search", kind: "alert" as const, title: "12 fresh profiles in “Senior designers · Dubai”", meta: "Saved search · CV database", time: "2 days ago", group: "Earlier", href: "/employer/candidates" },
+    { id: "e-offer", kind: "offer" as const, title: "2 offers awaiting candidate response", meta: "Product Designer · sent this week", time: "3 days ago", group: "Earlier", href: "/employer/pipeline?stage=Offer" }
   ],
   messageThreads: [
     {

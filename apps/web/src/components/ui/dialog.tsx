@@ -30,23 +30,23 @@ export function Dialog({
         <RadixDialog.Overlay className="fixed inset-0 z-40 bg-black/40" />
         <RadixDialog.Content
           className={cn(
-            "fixed top-1/2 left-1/2 z-50 w-[calc(100vw-32px)] max-w-lg -translate-x-1/2 -translate-y-1/2",
-            "max-h-[calc(100vh-48px)] overflow-y-auto rounded-ts-lg border border-ts-line bg-ts-surface p-5 shadow-lg outline-none",
+            "fixed top-1/2 left-1/2 z-50 w-[calc(100vw-32px)] max-w-xl -translate-x-1/2 -translate-y-1/2",
+            "max-h-[calc(100vh-48px)] overflow-y-auto rounded-ts-lg border border-ts-line bg-ts-surface p-6 shadow-lg outline-none",
             className
           )}
         >
-          <div className="mb-3 flex items-start justify-between gap-3">
+          <div className="mb-4 flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <RadixDialog.Title className="m-0 text-base font-semibold tracking-[-0.01em] text-ts-ink">{title}</RadixDialog.Title>
+              <RadixDialog.Title className="m-0 text-lg font-bold tracking-[-0.02em] text-ts-ink">{title}</RadixDialog.Title>
               {description ? (
-                <RadixDialog.Description className="m-0 mt-0.5 text-[13px] text-ts-muted">{description}</RadixDialog.Description>
+                <RadixDialog.Description className="m-0 mt-1 text-sm text-ts-muted">{description}</RadixDialog.Description>
               ) : null}
             </div>
             <RadixDialog.Close
               aria-label="Close dialog"
-              className="inline-flex size-8 shrink-0 items-center justify-center rounded-ts-sm text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink"
+              className="inline-flex size-10 shrink-0 items-center justify-center rounded-ts-md text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink"
             >
-              <X size={16} aria-hidden="true" />
+              <X size={18} aria-hidden="true" />
             </RadixDialog.Close>
           </div>
           {children}

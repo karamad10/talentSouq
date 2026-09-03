@@ -1,57 +1,46 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
-import Link from "next/link";
-import { MessageThread } from "@/components/dashboard/message-thread";
-import { ArrowLink, SectionPanel } from "@/components/dashboard/section-panel";
+import { MessagesWorkspace } from "@/components/dashboard/messages-workspace";
+import { ArrowLink } from "@/components/dashboard/section-panel";
+import { MessagesSeenMarker } from "@/components/shell/messages-seen-marker";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
-import { cn } from "@/lib/cn";
+import { messagesSeenStorageKey } from "@/lib/notifications";
 
 export const metadata: Metadata = { title: "Messages" };
 
+/** `?thread=` accepts a thread id (deep links from offers) or a legacy index. */
+function resolveThreadId(thread: string | undefined) {
+  if (!thread) return undefined;
+  const byId = seekerSummary.messages.find((message) => message.id === thread);
+  if (byId) return byId.id;
+  const index = Number(thread);
+  return Number.isInteger(index) ? seekerSummary.messages[index]?.id : undefined;
+}
+
 export default async function MessagesPage({ searchParams }: { searchParams: Promise<{ thread?: string }> }) {
   const { thread } = await searchParams;
-  const activeIndex = Math.min(Math.max(Number(thread ?? 0) || 0, 0), seekerSummary.messages.length - 1);
-  const active = seekerSummary.messages[activeIndex];
 
   return (
     <>
+      <MessagesSeenMarker total={seekerSummary.messages.length} storageKey={messagesSeenStorageKey("seeker")} />
       <WorkspaceHeader
         eyebrow="Inbox"
         title="Messages"
         description="Conversations with employers and application updates."
         actionSlot={<ArrowLink href={"/seeker/notifications" as Route}>View notifications</ArrowLink>}
       />
-      <div className="grid items-start gap-4 min-[981px]:grid-cols-[minmax(0,360px)_minmax(0,1fr)]">
-        <SectionPanel title="Conversations">
-          <ul className="m-0 flex list-none flex-col p-0">
-            {seekerSummary.messages.map((message, index) => (
-              <li key={message.subject} className={index > 0 ? "border-t border-ts-line" : undefined}>
-                <Link
-                  href={`/seeker/messages?thread=${index}` as Route}
-                  aria-current={index === activeIndex ? "true" : undefined}
-                  className={cn(
-                    "flex items-center gap-3 rounded-ts-md px-2 py-2.5 transition-colors",
-                    index === activeIndex ? "bg-ts-primary-tint/60" : "hover:bg-ts-surface-2"
-                  )}
-                >
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
-                    {message.from.slice(0, 2).toUpperCase()}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <strong className="block truncate text-[13px] font-semibold text-ts-ink">{message.from}</strong>
-                    <span className="block truncate text-xs text-ts-muted">{message.subject}</span>
-                  </span>
-                  <small className="shrink-0 text-[11px] text-ts-muted">{message.time}</small>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </SectionPanel>
-        <SectionPanel title={active.from} description={active.subject}>
-          <MessageThread key={activeIndex} counterpart={active.from.split(" ")[0]} history={[{ from: "them", text: active.subject, when: active.time }]} />
-        </SectionPanel>
-      </div>
+      <MessagesWorkspace
+        storagePrefix="talentsouq:seeker:thread"
+        initialThreadId={resolveThreadId(thread)}
+        threads={seekerSummary.messages.map((message) => ({
+          id: message.id,
+          name: message.from,
+          meta: `${message.company} · ${message.role}`,
+          time: message.time,
+          history: message.history
+        }))}
+      />
     </>
   );
 }

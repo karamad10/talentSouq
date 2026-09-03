@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Bell } from "lucide-react";
+import { ArrowUpRight, BriefcaseBusiness, CalendarDays, Eye, FileCheck2, MessageSquare, Trophy } from "lucide-react";
 import Link from "next/link";
 import { ApplicationTracker } from "@/components/dashboard/application-tracker";
 import { SectionPanel } from "@/components/dashboard/section-panel";
-import { SeekerRail } from "@/components/dashboard/seeker-rail";
+import {
+  AlertsPanel,
+  MatchesPanel,
+  MessagesPanel,
+  PrioritySpotlight,
+  ProfileStrengthPanel,
+  QuickActionsPanel,
+  SearchProgressPanel
+} from "@/components/dashboard/seeker-panels";
 import { buttonVariants } from "@/components/ui/button";
 import { KpiStrip } from "@/components/ui/kpi-strip";
 import { seekerSummary } from "@/data/workspace";
@@ -25,78 +33,65 @@ export default async function SeekerDashboardPage({ searchParams }: { searchPara
         : seekerSummary.applications;
 
   return (
-    <div className="flex flex-col gap-4 min-[1180px]:h-[calc(100vh-104px)]">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="m-0 text-[22px] font-bold tracking-[-0.02em] text-ts-ink">Good morning, Sarah.</h1>
-          <p className="m-0 mt-1 text-sm text-ts-muted">
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="m-0 text-[32px] leading-[1.1] font-bold tracking-[-0.03em] text-ts-ink max-[680px]:text-[26px]">Good morning, Sarah.</h1>
+          <p className="m-0 mt-2 text-[15px] text-ts-muted">
             2 items need a reply · {freshTotal} fresh matches across your alerts.
           </p>
         </div>
-        <Link href="/seeker/jobs" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-9 rounded-ts-md px-3.5 text-[13px]")}>
-          Discover jobs
+        <Link href="/seeker/profile" className={cn(buttonVariants({ tone: "secondary", size: "sm" }), "min-h-12 rounded-ts-md px-5 text-[15px]")}>
+          Update profile
         </Link>
       </header>
 
       <KpiStrip
         items={[
-          { label: "Applications", value: seekerSummary.applications.length, href: "/seeker/applications" },
-          { label: "In progress", value: 5, href: "/seeker/applications" },
-          { label: "Interviews", value: seekerSummary.interviews, href: "/seeker/offers" },
-          { label: "Offers", value: 1, href: "/seeker/offers" },
-          { label: "Profile views", value: seekerSummary.weeklyViews, detail: "+12% this week", tone: "success", href: "/seeker/profile" },
-          { label: "Unread", value: seekerSummary.unreadMessages, href: "/seeker/messages" }
+          { label: "Applications", value: seekerSummary.applications.length, detail: `${easyApplies} easy applies`, icon: BriefcaseBusiness, href: "/seeker/applications" },
+          { label: "In progress", value: 5, detail: "across 4 companies", icon: FileCheck2, href: "/seeker/applications" },
+          { label: "Interviews", value: seekerSummary.interviews, detail: "1 needs a time", tone: "attention", icon: CalendarDays, href: "/seeker/offers" },
+          { label: "Offers", value: 1, detail: "respond by Thursday", tone: "success", icon: Trophy, href: "/seeker/offers" },
+          { label: "Profile views", value: seekerSummary.weeklyViews, detail: "+12% this week", tone: "success", icon: Eye, href: "/seeker/profile" },
+          { label: "Unread", value: seekerSummary.unreadMessages, detail: "2 need a reply", icon: MessageSquare, href: "/seeker/messages" }
         ]}
       />
 
-      <div className="grid min-h-0 flex-1 items-start gap-4 min-[1180px]:grid-cols-[minmax(0,1fr)_340px] min-[1180px]:items-stretch">
-        <div className="flex min-w-0 flex-col gap-4 min-[1180px]:min-h-0 min-[1180px]:overflow-y-auto min-[1180px]:pe-0.5">
-          <SectionPanel
-            title="Application tracker"
-            description="Every live application with its stage, match, and the next thing to do."
-            action={
-              <Link href="/seeker/applications" className="inline-flex items-center gap-1 text-[13px] font-semibold text-ts-primary">
-                Open tracker <ArrowUpRight size={13} aria-hidden="true" className="rtl:-scale-x-100" />
-              </Link>
-            }
-          >
-            <ApplicationTracker
-              rows={rows}
-              view={view}
-              counts={{ all: seekerSummary.applications.length, easy: easyApplies, external: seekerSummary.externalApplications }}
-            />
-          </SectionPanel>
+      <PrioritySpotlight />
 
-          <SectionPanel
-            title="Alerts & saved searches"
-            description="Fresh roles found since you last looked."
-            action={
-              <Link href="/seeker/saved" className="inline-flex items-center gap-1 text-[13px] font-semibold text-ts-primary">
-                Manage alerts <ArrowUpRight size={13} aria-hidden="true" className="rtl:-scale-x-100" />
-              </Link>
-            }
-          >
-            <ul className="m-0 flex list-none flex-col p-0">
-              {seekerSummary.savedSearches.map((search, index) => (
-                <li key={search.name} className={index > 0 ? "border-t border-ts-line" : undefined}>
-                  <Link href="/seeker/saved" className="group flex items-center gap-3 py-2.5">
-                    <Bell size={15} aria-hidden="true" className="shrink-0 text-ts-subtle" />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[13px] font-semibold text-ts-ink group-hover:text-ts-primary-deep">{search.name}</span>
-                      <span className="block text-xs text-ts-muted">{search.count} roles</span>
-                    </span>
-                    <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-ts-primary-tint px-2 text-xs font-bold text-ts-primary-deep">{search.trend}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </SectionPanel>
-        </div>
+      {/* One grid, two shapes: below 1560px the tracker takes the full width and
+          Messages/New matches sit side by side; above it, the tracker runs tall
+          beside them so neither column is left with dead space. */}
+      <div className="grid items-stretch gap-6 min-[900px]:grid-cols-2 min-[1560px]:grid-cols-[minmax(0,1.62fr)_minmax(0,1fr)]">
+        <SectionPanel
+          title="Application tracker"
+          description="Every live application with its stage, match, and the next thing to do."
+          className="min-w-0 min-[900px]:col-span-2 min-[1560px]:col-span-1 min-[1560px]:row-span-2"
+          bodyClassName="flex flex-col"
+          action={
+            <Link href="/seeker/applications" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+              Open tracker <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
+            </Link>
+          }
+        >
+          <ApplicationTracker
+            rows={rows}
+            view={view}
+            counts={{ all: seekerSummary.applications.length, easy: easyApplies, external: seekerSummary.externalApplications }}
+          />
+        </SectionPanel>
 
-        <div className="min-w-0 min-[1180px]:min-h-0 min-[1180px]:overflow-y-auto min-[1180px]:pe-0.5">
-          <SeekerRail />
-        </div>
+        <MessagesPanel className="min-w-0" />
+        <MatchesPanel className="min-w-0" />
       </div>
+
+      <div className="grid items-stretch gap-6 min-[900px]:grid-cols-2 min-[1280px]:grid-cols-3">
+        <AlertsPanel className="min-w-0" />
+        <SearchProgressPanel className="min-w-0" />
+        <ProfileStrengthPanel className="min-w-0 min-[900px]:col-span-2 min-[1280px]:col-span-1" />
+      </div>
+
+      <QuickActionsPanel />
     </div>
   );
 }
