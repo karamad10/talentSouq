@@ -6,7 +6,8 @@ export function Ring({
   strokeWidth = 5,
   label,
   srLabel,
-  className
+  className,
+  valueClassName
 }: {
   value: number;
   size?: number;
@@ -14,6 +15,7 @@ export function Ring({
   label?: string;
   srLabel?: string;
   className?: string;
+  valueClassName?: string;
 }) {
   const clamped = Math.max(0, Math.min(100, Math.round(value)));
   const radius = (size - strokeWidth) / 2;
@@ -39,7 +41,7 @@ export function Ring({
           strokeDasharray={`${dash} ${circumference - dash}`}
         />
       </svg>
-      <span className="absolute text-xs font-semibold text-ts-ink">{clamped}%</span>
+      <span className={cn("absolute text-xs font-semibold text-ts-ink", valueClassName)}>{clamped}%</span>
     </span>
   );
 }

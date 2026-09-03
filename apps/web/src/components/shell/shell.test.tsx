@@ -38,7 +38,7 @@ describe("command deck shell", () => {
     expect(searchInput).toHaveAttribute("name", "q");
     expect(searchInput.closest("form")).toHaveAttribute("action", "/employer/candidates");
     expect(screen.getByRole("link", { name: "Notifications" })).toHaveAttribute("href", "/employer/notifications");
-    expect(screen.getByRole("link", { name: /Messages, 5 unread/ })).toHaveAttribute("href", "/employer/messages");
+    expect(screen.getByRole("link", { name: /Messages, 3 unread/ })).toHaveAttribute("href", "/employer/messages");
   });
 
   it("routes the seeker search to the jobs page", () => {

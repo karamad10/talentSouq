@@ -29,7 +29,7 @@ export function JoinMeetingDialog({ candidate, date }: { candidate: string; date
       title={`Join interview · ${candidate}`}
       description={date}
       trigger={
-        <button type="button" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-8 rounded-ts-md px-3 text-[13px]")}>
+        <button type="button" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-10 rounded-ts-md px-4 text-[13px]")}>
           Join
         </button>
       }
@@ -41,7 +41,7 @@ export function JoinMeetingDialog({ candidate, date }: { candidate: string; date
           <button
             type="button"
             onClick={copy}
-            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-field bg-ts-surface px-2.5 text-xs font-semibold text-ts-ink transition-colors hover:bg-ts-surface-2"
+            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line bg-ts-surface px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
           >
             {copied ? <Check size={13} aria-hidden="true" className="text-ts-success" /> : <Copy size={13} aria-hidden="true" />}
             {copied ? "Copied" : "Copy link"}
@@ -72,7 +72,7 @@ export function FeedbackDisclosure({ candidate }: { candidate: string }) {
       trigger={
         <button
           type="button"
-          className="inline-flex h-8 items-center rounded-ts-md border border-ts-field bg-ts-surface px-2.5 text-[13px] font-semibold text-ts-ink transition-colors hover:bg-ts-surface-2"
+          className="inline-flex h-10 items-center rounded-ts-md border border-ts-line bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
         >
           Feedback
         </button>
@@ -84,32 +84,32 @@ export function FeedbackDisclosure({ candidate }: { candidate: string }) {
         </p>
       ) : (
         <form
-          className="flex flex-col gap-3"
+          className="flex flex-col gap-4"
           onSubmit={(event) => {
             event.preventDefault();
             setSaved(true);
           }}
         >
-          <label className="flex flex-col gap-1.5 text-xs font-semibold text-ts-muted">
+          <label className="flex flex-col gap-2 text-xs font-bold tracking-[0.06em] text-ts-muted uppercase">
             Recommendation
-            <select name="recommendation" defaultValue="Advance" className="h-9 rounded-ts-md border border-ts-field bg-ts-surface px-2 text-[13px] text-ts-ink">
+            <select name="recommendation" defaultValue="Advance" className="h-11 rounded-ts-md border border-ts-field bg-ts-surface px-3 text-sm text-ts-ink outline-none focus:border-ts-primary">
               <option>Strong advance</option>
               <option>Advance</option>
               <option>Hold</option>
               <option>Do not advance</option>
             </select>
           </label>
-          <label className="flex flex-col gap-1.5 text-xs font-semibold text-ts-muted">
+          <label className="flex flex-col gap-2 text-xs font-bold tracking-[0.06em] text-ts-muted uppercase">
             Notes
             <textarea
               name="notes"
               required
               rows={4}
               placeholder="Signals on craft, collaboration, and role fit."
-              className="w-full resize-y rounded-ts-md border border-ts-field bg-ts-surface px-3 py-2 text-[13px] leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
+              className="w-full resize-y rounded-ts-md border border-ts-field bg-ts-surface px-3.5 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
             />
           </label>
-          <button type="submit" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-9 w-fit rounded-ts-md px-4 text-[13px]")}>
+          <button type="submit" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-11 w-fit rounded-ts-md px-5 text-sm")}>
             Save feedback
           </button>
         </form>

@@ -42,7 +42,13 @@ export async function proxy(request: NextRequest) {
   const needsAuth = protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   const guardsDisabledForTests = process.env.TALENTSOUQ_DISABLE_AUTH_GUARDS === "1";
 
-  if (!guardsDisabledForTests && needsAuth && (error || !data?.claims)) {
+  // A transient error here (network blip, a concurrent refresh-token rotation racing
+  // another request) is not proof the session is invalid — only a definitive "no
+  // claims" response means the user is actually signed out. Redirecting on any error
+  // was logging users out mid-navigation whenever a refresh happened to race.
+  const isSignedOut = !data?.claims && (!error || error.status === 401 || error.status === 403);
+
+  if (!guardsDisabledForTests && needsAuth && isSignedOut) {
     const url = new URL(authRedirectPath({
       next: `${pathname}${request.nextUrl.search}`,
       error: "Log in to continue."

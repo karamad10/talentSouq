@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { CheckCircle2, Search, SlidersHorizontal } from "lucide-react";
+import { BriefcaseBusiness, CheckCircle2, ChevronDown, Clock3, FileEdit, Search, SlidersHorizontal, UsersRound, X } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
 import { AutoSubmitSelect } from "@/components/dashboard/auto-submit-select";
-import { FilterGroup, toArray, toScalar } from "@/components/dashboard/filter-group";
+import { FilterDisclosure, FilterGroup, toArray, toScalar } from "@/components/dashboard/filter-group";
 import { ResponsesTable } from "@/components/dashboard/jobs-responses-table";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { buttonVariants } from "@/components/ui/button";
 import { KpiStrip } from "@/components/ui/kpi-strip";
 import { Tabs } from "@/components/ui/tabs";
 import { WorkspaceHeader } from "@/components/workspace-ui";
-import { employerSummary, seekerSummary } from "@/data/workspace";
+import { employerSummary, workspaceFilters } from "@/data/workspace";
 import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = { title: "Employer jobs" };
@@ -25,6 +25,7 @@ type JobsSearchParams = {
   Category?: string | string[];
   Employment?: string | string[];
   "Work mode"?: string | string[];
+  Country?: string | string[];
 };
 
 export default async function EmployerJobsPage({ searchParams }: { searchParams: Promise<JobsSearchParams> }) {
@@ -37,6 +38,7 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
   const types = toArray(params.Employment);
   const modes = toArray(params["Work mode"]);
   const query = q.trim().toLowerCase();
+  const activeFilterCount = categories.length + types.length + modes.length;
 
   const rows = employerSummary.responses
     .filter((row) => status === "All" || (status === "Closed" ? false : row.status === status.replace(/s$/, "")))
@@ -45,6 +47,9 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
     .filter((row) => types.length === 0 || types.includes(row.type))
     .filter((row) => modes.length === 0 || modes.includes(row.mode))
     .sort((a, b) => (sort === "title" ? a.job.localeCompare(b.job) : sort === "responses" ? b.total - a.total : 0));
+
+  const totalApplicants = employerSummary.responses.reduce((sum, row) => sum + row.total, 0);
+  const unreviewed = employerSummary.responses.reduce((sum, row) => sum + row.fresh, 0);
 
   const keepFilters = (tab: string) => {
     const search = new URLSearchParams();
@@ -66,74 +71,104 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
         description="Create, publish, feature, pause, and measure every vacancy."
         action={{ href: "/employer/jobs/new" as Route, label: "Post a job" }}
       />
+
       {created ? (
-        <p className="mb-4 flex items-center gap-2 rounded-ts-md border border-ts-line bg-ts-success-tint px-4 py-3 text-[13px] font-semibold text-ts-success" role="status">
-          <CheckCircle2 size={15} aria-hidden="true" />
+        <p className="mb-6 flex items-center gap-2.5 rounded-ts-md border border-ts-line bg-ts-success-tint px-5 py-4 text-sm font-semibold text-ts-success" role="status">
+          <CheckCircle2 size={17} aria-hidden="true" />
           Draft created: “{created}”. It appears under Drafts once the backend is connected — this preview does not persist it.
         </p>
       ) : null}
+
       <KpiStrip
-        className="mb-4"
+        className="mb-6"
         items={[
-          { label: "Active", value: 2 },
-          { label: "Draft", value: 1 },
-          { label: "Expiring in 7 days", value: 1, detail: "Frontend Engineer", tone: "attention" },
-          { label: "Total applicants", value: 42 }
+          { label: "Active listings", value: 2, detail: "collecting responses", icon: BriefcaseBusiness },
+          { label: "Drafts", value: 1, detail: "not published yet", icon: FileEdit },
+          { label: "Expiring in 7 days", value: 1, detail: "Frontend Engineer", tone: "attention", icon: Clock3 },
+          { label: "Total applicants", value: totalApplicants, detail: `${unreviewed} still unreviewed`, icon: UsersRound, href: "/employer/pipeline" }
         ]}
       />
-      <SectionPanel
-        title="Search & filters"
-        description="Filters submit with the search, so any view is shareable by URL."
-        action={
-          <span className="inline-flex items-center gap-1.5 text-xs text-ts-muted">
-            <SlidersHorizontal size={13} aria-hidden="true" /> Same filter set as job discovery
+
+      {/* Search + folded filters, matching the seeker discovery pattern. */}
+      <form action="/employer/jobs" className="flex flex-col gap-4 rounded-ts-lg border border-ts-line bg-ts-surface p-6 max-[680px]:p-4">
+        {status !== "All" ? <input type="hidden" name="status" value={status} /> : null}
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="sr-only" htmlFor="jobs-search">
+            Search jobs by title
+          </label>
+          <div className="flex h-12 min-w-64 flex-1 items-center gap-2.5 rounded-ts-md border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary/15">
+            <Search size={17} aria-hidden="true" className="shrink-0 text-ts-muted" />
+            <input
+              id="jobs-search"
+              name="q"
+              type="search"
+              defaultValue={q}
+              placeholder="Search jobs by title"
+              className="min-w-0 flex-1 border-0 bg-transparent text-sm text-ts-ink outline-none placeholder:text-ts-muted"
+            />
+          </div>
+          <label className="sr-only" htmlFor="jobs-sort">
+            Sort jobs
+          </label>
+          <AutoSubmitSelect id="jobs-sort" name="sort" defaultValue={sort}>
+            <option value="newest">Sort: Newest first</option>
+            <option value="title">Sort: Title A–Z</option>
+            <option value="responses">Sort: Most responses</option>
+          </AutoSubmitSelect>
+          <button type="submit" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-12 rounded-ts-md px-6 text-sm")}>
+            Apply
+          </button>
+        </div>
+
+        <FilterDisclosure
+          open={activeFilterCount > 0}
+          summary={
+            <>
+              <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary">
+                <SlidersHorizontal size={17} aria-hidden="true" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-bold text-ts-ink">All filters</span>
+                <span className="block text-[13px] font-medium text-ts-muted">
+                  {activeFilterCount > 0 ? `${activeFilterCount} active · tap to adjust` : "Category, employment type, work mode and country"}
+                </span>
+              </span>
+              {activeFilterCount > 0 ? (
+                <span className="inline-flex h-7 items-center rounded-full bg-ts-primary px-3 text-[13px] font-bold text-white">{activeFilterCount}</span>
+              ) : null}
+              <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-ts-muted transition-transform group-open/filters:rotate-180" />
+            </>
+          }
+        >
+          <div className="grid gap-x-8 gap-y-6 min-[760px]:grid-cols-2 min-[1280px]:grid-cols-4">
+            <FilterGroup title="Category" values={workspaceFilters.categories} selected={categories} />
+            <FilterGroup title="Employment" values={workspaceFilters.employmentTypes} selected={types} />
+            <FilterGroup title="Work mode" values={workspaceFilters.workModes} selected={modes} />
+            <FilterGroup title="Country" values={workspaceFilters.countries} selected={toArray(params.Country)} name="Country" />
+          </div>
+        </FilterDisclosure>
+
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-[13px] text-ts-muted">
+            {activeFilterCount > 0 ? `${activeFilterCount} filter${activeFilterCount === 1 ? "" : "s"} applied` : "No filters applied yet"} · {rows.length} of{" "}
+            {employerSummary.responses.length} listings
           </span>
-        }
-      >
-        <form action="/employer/jobs" className="flex flex-col gap-3">
-          {status !== "All" ? <input type="hidden" name="status" value={status} /> : null}
-          <div className="flex flex-wrap items-center gap-2">
-            <label className="sr-only" htmlFor="jobs-search">
-              Search jobs by title
-            </label>
-            <div className="flex h-9 min-w-56 flex-1 items-center gap-2 rounded-ts-md border border-ts-field bg-ts-surface px-3 transition-colors focus-within:border-ts-primary">
-              <Search size={15} aria-hidden="true" className="shrink-0 text-ts-muted" />
-              <input
-                id="jobs-search"
-                name="q"
-                type="search"
-                defaultValue={q}
-                placeholder="Search jobs by title"
-                className="min-w-0 flex-1 border-0 bg-transparent text-[13px] text-ts-ink outline-none placeholder:text-ts-muted"
-              />
-            </div>
-            <label className="sr-only" htmlFor="jobs-sort">
-              Sort jobs
-            </label>
-            <AutoSubmitSelect id="jobs-sort" name="sort" defaultValue={sort}>
-              <option value="newest">Sort: Newest first</option>
-              <option value="title">Sort: Title A–Z</option>
-              <option value="responses">Sort: Most responses</option>
-            </AutoSubmitSelect>
-            <button type="submit" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-9 rounded-ts-md px-4 text-[13px]")}>
-              Apply
-            </button>
-            <Link href="/employer/jobs" className="text-[13px] font-semibold text-ts-muted transition-colors hover:text-ts-ink">
-              Clear all
+          {activeFilterCount > 0 || query ? (
+            <Link
+              href="/employer/jobs"
+              className="inline-flex h-10 items-center gap-1.5 rounded-ts-md px-3 text-[13px] font-semibold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink"
+            >
+              <X size={14} aria-hidden="true" /> Clear all
             </Link>
-          </div>
-          <div className="grid grid-cols-4 gap-4 border-t border-ts-line pt-3 max-[981px]:grid-cols-2 max-[680px]:grid-cols-1">
-            <FilterGroup title="Category" values={seekerSummary.filters.categories} selected={categories} />
-            <FilterGroup title="Employment" values={seekerSummary.filters.employmentTypes} selected={types} />
-            <FilterGroup title="Work mode" values={seekerSummary.filters.workModes} selected={modes} />
-            <FilterGroup title="Posted" values={seekerSummary.filters.postedWithin} selected={[]} />
-          </div>
-        </form>
-      </SectionPanel>
+          ) : null}
+        </div>
+      </form>
+
       <SectionPanel
-        className="mt-4"
+        className="mt-6"
         title="All listings"
         description="Response volume, review progress, and per-row actions for every listing."
+        bodyClassName="flex flex-col gap-4"
         action={<Tabs ariaLabel="Filter jobs by status" items={statusTabs.map((tab) => ({ label: tab, href: keepFilters(tab), current: status === tab }))} />}
       >
         <ResponsesTable rows={rows} />

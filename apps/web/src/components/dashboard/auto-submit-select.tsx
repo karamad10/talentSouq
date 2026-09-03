@@ -8,7 +8,7 @@ export function AutoSubmitSelect({ className, ...props }: SelectHTMLAttributes<H
   return (
     <select
       {...props}
-      className={cn("h-9 rounded-ts-md border border-ts-field bg-ts-surface px-2 text-[13px] text-ts-ink", className)}
+      className={cn("h-12 rounded-ts-md border border-ts-field bg-ts-surface px-3 text-sm font-medium text-ts-ink outline-none transition-colors focus:border-ts-primary", className)}
       onChange={(event) => {
         props.onChange?.(event);
         event.currentTarget.form?.requestSubmit();

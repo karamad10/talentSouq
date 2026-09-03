@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
@@ -8,18 +9,27 @@ export type KpiItem = {
   value: string | number;
   detail?: string;
   tone?: "default" | "success" | "attention";
+  icon?: LucideIcon;
   href?: Route;
 };
 
-function KpiCell({ item, first }: { item: KpiItem; first: boolean }) {
+function KpiCell({ item }: { item: KpiItem }) {
+  const Icon = item.icon;
   const body = (
     <>
-      <span className="text-xs font-semibold text-ts-muted">{item.label}</span>
-      <strong className="text-2xl leading-7 font-bold tracking-[-0.02em] text-ts-ink">{item.value}</strong>
+      <span className="flex items-center gap-2.5">
+        {Icon ? (
+          <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary">
+            <Icon size={17} />
+          </span>
+        ) : null}
+        <span className="min-w-0 truncate text-[13px] font-semibold text-ts-muted">{item.label}</span>
+      </span>
+      <strong className="text-[34px] leading-[1.1] font-bold tracking-[-0.03em] text-ts-ink">{item.value}</strong>
       {item.detail ? (
         <small
           className={cn(
-            "text-xs font-semibold",
+            "text-[13px] font-semibold",
             item.tone === "success" ? "text-ts-success" : item.tone === "attention" ? "text-ts-accent-deep" : "text-ts-muted"
           )}
         >
@@ -28,10 +38,10 @@ function KpiCell({ item, first }: { item: KpiItem; first: boolean }) {
       ) : null}
     </>
   );
-  const cellClass = cn("flex min-w-0 flex-col gap-1.5 px-5 py-4", !first && "border-s border-ts-line");
+  const cellClass = "flex min-w-0 flex-col justify-start gap-2 bg-ts-surface px-6 py-5 max-[680px]:px-4 max-[680px]:py-4";
   if (item.href) {
     return (
-      <Link href={item.href} className={cn(cellClass, "transition-colors hover:bg-ts-surface-2/60")}>
+      <Link href={item.href} className={cn(cellClass, "transition-colors hover:bg-ts-primary-tint/40")}>
         {body}
       </Link>
     );
@@ -44,13 +54,14 @@ export function KpiStrip({ items, className }: { items: KpiItem[]; className?: s
     <section
       aria-label="Key metrics"
       className={cn(
-        "grid grid-cols-[repeat(var(--kpi-cols),minmax(0,1fr))] overflow-hidden rounded-ts-lg border border-ts-line bg-ts-surface max-[680px]:grid-cols-2",
+        "grid grid-cols-[repeat(var(--kpi-cols),minmax(0,1fr))] gap-px overflow-hidden rounded-ts-lg border border-ts-line bg-ts-line",
+        "max-[1320px]:grid-cols-3 max-[680px]:grid-cols-2",
         className
       )}
       style={{ "--kpi-cols": items.length } as CSSProperties}
     >
-      {items.map((item, index) => (
-        <KpiCell key={item.label} item={item} first={index === 0} />
+      {items.map((item) => (
+        <KpiCell key={item.label} item={item} />
       ))}
     </section>
   );

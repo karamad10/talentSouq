@@ -71,7 +71,7 @@
   --paper: #fbfaf6;
   --surface: #ffffff;
   --surface-soft: #f1f4f1;
-  --line: #dce3df;
+  --line: #c2ccc7;
   --teal: #087f78;
   --teal-dark: #05645f;
   --teal-pale: #dcefeb;
@@ -97,8 +97,8 @@
   --ts-ink: #0B1B23;
   --ts-muted: #5C6B73;
   --ts-subtle: #626D74;
-  --ts-line: #E7EBED;
-  --ts-field-border: #7E8A90;
+  --ts-line: #C7D0D4;
+  --ts-field-border: #6B7880;
   --ts-primary: #0E6E63;
   --ts-primary-deep: #0B5A51;
   --ts-primary-tint: #E6F2F0;
@@ -150,7 +150,7 @@
   --paper: #0D1315;
   --surface: #151D20;
   --surface-soft: #1B2427;
-  --line: #232D31;
+  --line: #37444A;
   --teal: #2FA192;
   --teal-dark: #45B3A3;
   --teal-pale: #162B29;
@@ -165,8 +165,8 @@
   --ts-ink: #E8EDEE;
   --ts-muted: #93A1A6;
   --ts-subtle: #828F94;
-  --ts-line: #232D31;
-  --ts-field-border: #6E7C81;
+  --ts-line: #37444A;
+  --ts-field-border: #4E5D64;
   --ts-primary: #2FA192;
   --ts-primary-deep: #45B3A3;
   --ts-primary-tint: #162B29;
