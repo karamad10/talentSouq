@@ -5,7 +5,7 @@ import { CompanionRun } from "@/components/dashboard/companion-run";
 import { salaryLabel } from "@/components/dashboard/job-list";
 import { EditableChips, EditableField, EditableToggle } from "@/components/dashboard/profile-editing";
 import { SectionPanel } from "@/components/dashboard/section-panel";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { jobs, type Job } from "@/data/jobs";
 import { seekerSummary } from "@/data/workspace";
@@ -76,7 +76,7 @@ export default function CompanionPage() {
         actionSlot={
           <Link
             href="/seeker/jobs"
-            className="inline-flex h-12 items-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-5 text-[15px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+            className="inline-flex h-12 items-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface px-5 text-[15px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
           >
             Open job search <ArrowUpRight size={16} aria-hidden="true" className="rtl:-scale-x-100" />
           </Link>
@@ -91,7 +91,7 @@ export default function CompanionPage() {
         topScore={picks[0]?.matchScore ?? 0}
       />
 
-      <KpiStrip
+      <MetricCards
         className="mt-6"
         items={[
           { label: "Average fit", value: `${averageMatch}%`, detail: "top eight roles", tone: "success", icon: Gauge },
@@ -114,7 +114,7 @@ export default function CompanionPage() {
         >
           <ul className="m-0 flex list-none flex-col p-0">
             {picks.map((job, index) => (
-              <li key={job.id} className={index > 0 ? "border-t border-ts-line" : undefined}>
+              <li key={job.id} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
                 <div className="group relative flex flex-col gap-3 px-6 py-5 transition-colors hover:bg-ts-primary-tint/30 max-[680px]:px-4">
                   <div className="flex items-center gap-4">
                     <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
@@ -189,7 +189,7 @@ export default function CompanionPage() {
         <SectionPanel title="Worth adding" description="Asked for in your strongest matches, missing from your profile." bodyClassName="flex flex-col gap-4">
           <ul className="m-0 flex flex-1 list-none flex-col gap-2.5 p-0">
             {gaps.map((row) => (
-              <li key={row.skill} className="flex items-center gap-3 rounded-ts-md border border-ts-line bg-ts-surface-2/50 px-4 py-3">
+              <li key={row.skill} className="flex items-center gap-3 rounded-ts-md border border-ts-line-soft bg-ts-surface-2/50 px-4 py-3">
                 <span className="min-w-0 flex-1 text-sm font-semibold text-ts-ink">{row.skill}</span>
                 <span className="shrink-0 text-[13px] text-ts-muted">{row.count} roles</span>
               </li>
@@ -197,7 +197,7 @@ export default function CompanionPage() {
           </ul>
           <Link
             href="/seeker/profile"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
           >
             Add these to your profile
           </Link>
@@ -206,7 +206,7 @@ export default function CompanionPage() {
         <SectionPanel title="Companion activity" description="What it did, and why your results changed." bodyClassName="p-0">
           <ol className="m-0 flex list-none flex-col p-0">
             {activity.map((entry, index) => (
-              <li key={entry.title} className={index > 0 ? "border-t border-ts-line" : undefined}>
+              <li key={entry.title} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
                 <div className="flex items-start gap-3.5 px-6 py-4 max-[680px]:px-4">
                   <span aria-hidden="true" className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary">
                     <Sparkles size={15} />

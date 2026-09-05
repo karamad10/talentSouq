@@ -41,7 +41,7 @@ export function JoinMeetingDialog({ candidate, date }: { candidate: string; date
           <button
             type="button"
             onClick={copy}
-            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line bg-ts-surface px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
+            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line-soft bg-ts-surface px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
           >
             {copied ? <Check size={13} aria-hidden="true" className="text-ts-success" /> : <Copy size={13} aria-hidden="true" />}
             {copied ? "Copied" : "Copy link"}
@@ -72,7 +72,7 @@ export function FeedbackDisclosure({ candidate }: { candidate: string }) {
       trigger={
         <button
           type="button"
-          className="inline-flex h-10 items-center rounded-ts-md border border-ts-line bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
+          className="inline-flex h-10 items-center rounded-ts-md border border-ts-line-soft bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
         >
           Feedback
         </button>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { EditableChips, EditableField, EditableList, EditableToggle } from "@/components/dashboard/profile-editing";
 import { CvManager } from "@/components/interaction-ui";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { Ring } from "@/components/ui/ring";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
@@ -33,7 +33,7 @@ export default function SeekerProfilePage() {
       />
 
       {/* Identity card: the four things a recruiter reads first, all editable. */}
-      <section className="flex flex-wrap items-center gap-6 rounded-ts-lg border border-ts-line bg-ts-surface p-6 max-[680px]:p-4">
+      <section className="flex flex-wrap items-center gap-6 rounded-ts-lg border border-ts-line-soft bg-ts-surface p-6 max-[680px]:p-4">
         <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-2xl font-bold text-ts-primary-deep">
           <UserRound size={34} />
         </span>
@@ -66,7 +66,7 @@ export default function SeekerProfilePage() {
         </div>
       </section>
 
-      <KpiStrip
+      <MetricCards
         className="mt-6"
         items={[
           { label: "Profile views", value: seekerSummary.weeklyViews, detail: "+12% this week", tone: "success", icon: Eye },

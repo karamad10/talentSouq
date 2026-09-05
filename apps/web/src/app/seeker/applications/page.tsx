@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Route } from "next";
 import { ApplicationsTable } from "@/components/dashboard/application-tracker";
 import { SectionPanel } from "@/components/dashboard/section-panel";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { Tabs } from "@/components/ui/tabs";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
@@ -31,7 +31,7 @@ export default async function ApplicationsPage({ searchParams }: { searchParams:
   return (
     <>
       <WorkspaceHeader eyebrow="Tracking" title="Applications" description="Track Easy Apply, external applications, employer activity, and next steps." />
-      <KpiStrip
+      <MetricCards
         className="mb-4"
         items={seekerSummary.applicationViews.map((item) => ({ label: item.label, value: item.count }))}
       />

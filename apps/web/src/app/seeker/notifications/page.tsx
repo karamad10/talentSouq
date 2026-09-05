@@ -3,7 +3,7 @@ import { BellRing, MessageSquare, Search, Settings2 } from "lucide-react";
 import { NotificationList } from "@/components/dashboard/notification-list";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { ToggleActionButton } from "@/components/interaction-ui";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { seenStorageKey } from "@/lib/notifications";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
@@ -31,7 +31,7 @@ export default function SeekerNotificationsPage() {
         title="Notifications"
         description="Everything that moved on your search — applications, messages, alerts, and profile activity, newest first."
       />
-      <KpiStrip
+      <MetricCards
         className="mb-6"
         items={[
           { label: "New today", value: today, detail: "since yesterday", icon: BellRing },
@@ -49,7 +49,7 @@ export default function SeekerNotificationsPage() {
       >
         <ul className="m-0 flex list-none flex-col p-0">
           {channels.map((channel, index) => (
-            <li key={channel.key} className={index > 0 ? "border-t border-ts-line" : undefined}>
+            <li key={channel.key} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
               <div className="flex flex-wrap items-center gap-4 px-6 py-4 max-[680px]:px-4">
                 <span className="min-w-0 flex-1">
                   <span className="block text-[15px] font-bold text-ts-ink">{channel.name}</span>

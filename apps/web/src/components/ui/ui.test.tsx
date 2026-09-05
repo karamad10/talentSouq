@@ -8,7 +8,7 @@ import {
   Field,
   FunnelBars,
   IconButton,
-  KpiStrip,
+  MetricCards,
   MeterBar,
   ProgressBar,
   Ring,
@@ -151,7 +151,7 @@ describe("command deck primitives", () => {
   // non-portal primitives.
   it("renders kpi values, with links when an href is given", () => {
     render(
-      <KpiStrip
+      <MetricCards
         items={[
           { label: "Open roles", value: 5, href: "/employer/jobs" as Route },
           { label: "Credits", value: 168 }

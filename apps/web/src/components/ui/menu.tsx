@@ -15,7 +15,7 @@ export function MenuContent({ className, children, ...props }: ComponentProps<ty
       <DropdownMenu.Content
         align="end"
         sideOffset={6}
-        className={cn("z-50 min-w-44 rounded-ts-md border border-ts-line bg-ts-surface p-1 text-ts-ink shadow-lg", className)}
+        className={cn("z-50 min-w-44 rounded-ts-md border border-ts-line-soft bg-ts-surface p-1 text-ts-ink shadow-lg", className)}
         {...props}
       >
         {children}

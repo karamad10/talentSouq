@@ -132,7 +132,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
       />
 
       {/* Search + folded filters. A plain GET form keeps every result shareable by URL. */}
-      <form action="/seeker/jobs" className="flex flex-col gap-4 rounded-ts-lg border border-ts-line bg-ts-surface p-6 max-[680px]:p-4">
+      <form action="/seeker/jobs" className="flex flex-col gap-4 rounded-ts-lg border border-ts-line-soft bg-ts-surface p-6 max-[680px]:p-4">
         <div className="flex flex-wrap items-center gap-3">
           <label className="sr-only" htmlFor="seeker-jobs-q">
             Job title, company, or skill
@@ -200,7 +200,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
             <FilterGroup title="Company size" values={jobFacet("companySize")} selected={selected.sizes} name="Size" />
           </div>
 
-          <div className="mt-6 grid gap-4 border-t border-ts-line pt-6 min-[760px]:grid-cols-2 min-[1280px]:grid-cols-4">
+          <div className="mt-6 grid gap-4 border-t border-ts-line-soft pt-6 min-[760px]:grid-cols-2 min-[1280px]:grid-cols-4">
             <FilterSelect label="Sort by" name="sort" value={sort} options={SORTS} />
             <FilterSelect label="Minimum match" name="match" value={String(matchFloor)} options={MATCH_FLOORS} />
             <FilterSwitch label="Easy apply only" name="easy" description="Apply with your TalentSouq profile" checked={easyOnly} />
@@ -265,7 +265,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
             </span>
             <Link
               href="/seeker/jobs"
-              className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+              className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line-soft bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
             >
               Clear filters
             </Link>

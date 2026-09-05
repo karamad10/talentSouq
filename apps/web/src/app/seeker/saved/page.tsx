@@ -3,7 +3,7 @@ import { Bell, Bookmark, Search } from "lucide-react";
 import { JobRows } from "@/components/dashboard/job-list";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { ToggleActionButton } from "@/components/interaction-ui";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
 import { cn } from "@/lib/cn";
@@ -22,7 +22,7 @@ export default function SavedPage() {
         description="Return to bookmarked roles and manage the searches that notify you about new matches."
       />
 
-      <KpiStrip
+      <MetricCards
         className="mb-6"
         items={[
           { label: "Saved jobs", value: seekerSummary.savedJobs, detail: "bookmarked roles", icon: Bookmark },
@@ -35,7 +35,7 @@ export default function SavedPage() {
       <SectionPanel title="Saved searches" description="Alert frequency and fresh-result counts." bodyClassName="p-0">
         <ul className="m-0 flex list-none flex-col p-0">
           {seekerSummary.savedSearches.map((item, index) => (
-            <li key={item.name} className={cn("flex", index > 0 && "border-t border-ts-line")}>
+            <li key={item.name} className={cn("flex", index > 0 && "border-t border-ts-line-soft")}>
               <div className="flex w-full flex-wrap items-center gap-4 px-6 py-4 max-[680px]:px-4">
                 <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-slate-tint text-ts-subtle">
                   <Bell size={18} />

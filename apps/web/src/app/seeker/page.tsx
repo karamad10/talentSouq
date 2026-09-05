@@ -13,7 +13,7 @@ import {
   SearchProgressPanel
 } from "@/components/dashboard/seeker-panels";
 import { buttonVariants } from "@/components/ui/button";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { seekerSummary } from "@/data/workspace";
 import { cn } from "@/lib/cn";
 
@@ -46,7 +46,7 @@ export default async function SeekerDashboardPage({ searchParams }: { searchPara
         </Link>
       </header>
 
-      <KpiStrip
+      <MetricCards
         items={[
           { label: "Applications", value: seekerSummary.applications.length, detail: `${easyApplies} easy applies`, icon: BriefcaseBusiness, href: "/seeker/applications" },
           { label: "In progress", value: 5, detail: "across 4 companies", icon: FileCheck2, href: "/seeker/applications" },

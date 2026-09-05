@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 
 export function ErrorState({ title, description, retry, className }: { title: string; description?: string; retry?: ReactNode; className?: string }) {
   return (
-    <div role="alert" className={cn("flex flex-col items-center gap-2 rounded-ts-lg border border-ts-line bg-ts-surface px-6 py-8 text-center", className)}>
+    <div role="alert" className={cn("flex flex-col items-center gap-2 rounded-ts-lg border border-ts-line-soft bg-ts-surface px-6 py-8 text-center", className)}>
       <span className="grid size-9 place-items-center rounded-full bg-ts-danger-tint text-ts-danger">
         <CircleAlert size={18} aria-hidden="true" />
       </span>

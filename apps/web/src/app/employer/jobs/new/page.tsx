@@ -24,7 +24,7 @@ export default function NewJobPage() {
         actionSlot={
           <Link
             href={"/employer/jobs" as Route}
-            className="inline-flex h-12 items-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-5 text-[15px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+            className="inline-flex h-12 items-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface px-5 text-[15px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
           >
             <ArrowLeft size={16} aria-hidden="true" className="rtl:-scale-x-100" /> Back to jobs
           </Link>
@@ -108,7 +108,7 @@ export default function NewJobPage() {
               Preview environment: submitting creates a local draft confirmation. Publishing, featured listings, and plan limits (Free: 2 active jobs)
               connect with the production backend.
             </p>
-            <div className="flex items-center gap-3 border-t border-ts-line pt-5">
+            <div className="flex items-center gap-3 border-t border-ts-line-soft pt-5">
               <button type="submit" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-12 rounded-ts-md px-6 text-sm")}>
                 Create draft
               </button>

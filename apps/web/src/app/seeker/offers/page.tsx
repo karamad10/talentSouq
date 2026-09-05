@@ -4,7 +4,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { OfferDetailsDialog } from "@/components/dashboard/offer-details-dialog";
 import { SectionPanel } from "@/components/dashboard/section-panel";
-import { KpiStrip } from "@/components/ui/kpi-strip";
+import { MetricCards } from "@/components/ui/metric-cards";
 import { StatusPill } from "@/components/ui/status-pill";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { seekerSummary } from "@/data/workspace";
@@ -36,7 +36,7 @@ export default function OffersPage() {
   return (
     <>
       <WorkspaceHeader eyebrow="Progress" title="Offers & interviews" description="Prepare for conversations, track schedules, and compare final packages." />
-      <KpiStrip
+      <MetricCards
         className="mb-6"
         items={[
           { label: "Upcoming interviews", value: interviews.length, detail: "next one tomorrow", icon: CalendarDays, href: "/seeker/offers" },
@@ -49,7 +49,7 @@ export default function OffersPage() {
       <SectionPanel title="Current opportunities" description="Interview and offer stages, separated from the full application list.">
         <div className="grid gap-4 min-[981px]:grid-cols-2">
           {seekerSummary.offers.map((offer) => (
-            <article key={offer.id} className="flex flex-col gap-3 rounded-ts-md border border-ts-line bg-ts-surface p-5">
+            <article key={offer.id} className="flex flex-col gap-3 rounded-ts-md border border-ts-line-soft bg-ts-surface p-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="m-0 text-[17px] font-bold text-ts-ink">{offer.role}</h3>
@@ -75,14 +75,14 @@ export default function OffersPage() {
                 </div>
               </dl>
 
-              <footer className="mt-auto flex flex-wrap items-center gap-3 border-t border-ts-line pt-4">
+              <footer className="mt-auto flex flex-wrap items-center gap-3 border-t border-ts-line-soft pt-4">
                 <OfferDetailsDialog
                   offer={offer}
                   triggerClassName="inline-flex h-11 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-white transition-opacity hover:opacity-90"
                 />
                 <Link
                   href={`/seeker/messages?thread=${offer.threadId}` as Route}
-                  className="inline-flex h-11 items-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+                  className="inline-flex h-11 items-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
                 >
                   <MessageSquare size={15} aria-hidden="true" /> Message employer
                 </Link>
@@ -100,7 +100,7 @@ export default function OffersPage() {
       >
         <ul className="m-0 flex list-none flex-col p-0">
           {interviews.map((interview, index) => (
-            <li key={interview.company} className={index > 0 ? "border-t border-ts-line" : undefined}>
+            <li key={interview.company} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
               <div className="flex flex-wrap items-center gap-4 px-6 py-5 max-[680px]:px-4">
                 <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
                   <Video size={19} />
@@ -121,7 +121,7 @@ export default function OffersPage() {
                 </div>
                 <Link
                   href={`/seeker/messages?thread=${interview.threadId}` as Route}
-                  className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+                  className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-ts-md border border-ts-line-soft bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
                 >
                   {interview.action}
                 </Link>
@@ -138,7 +138,7 @@ export default function OffersPage() {
             { title: "Design systems story", detail: "Have adoption numbers ready: teams onboarded, components shipped." },
             { title: "Questions to ask", detail: "Team shape, design maturity, and how success is measured in the first 90 days." }
           ].map((card) => (
-            <li key={card.title} className="rounded-ts-md border border-ts-line bg-ts-surface-2/50 p-4">
+            <li key={card.title} className="rounded-ts-md border border-ts-line-soft bg-ts-surface-2/50 p-4">
               <strong className="block text-sm font-bold text-ts-ink">{card.title}</strong>
               <p className="m-0 mt-1.5 text-[13px] leading-relaxed text-ts-muted">{card.detail}</p>
             </li>

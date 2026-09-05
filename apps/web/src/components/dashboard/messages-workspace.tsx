@@ -121,7 +121,7 @@ export function MessagesWorkspace({
       <SectionPanel title="Conversations" description={`${rows.length} threads`} bodyClassName="flex flex-col p-0">
         <ul className="m-0 flex flex-1 list-none flex-col p-0">
           {rows.map((row, index) => (
-            <li key={row.id} className={cn("flex", index > 0 && "border-t border-ts-line")}>
+            <li key={row.id} className={cn("flex", index > 0 && "border-t border-ts-line-soft")}>
               <button
                 type="button"
                 onClick={() => setActiveId(row.id)}
@@ -183,7 +183,7 @@ export function MessagesWorkspace({
             data-pending="true" (globals.css then shows "Working…" and disables the submit
             button). This form never does a network submission, so that flag would never
             be cleared and the send button would lock up after the first message. */}
-        <form onSubmit={send} data-no-pending className="flex items-end gap-3 border-t border-ts-line pt-4">
+        <form onSubmit={send} data-no-pending className="flex items-end gap-3 border-t border-ts-line-soft pt-4">
           <label className="sr-only" htmlFor="thread-composer">
             Reply to {active.name}
           </label>
@@ -201,7 +201,7 @@ export function MessagesWorkspace({
               }
             }}
           />
-          <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md border border-ts-line text-ts-muted">
+          <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md border border-ts-line-soft text-ts-muted">
             <Paperclip size={17} />
           </span>
           <button

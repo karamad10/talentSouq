@@ -56,7 +56,7 @@ const parseList = (raw: string): string[] => {
 const inputClass =
   "w-full rounded-ts-md border border-ts-field bg-ts-surface px-3.5 py-2.5 text-sm leading-relaxed text-ts-ink outline-none transition-colors focus:border-ts-primary";
 const saveClass = "inline-flex h-9 items-center gap-1.5 rounded-ts-md bg-ts-primary px-3.5 text-[13px] font-bold text-white transition-opacity hover:opacity-90";
-const cancelClass = "inline-flex h-9 items-center gap-1.5 rounded-ts-md border border-ts-line px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2";
+const cancelClass = "inline-flex h-9 items-center gap-1.5 rounded-ts-md border border-ts-line-soft px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2";
 const editClass = "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-ts-md px-2.5 text-[13px] font-bold text-ts-primary transition-colors hover:bg-ts-primary-tint";
 
 /** A labelled value that turns into an input (or textarea, or select) in place. */
@@ -128,7 +128,9 @@ export function EditableField({
     <div className={cn("group/field flex gap-3", layout === "inline" ? "items-center" : "flex-col")}>
       <div className="min-w-0 flex-1">
         <span className="block text-xs font-bold tracking-[0.06em] text-ts-muted uppercase">{label}</span>
-        <p className={cn("m-0 mt-1.5 text-sm leading-relaxed font-semibold text-ts-ink", valueClassName)}>{value}</p>
+        {/* Emails and URLs have no spaces to break on, so without this they
+            run straight out of a narrow column and over the next one. */}
+        <p className={cn("m-0 mt-1.5 text-sm leading-relaxed font-semibold break-words text-ts-ink", valueClassName)}>{value}</p>
       </div>
       <button type="button" onClick={start} className={cn(editClass, layout === "stacked" && "self-start")} aria-label={`Edit ${label.toLowerCase()}`}>
         <Pencil size={14} aria-hidden="true" /> Edit
@@ -191,7 +193,7 @@ export function EditableList({
     <div className="flex flex-col gap-2.5">
       <ul className="m-0 flex list-none flex-col gap-2 p-0">
         {items.map((item, index) => (
-          <li key={`${item}-${index}`} className="rounded-ts-md border border-ts-line bg-ts-surface-2/40 px-4 py-3">
+          <li key={`${item}-${index}`} className="rounded-ts-md border border-ts-line-soft bg-ts-surface-2/40 px-4 py-3">
             {editingIndex === index ? (
               <div className="flex flex-col gap-2.5">
                 <input autoFocus value={draft} onChange={(event) => setDraft(event.target.value)} className={inputClass} />
@@ -260,7 +262,7 @@ export function EditableList({
             setAdding(true);
             setEditingIndex(null);
           }}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-ts-md border border-dashed border-ts-line text-[13px] font-bold text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-ts-md border border-dashed border-ts-line-soft text-[13px] font-bold text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
         >
           <Plus size={15} aria-hidden="true" /> {addLabel}
         </button>
@@ -330,7 +332,7 @@ export function EditableChips({ storageKey, defaultItems, addLabel }: { storageK
         <button
           type="button"
           onClick={() => setAdding(true)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-full border border-dashed border-ts-line px-3.5 text-[13px] font-bold text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+          className="inline-flex h-9 items-center gap-1.5 rounded-full border border-dashed border-ts-line-soft px-3.5 text-[13px] font-bold text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
         >
           <Plus size={14} aria-hidden="true" /> {addLabel}
         </button>
@@ -345,7 +347,7 @@ export function EditableToggle({ label, description, storageKey, defaultOn = tru
   const on = value === "on";
 
   return (
-    <div className="flex items-center gap-4 rounded-ts-md border border-ts-line bg-ts-surface p-4">
+    <div className="flex items-center gap-4 rounded-ts-md border border-ts-line-soft bg-ts-surface p-4">
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-bold text-ts-ink">{label}</span>
         <span className="block text-[13px] text-ts-muted">{description}</span>

@@ -80,7 +80,7 @@ export function AssessmentLibrary({ initial }: { initial: AssessmentRow[] }) {
     >
       <ul className="m-0 flex list-none flex-col p-0">
         {rows.map((item, index) => (
-          <li key={item.name} className={index > 0 ? "border-t border-ts-line" : undefined}>
+          <li key={item.name} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
             <div className="flex flex-wrap items-center gap-4 px-6 py-4 max-[680px]:px-4">
               <div className="min-w-50 flex-1">
                 <strong className="flex items-center gap-2 text-[15px] font-bold text-ts-ink">

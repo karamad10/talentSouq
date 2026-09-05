@@ -31,7 +31,7 @@ function MatchPill({ score }: { score: number }) {
  */
 export function JobRow({ job }: { job: Job }) {
   return (
-    <li className="border-t border-ts-line first:border-t-0">
+    <li className="border-t border-ts-line-soft first:border-t-0">
       <div className="group relative flex items-center gap-4 px-6 py-4 transition-colors hover:bg-ts-primary-tint/30 max-[680px]:flex-wrap max-[680px]:px-4">
         <span
           aria-hidden="true"
@@ -81,12 +81,12 @@ export function JobRow({ job }: { job: Job }) {
             storageKey={`talentsouq:job:${job.id}:saved`}
             label={job.title}
             size={17}
-            className="grid size-10 place-items-center rounded-full border border-ts-line text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep aria-pressed:border-ts-primary aria-pressed:bg-ts-primary-tint aria-pressed:text-ts-primary-deep"
+            className="grid size-10 place-items-center rounded-full border border-ts-line-soft text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep aria-pressed:border-ts-primary aria-pressed:bg-ts-primary-tint aria-pressed:text-ts-primary-deep"
           />
           <Link
             href={`/jobs/${job.id}`}
             aria-label={`View ${job.title}`}
-            className="grid size-10 place-items-center rounded-full border border-ts-line text-ts-muted transition-colors hover:border-ts-primary hover:bg-ts-primary-tint hover:text-ts-primary-deep"
+            className="grid size-10 place-items-center rounded-full border border-ts-line-soft text-ts-muted transition-colors hover:border-ts-primary hover:bg-ts-primary-tint hover:text-ts-primary-deep"
           >
             <ArrowUpRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
           </Link>
@@ -112,7 +112,7 @@ export function JobStrip({ jobs: rows }: { jobs: Job[] }) {
     <ul className="m-0 flex snap-x snap-mandatory list-none gap-4 overflow-x-auto p-0 pb-1">
       {rows.map((job) => (
         <li key={job.id} className="min-w-70 flex-1 snap-start">
-          <article className="group relative flex h-full flex-col gap-3 rounded-ts-md border border-ts-line bg-ts-surface p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/30">
+          <article className="group relative flex h-full flex-col gap-3 rounded-ts-md border border-ts-line-soft bg-ts-surface p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/30">
             <div className="flex items-start justify-between gap-3">
               <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
                 {job.initials}
@@ -127,7 +127,7 @@ export function JobStrip({ jobs: rows }: { jobs: Job[] }) {
                 {job.company} · {job.location}
               </p>
             </div>
-            <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-ts-line pt-3 text-xs font-semibold text-ts-muted">
+            <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-ts-line-soft pt-3 text-xs font-semibold text-ts-muted">
               <span>{salaryLabel(job)}</span>
               <span aria-hidden="true">·</span>
               <span>{job.mode}</span>

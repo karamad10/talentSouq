@@ -55,7 +55,7 @@ function TrackerSummary({ rows }: { rows: ApplicationRow[] }) {
   const awaitingYou = rows.filter((row) => row.stage === "Interview" || row.stage === "Offer").length;
 
   return (
-    <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-ts-line pt-4">
+    <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-ts-line-soft pt-4">
       <dl className="m-0 flex flex-wrap items-center gap-x-6 gap-y-2">
         <div className="flex items-baseline gap-2">
           <dt className="text-[13px] text-ts-muted">Average match</dt>
@@ -96,7 +96,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
               <col className="w-[13%]" />
             </colgroup>
             <thead>
-              <tr className="border-b border-ts-line">
+              <tr className="border-b border-ts-line-soft">
                 <th scope="col" className="pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Company &amp; role</th>
                 <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Stage</th>
                 <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Match</th>
@@ -108,7 +108,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
               {rows.map((row) => {
                 const needsAction = row.stage === "Interview";
                 return (
-                  <tr key={`${row.company}-${row.role}`} className={cn("border-b border-ts-line last:border-b-0", needsAction && "bg-ts-primary-tint/40")}>
+                  <tr key={`${row.company}-${row.role}`} className={cn("border-b border-ts-line-soft last:border-b-0", needsAction && "bg-ts-primary-tint/40")}>
                     <td className="py-4 pe-4">
                       <span className="flex items-center gap-3.5">
                         <span

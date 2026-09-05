@@ -27,7 +27,7 @@ export function Drawer({
         <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40" />
         <Dialog.Content
           className={cn(
-            "fixed inset-y-0 start-0 z-50 flex w-72 flex-col overflow-y-auto border-e border-ts-line bg-ts-surface p-4 shadow-lg outline-none",
+            "fixed inset-y-0 start-0 z-50 flex w-72 flex-col overflow-y-auto border-e border-ts-line-soft bg-ts-surface p-4 shadow-lg outline-none",
             className
           )}
         >

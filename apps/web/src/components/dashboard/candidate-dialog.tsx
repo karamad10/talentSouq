@@ -5,20 +5,13 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import { PreviewActionButton } from "@/components/interaction-ui";
-import { Avatar } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { StatusPill } from "@/components/ui/status-pill";
+import { PersonAvatar } from "@/components/workspace-ui";
 import { cn } from "@/lib/cn";
 
 export type DialogCandidate = { name: string; role: string; stage: string; score: number };
-
-function initialsOf(name: string) {
-  return name
-    .split(" ")
-    .map((part) => part[0])
-    .join("");
-}
 
 export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClassName }: { candidate: DialogCandidate; triggerLabel?: string; triggerClassName?: string }) {
   const [open, setOpen] = useState(false);
@@ -32,7 +25,7 @@ export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClass
         <button
           type="button"
           className={cn(
-            "inline-flex h-10 shrink-0 items-center rounded-ts-md border border-ts-line bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep",
+            "inline-flex h-10 shrink-0 items-center rounded-ts-md border border-ts-line-soft bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep",
             triggerClassName
           )}
         >
@@ -42,7 +35,7 @@ export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClass
     >
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-3.5 rounded-ts-md bg-ts-surface-2/60 p-4">
-          <Avatar size="md" initials={initialsOf(candidate.name)} className="bg-ts-primary-tint text-ts-primary-deep" />
+          <PersonAvatar name={candidate.name} size="lg" />
           <div className="min-w-0 flex-1">
             <p className="m-0 flex flex-wrap items-center gap-2 text-sm font-semibold text-ts-ink">
               {candidate.name} <StatusPill status={candidate.stage} />
@@ -58,7 +51,7 @@ export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClass
           <h3 className="m-0 text-xs font-bold tracking-[0.06em] text-ts-muted uppercase">Documents</h3>
           <PreviewActionButton
             type="button"
-            className="inline-flex h-11 w-fit items-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-4 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
+            className="inline-flex h-11 w-fit items-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface px-4 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
             storageKey={`pipeline-cv-${candidate.name}`}
             pendingLabel="Opening…"
             successLabel="CV opened"
@@ -75,7 +68,7 @@ export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClass
             </Link>
             <PreviewActionButton
               type="button"
-              className="inline-flex h-11 items-center rounded-ts-md border border-ts-line bg-ts-surface px-4 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
+              className="inline-flex h-11 items-center rounded-ts-md border border-ts-line-soft bg-ts-surface px-4 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
               storageKey={`pipeline-advance-${candidate.name}`}
               pendingLabel="Moving…"
               successLabel="Moved to next stage"
@@ -94,7 +87,7 @@ export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClass
           </div>
         </div>
 
-        <p className="m-0 flex items-start gap-2 border-t border-ts-line pt-4 text-[13px] leading-relaxed text-ts-muted">
+        <p className="m-0 flex items-start gap-2 border-t border-ts-line-soft pt-4 text-[13px] leading-relaxed text-ts-muted">
           <ArrowUpRight size={13} aria-hidden="true" className="mt-0.5 shrink-0 rtl:-scale-x-100" />
           The full applicant workspace — cover letter, AI summary, interview scheduling, private notes — connects with the production backend.
         </p>

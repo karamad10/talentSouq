@@ -110,7 +110,7 @@ export function NotificationList({ items, storageKey }: { items: NotificationRow
       {Object.entries(groups).map(([group, groupRows]) => (
         <section key={group} className="flex flex-col gap-2.5">
           <h2 className="m-0 text-xs font-bold tracking-[0.08em] text-ts-muted uppercase">{group}</h2>
-          <ul className="m-0 flex list-none flex-col overflow-hidden rounded-ts-lg border border-ts-line bg-ts-surface p-0">
+          <ul className="m-0 flex list-none flex-col overflow-hidden rounded-ts-xl border border-ts-line-soft bg-ts-surface p-0 shadow-ts-card">
             {groupRows.map((row, index) => {
               const kind = row.kind ?? "system";
               const Icon = KIND_ICON[kind] ?? BellRing;
@@ -136,7 +136,7 @@ export function NotificationList({ items, storageKey }: { items: NotificationRow
                 row.href && "transition-colors hover:bg-ts-primary-tint/50"
               );
               return (
-                <li key={row.id ?? row.title} className={index > 0 ? "border-t border-ts-line" : undefined}>
+                <li key={row.id ?? row.title} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
                   {row.href ? (
                     <Link href={row.href as never} className={className}>
                       {body}
@@ -152,7 +152,7 @@ export function NotificationList({ items, storageKey }: { items: NotificationRow
       ))}
 
       {filtered.length === 0 ? (
-        <p className="m-0 rounded-ts-lg border border-dashed border-ts-line px-6 py-10 text-center text-sm text-ts-muted">
+        <p className="m-0 rounded-ts-xl border border-dashed border-ts-line-soft px-6 py-10 text-center text-sm text-ts-muted">
           Nothing in this category yet.
         </p>
       ) : null}

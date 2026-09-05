@@ -111,7 +111,7 @@ export function MatchesPanel({ className }: { className?: string }) {
     >
       <ul className="m-0 flex flex-1 list-none flex-col p-0">
         {seekerSummary.matches.map((match, index) => (
-          <li key={match.title} className={cn("flex flex-1", index > 0 && "border-t border-ts-line")}>
+          <li key={match.title} className={cn("flex flex-1", index > 0 && "border-t border-ts-line-soft")}>
             <Link href="/seeker/jobs" className="group flex w-full items-center gap-3.5 px-6 py-4 transition-colors hover:bg-ts-primary-tint/40 max-[680px]:px-4">
               <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-slate-tint text-sm font-bold text-ts-muted">
                 {monogram(match.company)}
@@ -146,7 +146,7 @@ export function MessagesPanel({ className }: { className?: string }) {
     >
       <ul className="m-0 flex flex-1 list-none flex-col p-0">
         {seekerSummary.messages.map((message, index) => (
-          <li key={message.subject} className={cn("flex flex-1", index > 0 && "border-t border-ts-line")}>
+          <li key={message.subject} className={cn("flex flex-1", index > 0 && "border-t border-ts-line-soft")}>
             <Link href="/seeker/messages" className="group flex w-full items-center gap-3.5 px-6 py-4 transition-colors hover:bg-ts-primary-tint/40 max-[680px]:px-4">
               <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
                 {monogram(message.from)}
@@ -182,7 +182,7 @@ export function AlertsPanel({ className }: { className?: string }) {
     >
       <ul className="m-0 flex flex-1 list-none flex-col p-0">
         {seekerSummary.savedSearches.map((search, index) => (
-          <li key={search.name} className={cn("flex flex-1", index > 0 && "border-t border-ts-line")}>
+          <li key={search.name} className={cn("flex flex-1", index > 0 && "border-t border-ts-line-soft")}>
             <Link href="/seeker/saved" className="group flex w-full items-center gap-3.5 px-6 py-4 transition-colors hover:bg-ts-primary-tint/40 max-[680px]:px-4">
               <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-slate-tint text-ts-subtle">
                 <Bell size={18} />
@@ -196,10 +196,10 @@ export function AlertsPanel({ className }: { className?: string }) {
           </li>
         ))}
       </ul>
-      <div className="border-t border-ts-line px-6 py-4 max-[680px]:px-4">
+      <div className="border-t border-ts-line-soft px-6 py-4 max-[680px]:px-4">
         <Link
           href="/seeker/jobs"
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
         >
           <Plus size={16} aria-hidden="true" /> Create a new alert
         </Link>
@@ -261,7 +261,7 @@ export function ProfileStrengthPanel({ className }: { className?: string }) {
 
       <Link
         href="/seeker/profile"
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+        className="inline-flex h-11 items-center justify-center gap-2 rounded-ts-md border border-ts-line-soft bg-ts-surface text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
       >
         <FileText size={16} aria-hidden="true" /> Add a portfolio case study
       </Link>
@@ -319,7 +319,7 @@ export function QuickActionsPanel({ className }: { className?: string }) {
           <Link
             key={label}
             href={href}
-            className="group flex items-center gap-4 rounded-ts-md border border-ts-line p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40 max-[520px]:flex-col max-[520px]:items-start max-[520px]:gap-3 min-[1560px]:flex-col min-[1560px]:items-start min-[1560px]:gap-3.5"
+            className="group flex items-center gap-4 rounded-ts-md border border-ts-line-soft p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40 max-[520px]:flex-col max-[520px]:items-start max-[520px]:gap-3 min-[1560px]:flex-col min-[1560px]:items-start min-[1560px]:gap-3.5"
           >
             <span className="grid size-12 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
               <Icon size={22} aria-hidden="true" />

@@ -46,7 +46,7 @@ export function FilterGroup({
 /** A single on/off filter, rendered as a switch-like chip. */
 export function FilterSwitch({ label, name, description, checked }: { label: string; name: string; description?: string; checked: boolean }) {
   return (
-    <label className="flex cursor-pointer items-start gap-3 rounded-ts-md border border-ts-line bg-ts-surface p-3 transition-colors hover:border-ts-primary has-checked:border-ts-primary has-checked:bg-ts-primary-tint/50">
+    <label className="flex cursor-pointer items-start gap-3 rounded-ts-md border border-ts-line-soft bg-ts-surface p-3 transition-colors hover:border-ts-primary has-checked:border-ts-primary has-checked:bg-ts-primary-tint/50">
       <input type="checkbox" name={name} value="1" defaultChecked={checked} className="peer sr-only" />
       <span
         aria-hidden="true"
@@ -105,11 +105,11 @@ export function FilterDisclosure({
   children: ReactNode;
 }) {
   return (
-    <details open={open} className="group/filters rounded-ts-md border border-ts-line bg-ts-surface-2/40 open:bg-ts-surface-2/60">
-      <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4 text-sm font-bold text-ts-ink [&::-webkit-details-marker]:hidden">
+    <details open={open} className="group/filters rounded-ts-md border border-ts-line-soft bg-ts-surface-2/40 open:bg-ts-surface-2/60">
+      <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3 text-sm font-bold text-ts-ink [&::-webkit-details-marker]:hidden">
         {summary}
       </summary>
-      <div className="border-t border-ts-line px-5 py-5">{children}</div>
+      <div className="border-t border-ts-line-soft px-4 py-5">{children}</div>
     </details>
   );
 }

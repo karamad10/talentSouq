@@ -31,7 +31,7 @@ export function Dialog({
         <RadixDialog.Content
           className={cn(
             "fixed top-1/2 left-1/2 z-50 w-[calc(100vw-32px)] max-w-xl -translate-x-1/2 -translate-y-1/2",
-            "max-h-[calc(100vh-48px)] overflow-y-auto rounded-ts-lg border border-ts-line bg-ts-surface p-6 shadow-lg outline-none",
+            "max-h-[calc(100vh-48px)] overflow-y-auto rounded-ts-lg border border-ts-line-soft bg-ts-surface p-6 shadow-lg outline-none",
             className
           )}
         >

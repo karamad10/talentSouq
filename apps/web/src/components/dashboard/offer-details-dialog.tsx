@@ -38,7 +38,7 @@ export function OfferDetailsDialog({ offer, triggerClassName }: { offer: Offer; 
           <span className="inline-flex h-7 items-center rounded-full bg-ts-accent-tint px-3 text-[13px] font-bold text-ts-accent-deep">{offer.deadline}</span>
         </div>
 
-        <dl className="m-0 grid gap-x-6 gap-y-3 rounded-ts-md border border-ts-line bg-ts-surface-2/50 p-4 min-[560px]:grid-cols-2">
+        <dl className="m-0 grid gap-x-6 gap-y-3 rounded-ts-md border border-ts-line-soft bg-ts-surface-2/50 p-4 min-[560px]:grid-cols-2">
           {offer.breakdown.map((row) => (
             <div key={row.label} className="flex flex-col gap-0.5">
               <dt className="text-xs font-semibold tracking-[0.04em] text-ts-muted uppercase">{row.label}</dt>
@@ -54,7 +54,7 @@ export function OfferDetailsDialog({ offer, triggerClassName }: { offer: Offer; 
                 aria-hidden="true"
                 className={cn(
                   "mt-0.5 grid size-6 shrink-0 place-items-center rounded-full text-white",
-                  step.done ? "bg-ts-primary" : "border border-ts-line bg-ts-surface text-transparent"
+                  step.done ? "bg-ts-primary" : "border border-ts-line-soft bg-ts-surface text-transparent"
                 )}
               >
                 <Check size={14} />
@@ -69,7 +69,7 @@ export function OfferDetailsDialog({ offer, triggerClassName }: { offer: Offer; 
 
         <p className="m-0 text-[13px] text-ts-muted">Your contact: {offer.contact} · {offer.start}</p>
 
-        <div className="flex flex-wrap items-center gap-3 border-t border-ts-line pt-4">
+        <div className="flex flex-wrap items-center gap-3 border-t border-ts-line-soft pt-4">
           <Link
             href={`/seeker/messages?thread=${offer.threadId}`}
             onClick={() => setOpen(false)}
@@ -79,7 +79,7 @@ export function OfferDetailsDialog({ offer, triggerClassName }: { offer: Offer; 
           </Link>
           <Link
             href={`/jobs/${offer.jobId}`}
-            className="inline-flex h-11 items-center gap-1.5 rounded-ts-md border border-ts-line bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
+            className="inline-flex h-11 items-center gap-1.5 rounded-ts-md border border-ts-line-soft bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
           >
             Open the role <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
           </Link>

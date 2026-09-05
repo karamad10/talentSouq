@@ -43,6 +43,7 @@
   --color-ts-muted: var(--ts-muted);
   --color-ts-subtle: var(--ts-subtle);
   --color-ts-line: var(--ts-line);
+  --color-ts-line-soft: var(--ts-line-soft);
   --color-ts-field: var(--ts-field-border);
   --color-ts-primary: var(--ts-primary);
   --color-ts-primary-deep: var(--ts-primary-deep);
@@ -60,6 +61,10 @@
   --radius-ts-sm: 8px;
   --radius-ts-md: 10px;
   --radius-ts-lg: 14px;
+  --radius-ts-xl: 18px;
+
+  --shadow-ts-card: var(--ts-shadow-card);
+  --shadow-ts-lift: var(--ts-shadow-lift);
 }
 
 @layer legacy {
@@ -98,7 +103,12 @@
   --ts-muted: #5C6B73;
   --ts-subtle: #626D74;
   --ts-line: #C7D0D4;
+  /* Hairline for card edges and list dividers. Deliberately lighter than
+     --ts-line: at dashboard density the stronger line reads as clutter. */
+  --ts-line-soft: #E4E9EB;
   --ts-field-border: #6B7880;
+  --ts-shadow-card: 0 1px 2px rgba(11, 27, 35, .05);
+  --ts-shadow-lift: 0 6px 20px rgba(11, 27, 35, .08);
   --ts-primary: #0E6E63;
   --ts-primary-deep: #0B5A51;
   --ts-primary-tint: #E6F2F0;
@@ -166,7 +176,10 @@
   --ts-muted: #93A1A6;
   --ts-subtle: #828F94;
   --ts-line: #37444A;
+  --ts-line-soft: #263136;
   --ts-field-border: #4E5D64;
+  --ts-shadow-card: 0 1px 2px rgba(0, 0, 0, .3);
+  --ts-shadow-lift: 0 6px 20px rgba(0, 0, 0, .4);
   --ts-primary: #2FA192;
   --ts-primary-deep: #45B3A3;
   --ts-primary-tint: #162B29;

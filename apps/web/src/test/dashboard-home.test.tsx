@@ -1,13 +1,17 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ApplicationTracker } from "@/components/dashboard/application-tracker";
-import { JobsResponsesTable } from "@/components/dashboard/jobs-responses-table";
+import { JobCard, JobSummaryRow } from "@/components/dashboard/job-cards";
+import { ResponsesTable } from "@/components/dashboard/jobs-responses-table";
 import { RecentApplicants } from "@/components/dashboard/recent-applicants";
 import { employerSummary, seekerSummary } from "@/data/workspace";
 
+const activeJob = employerSummary.responses[0];
+const draftJob = employerSummary.responses.find((row) => row.status === "Draft")!;
+
 describe("employer home modules", () => {
   it("shows per-job response analytics including the fresh-response pill", () => {
-    render(<JobsResponsesTable rows={employerSummary.responses} filter="All" />);
+    render(<ResponsesTable rows={employerSummary.responses} />);
     const table = screen.getByRole("table");
     expect(within(table).getByText("Senior Product Designer")).toBeInTheDocument();
     expect(within(table).getByText("7 new")).toBeInTheDocument();
@@ -15,8 +19,8 @@ describe("employer home modules", () => {
     expect(within(table).getByRole("progressbar", { name: /Senior Product Designer responses reviewed/ })).toHaveAttribute("aria-valuenow", "92");
   });
 
-  it("filters to drafts and offers publishing instead of counts", () => {
-    render(<JobsResponsesTable rows={employerSummary.responses} filter="Drafts" />);
+  it("offers publishing instead of counts for a draft row", () => {
+    render(<ResponsesTable rows={[draftJob]} />);
     const table = screen.getByRole("table");
     expect(within(table).getByText("People Operations Partner")).toBeInTheDocument();
     expect(within(table).queryByText("Senior Product Designer")).not.toBeInTheDocument();
@@ -24,8 +28,29 @@ describe("employer home modules", () => {
   });
 
   it("renders an empty state when there are no jobs", () => {
-    render(<JobsResponsesTable rows={[]} filter="All" />);
+    render(<ResponsesTable rows={[]} />);
     expect(screen.getByText("No jobs here yet")).toBeInTheDocument();
+  });
+
+  it("gives a live job card its stat band and review progress", () => {
+    render(<JobCard row={activeJob} />);
+    expect(screen.getByRole("heading", { name: "Senior Product Designer" })).toBeInTheDocument();
+    expect(screen.getByText("Shortlisted")).toBeInTheDocument();
+    expect(screen.getByText("673")).toBeInTheDocument();
+    expect(screen.getByRole("progressbar", { name: /Senior Product Designer responses reviewed/ })).toHaveAttribute("aria-valuenow", "92");
+  });
+
+  it("replaces the stat band with a publish prompt on a draft card", () => {
+    render(<JobCard row={draftJob} />);
+    expect(screen.getByRole("link", { name: /Publish/ })).toBeInTheDocument();
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
+
+  it("condenses a listing to responses and review progress on the overview row", () => {
+    render(<JobSummaryRow row={activeJob} />);
+    expect(screen.getByText("24")).toBeInTheDocument();
+    expect(screen.getByText("+7")).toBeInTheDocument();
+    expect(screen.getByText("92% reviewed")).toBeInTheDocument();
   });
 
   it("lists recent applicants with stage and match score", () => {
