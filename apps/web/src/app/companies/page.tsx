@@ -64,8 +64,12 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
               : `${all.length} companies with ${totalRoles} open roles between them. See how a team works before you apply.`}
           </p>
 
-          <form action="/companies" role="search" className="mt-8 flex flex-wrap items-center gap-3 rounded-ts-lg border border-ts-line bg-ts-surface-2/50 p-3">
-            <label className="flex h-14 min-w-0 flex-1 items-center gap-3 rounded-ts-md border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary">
+          <form
+            action="/companies"
+            role="search"
+            className="mt-8 flex flex-col items-stretch gap-3 rounded-ts-lg border border-ts-line bg-ts-surface-2/50 p-3 min-[700px]:flex-row min-[700px]:flex-wrap min-[700px]:items-center"
+          >
+            <label className="flex h-14 w-full min-w-0 items-center gap-3 rounded-ts-md border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary min-[700px]:w-auto min-[700px]:flex-1">
               <Search size={19} aria-hidden="true" className="shrink-0 text-ts-muted" />
               <span className="sr-only">{arabic ? "ابحث عن شركة" : "Search companies"}</span>
               <input
@@ -77,7 +81,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
             </label>
             <button
               type="submit"
-              className="inline-flex h-14 shrink-0 items-center rounded-ts-md bg-ts-primary px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5"
+              className="inline-flex h-14 w-full shrink-0 items-center justify-center rounded-ts-md bg-ts-primary px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 min-[700px]:w-auto"
             >
               {arabic ? "بحث" : "Search"}
             </button>
@@ -85,42 +89,14 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
         </Container>
       </section>
 
-      <section className="sticky top-0 z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur">
-        <Container className="flex flex-wrap items-center gap-x-6 gap-y-3">
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <span className="text-xs font-bold tracking-[0.08em] text-ts-muted uppercase">{arabic ? "القطاع" : "Industry"}</span>
-            {industries.map((value) => (
-              <Link
-                key={value}
-                href={facetHref("industry", value)}
-                aria-pressed={industry === value}
-                className={cn(
-                  "inline-flex h-9 items-center rounded-full border px-3.5 text-[13px] font-semibold transition-colors",
-                  industry === value ? "border-ts-primary bg-ts-primary text-white" : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
-                )}
-              >
-                {value}
-              </Link>
-            ))}
-          </div>
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <span className="text-xs font-bold tracking-[0.08em] text-ts-muted uppercase">{arabic ? "الدولة" : "Country"}</span>
-            {countries.map((value) => (
-              <Link
-                key={value}
-                href={facetHref("country", value)}
-                aria-pressed={country === value}
-                className={cn(
-                  "inline-flex h-9 items-center rounded-full border px-3.5 text-[13px] font-semibold transition-colors",
-                  country === value ? "border-ts-primary bg-ts-primary text-white" : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
-                )}
-              >
-                {value}
-              </Link>
-            ))}
-          </div>
+      {/* Sticky only from 900px up, where it clears the sticky header; on phones a
+          pinned wall of chips would take most of the viewport. */}
+      <section className="z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur min-[900px]:sticky min-[900px]:top-20">
+        <Container className="flex flex-col gap-3 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-6">
+          <FacetRow label={arabic ? "القطاع" : "Industry"} values={industries} active={industry} href={(value) => facetHref("industry", value)} />
+          <FacetRow label={arabic ? "الدولة" : "Country"} values={countries} active={country} href={(value) => facetHref("country", value)} />
           {hasFilters ? (
-            <Link href="/companies" className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-bold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
+            <Link href="/companies" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-full px-3 text-[13px] font-bold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
               <X size={14} aria-hidden="true" /> {arabic ? "مسح الكل" : "Clear all"}
             </Link>
           ) : null}
@@ -134,13 +110,13 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
           </h2>
 
           {results.length > 0 ? (
-            <div className="mt-8 grid gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
+            <div className="mt-8 grid grid-cols-1 gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
               {results.map(({ company, openRoles }) => {
                 const roles = getCompanyJobs(company.name);
                 return (
                   <article
                     key={company.slug}
-                    className="group relative flex h-full flex-col gap-5 rounded-ts-lg border border-ts-line bg-ts-surface p-6 transition-all hover:-translate-y-1 hover:border-ts-primary hover:shadow-sm"
+                    className="group relative flex h-full min-w-0 flex-col gap-5 rounded-ts-lg border border-ts-line bg-ts-surface p-6 transition-all hover:-translate-y-1 hover:border-ts-primary hover:shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <span aria-hidden="true" className="grid size-14 shrink-0 place-items-center rounded-ts-md text-lg font-bold text-ts-ink/80" style={{ backgroundColor: company.accent }}>
@@ -177,7 +153,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
                     </ul>
 
                     {roles.length > 0 ? (
-                      <p className="m-0 truncate text-[13px] text-ts-muted">
+                      <p className="m-0 w-full min-w-0 truncate text-[13px] text-ts-muted">
                         {arabic ? "يوظفون: " : "Hiring: "}
                         <span className="font-semibold text-ts-ink">{roles.slice(0, 2).map((role) => role.title).join(", ")}</span>
                       </p>
@@ -224,5 +200,34 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
       <CtaBand locale={locale} />
       <PublicFooter locale={locale} />
     </main>
+  );
+}
+
+/**
+ * One facet as a labelled row of chips. Below 900px the chips scroll sideways in
+ * their own strip instead of wrapping, keeping the filter bar short on a phone.
+ */
+function FacetRow({ label, values, active, href }: { label: string; values: string[]; active: string; href: (value: string) => Route }) {
+  return (
+    <div className="flex min-w-0 items-center gap-2 min-[900px]:flex-wrap">
+      <span className="shrink-0 text-xs font-bold tracking-[0.08em] text-ts-muted uppercase">{label}</span>
+      <div className="-mx-1 flex min-w-0 flex-1 items-center gap-2 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-none min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
+        {values.map((value) => (
+          <Link
+            key={value}
+            href={href(value)}
+            aria-pressed={active === value}
+            className={cn(
+              "inline-flex h-9 shrink-0 items-center rounded-full border px-3.5 text-[13px] font-semibold whitespace-nowrap transition-colors",
+              active === value
+                ? "border-ts-primary bg-ts-primary text-white"
+                : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
+            )}
+          >
+            {value}
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }

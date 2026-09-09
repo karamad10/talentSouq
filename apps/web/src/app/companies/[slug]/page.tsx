@@ -53,7 +53,7 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
             <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-ts-lg text-2xl font-bold text-ts-ink/80" style={{ backgroundColor: company.accent }}>
               {company.initials}
             </span>
-            <div className="min-w-70 flex-1">
+            <div className="min-w-0 flex-1 min-[560px]:min-w-70">
               <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{company.industry}</p>
               <h1 className="m-0 mt-2 text-[clamp(2rem,3.8vw,3rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">{company.name}</h1>
               <p className="m-0 mt-3 max-w-2xl text-[17px] leading-relaxed text-ts-muted">{company.summary}</p>
@@ -70,7 +70,7 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
           <div className="flex min-w-0 flex-col gap-10">
             <div>
               <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "ما الذي يهمهم" : "What they value"}</h2>
-              <ul className="m-0 mt-5 grid list-none gap-3 p-0 min-[560px]:grid-cols-3">
+              <ul className="m-0 mt-5 grid list-none grid-cols-1 gap-3 p-0 min-[560px]:grid-cols-2 min-[900px]:grid-cols-3">
                 {company.values.map((value) => (
                   <li key={value} className="flex items-start gap-3 rounded-ts-lg border border-ts-line bg-ts-surface p-5">
                     <span aria-hidden="true" className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-ts-primary text-white">
@@ -90,7 +90,7 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
                 </Link>
               </div>
               {companyJobs.length > 0 ? (
-                <div className="mt-6 grid gap-6 min-[760px]:grid-cols-2">
+                <div className="mt-6 grid grid-cols-1 gap-6 min-[760px]:grid-cols-2">
                   {companyJobs.map((job) => (
                     <PublicJobCard key={job.id} job={job} locale={locale} />
                   ))}
@@ -113,8 +113,8 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
                     <li key={fact.label} className={index > 0 ? "border-t border-ts-line" : undefined}>
                       <div className="flex items-center gap-3 py-3.5">
                         <Icon size={17} aria-hidden="true" className="shrink-0 text-ts-subtle" />
-                        <span className="w-28 shrink-0 text-[13px] font-semibold text-ts-muted">{fact.label}</span>
-                        <strong className="min-w-0 flex-1 text-sm font-bold text-ts-ink">{fact.value}</strong>
+                        <span className="min-w-0 flex-1 text-[13px] font-semibold text-ts-muted min-[400px]:w-28 min-[400px]:flex-none min-[400px]:shrink-0">{fact.label}</span>
+                        <strong className="min-w-0 flex-1 text-end text-sm font-bold text-ts-ink min-[400px]:text-start">{fact.value}</strong>
                       </div>
                     </li>
                   );

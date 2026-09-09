@@ -24,26 +24,26 @@ export function SectionHeading({
   tone?: "light" | "dark";
 }) {
   return (
-    <div className={cn("flex flex-wrap items-end justify-between gap-6", align === "center" && "flex-col items-center text-center")}>
+    <div className={cn("flex flex-col items-start gap-6 min-[760px]:flex-row min-[760px]:flex-wrap min-[760px]:items-end min-[760px]:justify-between", align === "center" && "items-center text-center min-[760px]:flex-col min-[760px]:items-center")}>
       <div className={cn("min-w-0 max-w-2xl", align === "center" && "max-w-3xl")}>
         <p className={cn("m-0 text-xs font-bold tracking-[0.12em] uppercase", tone === "dark" ? "text-ts-primary-deep" : "text-ts-primary")}>{eyebrow}</p>
         <h2
           className={cn(
-            "m-0 mt-3 text-[clamp(1.9rem,3.2vw,2.9rem)] leading-[1.08] font-bold tracking-[-0.03em]",
+            "m-0 mt-3 text-[clamp(1.6rem,5.5vw,2.9rem)] leading-[1.1] font-bold tracking-[-0.03em]",
             tone === "dark" ? "text-white" : "text-ts-ink"
           )}
         >
           {title}
         </h2>
         {body ? (
-          <p className={cn("m-0 mt-4 text-[17px] leading-relaxed", tone === "dark" ? "text-white/70" : "text-ts-muted")}>{body}</p>
+          <p className={cn("m-0 mt-4 text-[16px] leading-relaxed min-[680px]:text-[17px]", tone === "dark" ? "text-white/70" : "text-ts-muted")}>{body}</p>
         ) : null}
       </div>
       {action ? (
         <Link
           href={action.href}
           className={cn(
-            "inline-flex h-12 shrink-0 items-center gap-2 rounded-full px-6 text-[15px] font-bold transition-colors",
+            "inline-flex h-12 shrink-0 items-center gap-2 rounded-full px-6 text-[15px] font-bold whitespace-nowrap transition-colors",
             tone === "dark" ? "bg-white text-ts-ink hover:bg-white/90" : "border border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
           )}
         >
@@ -56,7 +56,7 @@ export function SectionHeading({
 
 /** Page width container shared by every public section. */
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("mx-auto w-full max-w-[1240px] px-8 max-[680px]:px-5", className)}>{children}</div>;
+  return <div className={cn("mx-auto w-full max-w-[1240px] min-w-0 px-8 max-[900px]:px-6 max-[680px]:px-5", className)}>{children}</div>;
 }
 
 /** The closing conversion band, identical across the three public pages. */
@@ -64,22 +64,22 @@ export function CtaBand({ locale }: { locale: Locale }) {
   const copy = dictionary[locale].sections;
   return (
     <section className="bg-ts-ink py-20 max-[680px]:py-14">
-      <Container className="flex flex-wrap items-center justify-between gap-8">
+      <Container className="flex flex-col gap-8 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:justify-between">
         <div className="min-w-0 max-w-2xl">
           <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-accent uppercase">TalentSouq</p>
-          <h2 className="m-0 mt-3 text-[clamp(1.9rem,3.2vw,2.9rem)] leading-[1.08] font-bold tracking-[-0.03em] text-white">{copy.finalTitle}</h2>
-          <p className="m-0 mt-4 text-[17px] leading-relaxed text-white/70">{copy.finalBody}</p>
+          <h2 className="m-0 mt-3 text-[clamp(1.6rem,5.5vw,2.9rem)] leading-[1.1] font-bold tracking-[-0.03em] text-white">{copy.finalTitle}</h2>
+          <p className="m-0 mt-4 text-[16px] leading-relaxed text-white/70 min-[680px]:text-[17px]">{copy.finalBody}</p>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col items-stretch gap-3 min-[520px]:flex-row min-[520px]:flex-wrap min-[520px]:items-center">
           <Link
             href="/auth/login?mode=signup"
-            className="inline-flex h-13 items-center gap-2 rounded-full bg-ts-accent px-7 text-base font-bold text-[#1d2525] transition-transform hover:-translate-y-0.5"
+            className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-ts-accent px-7 text-base font-bold text-[#1d2525] transition-transform hover:-translate-y-0.5"
           >
             {copy.start} <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
           </Link>
           <Link
             href="/jobs"
-            className="inline-flex h-13 items-center gap-2 rounded-full border border-white/25 px-7 text-base font-bold text-white transition-colors hover:bg-white/10"
+            className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/25 px-7 text-base font-bold text-white transition-colors hover:bg-white/10"
           >
             {copy.viewAll}
           </Link>
@@ -118,8 +118,8 @@ export function PublicFooter({ locale }: { locale: Locale }) {
 
   return (
     <footer className="border-t border-white/10 bg-ts-ink py-14">
-      <Container className="grid gap-10 min-[900px]:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
-        <div className="min-w-0">
+      <Container className="grid grid-cols-2 gap-8 min-[560px]:grid-cols-3 min-[900px]:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] min-[900px]:gap-10">
+        <div className="col-span-full min-w-0 min-[900px]:col-span-1">
           <Logo inverted />
           <p className="m-0 mt-4 max-w-xs text-sm leading-relaxed text-white/60">{copy.footer.tagline}</p>
         </div>
@@ -134,7 +134,7 @@ export function PublicFooter({ locale }: { locale: Locale }) {
           </div>
         ))}
       </Container>
-      <Container className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-[13px] text-white/50">
+      <Container className="mt-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-white/10 pt-6 text-[13px] text-white/50">
         <span>Dubai · Riyadh · Doha</span>
         <span>© 2026 TalentSouq</span>
       </Container>

@@ -89,14 +89,17 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
         </Container>
       </section>
 
-      {/* Facets: plain links, so every filtered view has its own shareable URL. */}
-      <section className="sticky top-0 z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur">
-        <Container className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      {/* Facets: plain links, so every filtered view has its own shareable URL.
+          Sticky only from 900px up, where it clears the sticky header (h-20) and
+          fits on one or two rows; on phones a pinned wall of chips would eat the
+          viewport, so it scrolls away with the page. */}
+      <section className="z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur min-[900px]:sticky min-[900px]:top-20">
+        <Container className="flex flex-col gap-3 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-6">
           <FacetRow label={arabic ? "المجال" : "Function"} values={categories} active={category} href={(value) => facetHref("category", value)} />
           <FacetRow label={arabic ? "نمط العمل" : "Work mode"} values={modes} active={mode} href={(value) => facetHref("mode", value)} />
           <FacetRow label={arabic ? "نوع العقد" : "Contract"} values={types} active={type} href={(value) => facetHref("type", value)} />
           {hasFilters ? (
-            <Link href="/jobs" className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-bold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
+            <Link href="/jobs" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-full px-3 text-[13px] font-bold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
               <X size={14} aria-hidden="true" /> {arabic ? "مسح الكل" : "Clear all"}
             </Link>
           ) : null}
@@ -140,7 +143,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
           </div>
 
           {results.length > 0 ? (
-            <div className="mt-8 grid gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
+            <div className="mt-8 grid grid-cols-1 gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
               {results.map((job) => (
                 <PublicJobCard key={job.id} job={job} locale={locale} />
               ))}
@@ -171,25 +174,32 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   );
 }
 
+/**
+ * One facet as a labelled row of chips. Below 900px the chips scroll sideways in
+ * their own strip instead of wrapping, which keeps the filter bar two rows tall
+ * on a phone rather than twelve.
+ */
 function FacetRow({ label, values, active, href }: { label: string; values: string[]; active: string; href: (value: string) => Route }) {
   return (
-    <div className="flex min-w-0 flex-wrap items-center gap-2">
-      <span className="text-xs font-bold tracking-[0.08em] text-ts-muted uppercase">{label}</span>
-      {values.map((value) => (
-        <Link
-          key={value}
-          href={href(value)}
-          aria-pressed={active === value}
-          className={cn(
-            "inline-flex h-9 items-center rounded-full border px-3.5 text-[13px] font-semibold transition-colors",
-            active === value
-              ? "border-ts-primary bg-ts-primary text-white"
-              : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
-          )}
-        >
-          {value}
-        </Link>
-      ))}
+    <div className="flex min-w-0 items-center gap-2 min-[900px]:flex-wrap">
+      <span className="shrink-0 text-xs font-bold tracking-[0.08em] text-ts-muted uppercase">{label}</span>
+      <div className="-mx-1 flex min-w-0 flex-1 items-center gap-2 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-none min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
+        {values.map((value) => (
+          <Link
+            key={value}
+            href={href(value)}
+            aria-pressed={active === value}
+            className={cn(
+              "inline-flex h-9 shrink-0 items-center rounded-full border px-3.5 text-[13px] font-semibold whitespace-nowrap transition-colors",
+              active === value
+                ? "border-ts-primary bg-ts-primary text-white"
+                : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
+            )}
+          >
+            {value}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

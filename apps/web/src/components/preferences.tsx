@@ -3,8 +3,9 @@
 import { Languages, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n";
+import { cn } from "@/lib/cn";
 
-export function Preferences({ initialLocale, initialTheme }: { initialLocale: Locale; initialTheme: "light" | "dark" }) {
+export function Preferences({ initialLocale, initialTheme, className }: { initialLocale: Locale; initialTheme: "light" | "dark"; className?: string }) {
   const [locale, setLocale] = useState(initialLocale);
   const [theme, setTheme] = useState(initialTheme);
 
@@ -25,7 +26,7 @@ export function Preferences({ initialLocale, initialTheme }: { initialLocale: Lo
   }
 
   return (
-    <div className="preferences" aria-label="Display preferences">
+    <div className={cn("preferences", className)} aria-label="Display preferences">
       <button className="icon-button" type="button" onClick={toggleLocale} aria-label={locale === "en" ? "العربية" : "English"}>
         <Languages size={18} strokeWidth={1.8} aria-hidden="true" />
         <span>{locale === "en" ? "AR" : "EN"}</span>

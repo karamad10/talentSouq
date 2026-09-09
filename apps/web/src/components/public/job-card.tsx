@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/i18n";
 /** Public listing card: identity, the facts that decide a click, one clear action. */
 export function PublicJobCard({ job, locale = "en" }: { job: Job; locale?: Locale }) {
   return (
-    <article className="group relative flex h-full flex-col gap-4 rounded-ts-lg border border-ts-line bg-ts-surface p-6 transition-all hover:-translate-y-1 hover:border-ts-primary hover:shadow-sm">
+    <article className="group relative flex h-full min-w-0 flex-col gap-4 rounded-ts-lg border border-ts-line bg-ts-surface p-5 transition-all hover:-translate-y-1 hover:border-ts-primary hover:shadow-sm min-[560px]:p-6">
       <div className="flex items-start justify-between gap-3">
         <span aria-hidden="true" className="grid size-13 shrink-0 place-items-center rounded-ts-md text-base font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
           {job.initials}
@@ -17,13 +17,13 @@ export function PublicJobCard({ job, locale = "en" }: { job: Job; locale?: Local
 
       <div className="min-w-0">
         <p className="m-0 text-[13px] font-bold text-ts-primary">{job.company}</p>
-        <h3 className="m-0 mt-1.5 text-xl leading-snug font-bold tracking-[-0.02em] text-ts-ink">
+        <h3 className="m-0 mt-1.5 text-lg leading-snug font-bold tracking-[-0.02em] text-ts-ink min-[560px]:text-xl">
           <Link href={`/jobs/${job.id}`} className="after:absolute after:inset-0 group-hover:text-ts-primary-deep">
             {job.title}
           </Link>
         </h3>
         <p className="m-0 mt-2.5 flex items-center gap-1.5 text-sm text-ts-muted">
-          <MapPin size={15} aria-hidden="true" /> {job.location} · {job.mode}
+          <MapPin size={15} aria-hidden="true" className="shrink-0" /> <span className="min-w-0 truncate">{job.location} · {job.mode}</span>
         </p>
       </div>
 

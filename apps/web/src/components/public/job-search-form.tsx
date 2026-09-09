@@ -20,8 +20,10 @@ export function JobSearchForm({
   className?: string;
 }) {
   const hero = tone === "hero";
+  // Below 700px the fields stack: side by side they collapse to icon-width stubs
+  // long before the placeholder is readable.
   const field = cn(
-    "flex h-14 min-w-0 flex-1 items-center gap-3 rounded-ts-md px-4 transition-colors",
+    "flex h-14 w-full min-w-0 items-center gap-3 rounded-ts-md px-4 transition-colors min-[700px]:w-auto min-[700px]:flex-1",
     hero ? "bg-white/10 text-white focus-within:bg-white/15" : "border border-ts-field bg-ts-surface focus-within:border-ts-primary"
   );
   const input = cn(
@@ -34,7 +36,7 @@ export function JobSearchForm({
       action="/jobs"
       role="search"
       className={cn(
-        "flex flex-wrap items-center gap-3 rounded-ts-lg p-3",
+        "flex flex-col items-stretch gap-3 rounded-ts-lg p-3 min-[700px]:flex-row min-[700px]:flex-wrap min-[700px]:items-center",
         hero ? "border border-white/15 bg-white/5 backdrop-blur" : "border border-ts-line bg-ts-surface-2/50",
         className
       )}
@@ -44,7 +46,7 @@ export function JobSearchForm({
         <span className="sr-only">{locale === "ar" ? "ابحث عن وظائف" : "Search jobs"}</span>
         <input name="q" defaultValue={q} placeholder={locale === "ar" ? "المسمى الوظيفي أو الشركة" : "Role, skill, or company"} className={input} />
       </label>
-      <label className={cn(field, "max-w-64 min-[900px]:max-w-72")}>
+      <label className={cn(field, "min-[700px]:max-w-64 min-[900px]:max-w-72")}>
         <MapPin size={19} aria-hidden="true" className={hero ? "shrink-0 text-white/70" : "shrink-0 text-ts-muted"} />
         <span className="sr-only">{locale === "ar" ? "الموقع" : "Location"}</span>
         <input name="location" defaultValue={location} placeholder={locale === "ar" ? "المدينة أو الدولة" : "City, country, or remote"} className={input} />
@@ -52,7 +54,7 @@ export function JobSearchForm({
       <button
         type="submit"
         className={cn(
-          "inline-flex h-14 shrink-0 items-center gap-2 rounded-ts-md px-7 text-[15px] font-bold transition-transform hover:-translate-y-0.5",
+          "inline-flex h-14 w-full shrink-0 items-center justify-center gap-2 rounded-ts-md px-7 text-[15px] font-bold transition-transform hover:-translate-y-0.5 min-[700px]:w-auto",
           hero ? "bg-ts-accent text-[#1d2525]" : "bg-ts-primary text-white"
         )}
       >

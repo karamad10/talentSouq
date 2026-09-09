@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { IBM_Plex_Sans_Arabic, Inter } from "next/font/google";
 import { isLocale } from "@/lib/i18n";
 import { AppInteractionLayer } from "@/components/app-interaction-layer";
+import { AppBanner } from "@/components/public/app-banner";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "optional", fallback: ["Arial", "sans-serif"] });
@@ -24,7 +25,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-theme={theme} data-scroll-behavior="smooth" className={`${inter.variable} ${arabic.variable}`}>
       {/* Browser extensions such as Grammarly add data-* attributes to body before hydration. */}
-      <body suppressHydrationWarning><AppInteractionLayer />{children}</body>
+      <body suppressHydrationWarning><AppInteractionLayer />{children}<AppBanner /></body>
     </html>
   );
 }

@@ -18,6 +18,9 @@ function initialsFromEmail(email: string) {
 /**
  * The public site header. `overlay` floats it over the hero image (white text,
  * transparent ground); otherwise it sits on the page surface with a hairline.
+ *
+ * Narrow phones can only fit the brand, one action, and the menu button, so the
+ * language/theme controls and the sign-in link move into the dropdown below 560px.
  */
 export function PublicHeader({ locale, theme = "light", overlay = false, user = null }: { locale: Locale; theme?: "light" | "dark"; overlay?: boolean; user?: SessionUser | null }) {
   const copy = dictionary[locale].nav;
@@ -35,7 +38,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
         overlay ? "absolute inset-x-0 top-0 text-white" : "sticky top-0 border-b border-ts-line bg-ts-surface/95 text-ts-ink backdrop-blur"
       )}
     >
-      <div className="mx-auto flex h-20 w-full max-w-[1240px] items-center gap-6 px-8 max-[680px]:h-18 max-[680px]:px-5">
+      <div className="mx-auto flex h-20 w-full max-w-[1240px] items-center gap-4 px-8 max-[900px]:gap-3 max-[680px]:h-18 max-[680px]:px-5">
         <Logo inverted={overlay} />
 
         <nav className="ms-8 hidden items-center gap-8 min-[900px]:flex" aria-label="Primary navigation">
@@ -53,12 +56,12 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
           ))}
         </nav>
 
-        <div className="ms-auto flex items-center gap-3">
-          <Preferences initialLocale={locale} initialTheme={theme} />
+        <div className="ms-auto flex min-w-0 items-center gap-2 min-[560px]:gap-3">
+          <Preferences initialLocale={locale} initialTheme={theme} className="max-[559px]:hidden" />
           {user ? (
             <Link
               className={cn(
-                "grid size-11 place-items-center rounded-full text-[13px] font-bold transition-opacity hover:opacity-90",
+                "grid size-11 shrink-0 place-items-center rounded-full text-[13px] font-bold transition-opacity hover:opacity-90",
                 overlay ? "bg-white/15 text-white" : "bg-ts-primary text-white"
               )}
               href={dashboardHref}
@@ -79,7 +82,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                 {copy.login}
               </Link>
               <Link
-                className="inline-flex h-11 items-center rounded-full bg-ts-accent px-5 text-[15px] font-bold text-[#1d2525] transition-transform hover:-translate-y-0.5"
+                className="inline-flex h-11 shrink-0 items-center rounded-full bg-ts-accent px-4 text-sm font-bold whitespace-nowrap text-[#1d2525] transition-transform hover:-translate-y-0.5 min-[560px]:px-5 min-[560px]:text-[15px]"
                 href="/auth/login?mode=signup"
               >
                 {locale === "ar" ? "انضم الآن" : "Join now"}
@@ -87,7 +90,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
             </>
           )}
 
-          <details className="relative min-[900px]:hidden">
+          <details className="relative shrink-0 min-[900px]:hidden">
             <summary
               className={cn(
                 "grid size-11 cursor-pointer list-none place-items-center rounded-full [&::-webkit-details-marker]:hidden",
@@ -98,7 +101,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
               <Menu size={22} aria-hidden="true" />
             </summary>
             <nav
-              className="absolute end-0 top-14 z-40 flex w-56 flex-col gap-1 rounded-ts-lg border border-ts-line bg-ts-surface p-2 shadow-lg"
+              className="absolute end-0 top-14 z-40 flex w-[min(15rem,calc(100vw-2.5rem))] flex-col gap-1 rounded-ts-lg border border-ts-line bg-ts-surface p-2 shadow-lg"
               aria-label="Mobile navigation"
             >
               {links.map((link) => (
@@ -122,6 +125,10 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                   {copy.login}
                 </Link>
               )}
+              {/* Below 560px the language and theme controls do not fit in the bar. */}
+              <div className="mt-1 border-t border-ts-line pt-2 text-ts-ink min-[560px]:hidden">
+                <Preferences initialLocale={locale} initialTheme={theme} className="px-1 py-1" />
+              </div>
             </nav>
           </details>
         </div>

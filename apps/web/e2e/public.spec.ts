@@ -13,7 +13,12 @@ test("public landing and job search journey", async ({ page }) => {
 
 test("language preference produces an RTL document", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "العربية" }).click();
+  // Below 560px the header bar has no room for the language control, so it lives
+  // in the header menu instead — open that first on a phone-sized viewport.
+  if ((page.viewportSize()?.width ?? 0) < 560) {
+    await page.locator('summary[aria-label="Open menu"]').click();
+  }
+  await page.getByRole("button", { name: "العربية" }).first().click();
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("طموحك");
 });

@@ -51,57 +51,59 @@ export default async function HomePage() {
         />
         <PublicHeader locale={locale} theme={theme} overlay user={user} />
 
-        <Container className="pt-40 pb-16 max-[900px]:pt-32 max-[680px]:pt-28 max-[680px]:pb-10">
+        <Container className="pt-40 pb-16 max-[900px]:pt-32 max-[680px]:pt-24 max-[680px]:pb-10">
           <div className="max-w-3xl">
             <p className="m-0 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold tracking-[0.12em] text-white uppercase backdrop-blur">
               <Sparkles size={15} aria-hidden="true" className="text-ts-accent" />
               {copy.hero.eyebrow}
             </p>
-            <h1 className="m-0 mt-7 text-[clamp(2.9rem,6.4vw,5.2rem)] leading-[0.98] font-bold tracking-[-0.04em] text-white">
+            <h1 className="m-0 mt-7 text-[clamp(2.2rem,8vw,5.2rem)] leading-[1.02] font-bold tracking-[-0.04em] text-white max-[680px]:mt-5">
               {copy.hero.titleStart}
               <br />
               <em className="font-serif font-normal text-[#F5DCB9] italic">{copy.hero.titleAccent}</em>
             </h1>
-            <p className="m-0 mt-6 max-w-xl text-[19px] leading-relaxed text-white/75">{copy.hero.body}</p>
+            <p className="m-0 mt-6 max-w-xl text-[17px] leading-relaxed text-white/75 min-[680px]:text-[19px]">{copy.hero.body}</p>
           </div>
 
           <JobSearchForm locale={locale} tone="hero" className="mt-9 max-w-4xl" />
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-7 flex flex-col items-stretch gap-3 min-[520px]:flex-row min-[520px]:flex-wrap min-[520px]:items-center">
             <Link
               href="/jobs"
-              className="inline-flex h-13 items-center gap-2 rounded-full bg-white px-7 text-base font-bold text-ts-ink transition-transform hover:-translate-y-0.5"
+              className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-7 text-base font-bold text-ts-ink transition-transform hover:-translate-y-0.5"
             >
               <Search size={18} aria-hidden="true" />
               {copy.hero.find}
             </Link>
             <Link
               href="/#employers"
-              className="inline-flex h-13 items-center gap-2 rounded-full border border-white/30 px-7 text-base font-bold text-white transition-colors hover:bg-white/10"
+              className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/30 px-7 text-base font-bold text-white transition-colors hover:bg-white/10"
             >
               {copy.hero.hire}
               <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <span className="text-sm font-semibold text-white/60">{arabic ? "الأكثر بحثاً" : "Popular"}</span>
-            {categories.slice(0, 5).map((item) => (
-              <Link
-                key={item.category}
-                href={`/jobs?category=${encodeURIComponent(item.category)}` as Route}
-                className="inline-flex h-9 items-center gap-2 rounded-full border border-white/20 px-4 text-[13px] font-semibold text-white/85 transition-colors hover:bg-white/10 hover:text-white"
-              >
-                {item.category}
-                <span className="text-white/50">{item.count}</span>
-              </Link>
-            ))}
+          <div className="mt-7 flex items-center gap-3 min-[900px]:flex-wrap">
+            <span className="shrink-0 text-sm font-semibold text-white/60">{arabic ? "الأكثر بحثاً" : "Popular"}</span>
+            <div className="-mx-1 flex min-w-0 flex-1 items-center gap-3 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-none min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
+              {categories.slice(0, 5).map((item) => (
+                <Link
+                  key={item.category}
+                  href={`/jobs?category=${encodeURIComponent(item.category)}` as Route}
+                  className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full border border-white/20 px-4 text-[13px] font-semibold whitespace-nowrap text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+                >
+                  {item.category}
+                  <span className="text-white/50">{item.count}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </Container>
 
         <div className="border-t border-white/15">
-          <Container className="flex flex-wrap items-center gap-x-14 gap-y-6 py-8">
-            <p className="m-0 text-xs font-bold tracking-[0.12em] text-white/50 uppercase">{copy.proof.label}</p>
+          <Container className="flex flex-wrap items-center gap-x-10 gap-y-5 py-8 min-[900px]:gap-x-14 min-[900px]:gap-y-6">
+            <p className="m-0 w-full text-xs font-bold tracking-[0.12em] text-white/50 uppercase min-[900px]:w-auto">{copy.proof.label}</p>
             {[
               { value: "500+", label: copy.proof.jobs },
               { value: "120+", label: copy.proof.companies },
@@ -118,14 +120,14 @@ export default async function HomePage() {
 
       {/* Who is hiring — real companies from the job data. */}
       <section className="border-b border-ts-line bg-ts-surface py-10">
-        <Container className="flex flex-wrap items-center gap-x-10 gap-y-6">
+        <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-10 min-[900px]:gap-y-6">
           <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-muted uppercase">{arabic ? "يوظفون الآن" : "Hiring right now"}</p>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="-mx-5 flex items-center gap-3 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0 min-[900px]:pb-0">
             {hiring.map(({ company, openRoles }) => (
               <Link
                 key={company.slug}
                 href={`/companies/${company.slug}` as Route}
-                className="inline-flex items-center gap-2.5 rounded-full border border-ts-line px-4 py-2 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40"
+                className="inline-flex shrink-0 items-center gap-2.5 rounded-full border border-ts-line px-4 py-2 whitespace-nowrap transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40"
               >
                 <span aria-hidden="true" className="grid size-8 place-items-center rounded-ts-sm text-xs font-bold text-ts-ink/80" style={{ backgroundColor: company.accent }}>
                   {company.initials}
@@ -147,7 +149,7 @@ export default async function HomePage() {
             body={copy.sections.jobsBody}
             action={{ href: "/jobs", label: copy.sections.viewAll }}
           />
-          <div className="mt-10 grid gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
             {featured.map((job) => (
               <PublicJobCard key={job.id} job={job} locale={locale} />
             ))}
@@ -163,7 +165,7 @@ export default async function HomePage() {
             title={arabic ? "ابدأ من مجالك." : "Start where you already work."}
             body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج." : "Every function shows what is genuinely open across the Gulf today."}
           />
-          <div className="mt-8 grid gap-4 min-[560px]:grid-cols-2 min-[1100px]:grid-cols-5">
+          <div className="mt-8 grid grid-cols-1 gap-4 min-[560px]:grid-cols-2 min-[1100px]:grid-cols-5">
             {categories.map((item) => (
               <Link
                 key={item.category}
@@ -185,7 +187,7 @@ export default async function HomePage() {
 
       {/* For talent */}
       <section className="py-20 max-[680px]:py-14" id="talent">
-        <Container className="grid items-center gap-14 min-[1000px]:grid-cols-2">
+        <Container className="grid grid-cols-1 items-center gap-10 min-[1000px]:grid-cols-2 min-[1000px]:gap-14">
           <div className="order-2 min-w-0 min-[1000px]:order-1">
             <span className="grid size-14 place-items-center rounded-ts-lg bg-ts-primary-tint text-ts-primary">
               <UsersRound size={26} aria-hidden="true" />
@@ -209,14 +211,14 @@ export default async function HomePage() {
             </ul>
             <Link
               href="/auth/login?mode=signup"
-              className="mt-8 inline-flex h-13 items-center gap-2 rounded-full bg-ts-primary px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5"
+              className="mt-8 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-ts-primary px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5 min-[520px]:w-auto"
             >
               {copy.sections.start} <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
           </div>
 
           {/* Profile mock */}
-          <div className="relative order-1 min-w-0 min-[1000px]:order-2">
+          <div className="relative order-1 min-w-0 min-[560px]:mb-10 min-[1000px]:order-2 min-[1000px]:mb-0">
             <div className="rounded-ts-lg border border-ts-line bg-ts-surface p-6 shadow-sm">
               <div className="flex items-center gap-4">
                 <span aria-hidden="true" className="grid size-14 place-items-center rounded-full bg-[#bb7568] text-lg font-bold text-white">
@@ -245,7 +247,7 @@ export default async function HomePage() {
                 <strong className="text-sm font-bold text-ts-success">{arabic ? "ممتاز" : "Excellent"}</strong>
               </div>
             </div>
-            <div className="absolute -bottom-6 end-6 flex items-center gap-3 rounded-ts-md border border-ts-line bg-ts-surface px-4 py-3 shadow-lg">
+            <div className="mt-4 flex items-center gap-3 rounded-ts-md border border-ts-line bg-ts-surface px-4 py-3 shadow-lg min-[560px]:absolute min-[560px]:end-6 min-[560px]:-bottom-6 min-[560px]:mt-0">
               <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-ts-success-tint text-ts-success">
                 <Check size={16} />
               </span>
@@ -260,9 +262,9 @@ export default async function HomePage() {
 
       {/* For employers */}
       <section className="border-y border-ts-line bg-ts-surface py-20 max-[680px]:py-14" id="employers">
-        <Container className="grid items-center gap-14 min-[1000px]:grid-cols-2">
+        <Container className="grid grid-cols-1 items-center gap-10 min-[1000px]:grid-cols-2 min-[1000px]:gap-14">
           {/* Pipeline mock */}
-          <div className="relative min-w-0">
+          <div className="relative min-w-0 min-[560px]:mt-6 min-[1000px]:mt-0">
             <div className="rounded-ts-lg border border-ts-line bg-ts-paper p-6 shadow-sm">
               <div className="flex items-center justify-between gap-3 border-b border-ts-line pb-4">
                 <strong className="text-base font-bold text-ts-ink">Product Designer</strong>
@@ -287,7 +289,7 @@ export default async function HomePage() {
                 ))}
               </ul>
             </div>
-            <div className="absolute -top-5 end-6 inline-flex items-center gap-2 rounded-full bg-ts-ink px-4 py-2.5 text-[13px] font-bold text-white shadow-lg">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-ts-ink px-4 py-2.5 text-[13px] font-bold text-white shadow-lg min-[560px]:absolute min-[560px]:end-6 min-[560px]:-top-5 min-[560px]:mt-0">
               <Sparkles size={15} aria-hidden="true" className="text-ts-accent" />
               {arabic ? "أفضل المرشحين جاهزون" : "Top matches ready"}
             </div>
@@ -316,7 +318,7 @@ export default async function HomePage() {
             </ul>
             <Link
               href="/auth/login?mode=signup"
-              className="mt-8 inline-flex h-13 items-center gap-2 rounded-full bg-ts-ink px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5"
+              className="mt-8 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-ts-ink px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5 min-[520px]:w-auto"
             >
               {copy.sections.start} <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
@@ -333,7 +335,7 @@ export default async function HomePage() {
             body={arabic ? "من الملف الشخصي إلى العرض، بمسار واضح." : "From profile to offer, on a path you can actually follow."}
             align="center"
           />
-          <ol className="m-0 mt-12 grid list-none gap-6 p-0 min-[760px]:grid-cols-3">
+          <ol className="m-0 mt-12 grid list-none grid-cols-1 gap-6 p-0 min-[760px]:grid-cols-3">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (

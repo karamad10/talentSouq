@@ -57,7 +57,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-ts-lg text-2xl font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
               {job.initials}
             </span>
-            <div className="min-w-70 flex-1">
+            <div className="min-w-0 flex-1 min-[560px]:min-w-70">
               <Link href={company ? (`/companies/${company.slug}` as Route) : "/companies"} className="text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
                 {job.company}
               </Link>
@@ -140,7 +140,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             {similar.length > 0 ? (
               <div>
                 <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "وظائف مشابهة" : "Similar roles"}</h2>
-                <div className="mt-6 grid gap-6 min-[760px]:grid-cols-2">
+                <div className="mt-6 grid grid-cols-1 gap-6 min-[760px]:grid-cols-2">
                   {similar.map((item) => (
                     <PublicJobCard key={item.id} job={item} locale={locale} />
                   ))}
@@ -181,8 +181,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                     <li key={fact.label} className={index > 0 ? "border-t border-ts-line" : undefined}>
                       <div className="flex items-center gap-3 py-3.5">
                         <Icon size={17} aria-hidden="true" className="shrink-0 text-ts-subtle" />
-                        <span className="w-32 shrink-0 text-[13px] font-semibold text-ts-muted">{fact.label}</span>
-                        <strong className="min-w-0 flex-1 text-sm font-bold text-ts-ink">{fact.value}</strong>
+                        <span className="min-w-0 flex-1 text-[13px] font-semibold text-ts-muted min-[400px]:w-32 min-[400px]:flex-none min-[400px]:shrink-0">{fact.label}</span>
+                        <strong className="min-w-0 flex-1 text-end text-sm font-bold text-ts-ink min-[400px]:text-start">{fact.value}</strong>
                       </div>
                     </li>
                   );
