@@ -91,9 +91,12 @@ migrated, delete its now-dead `globals.css` block in the same change so
 duplication doesn't accumulate; don't leave orphaned legacy classes "just in
 case."
 
-## Required next primitives
+## Current and next primitives
 
-Still to build, in rough priority order: filter chip group, searchable list
-row, confirmation dialog, skeleton/loading block, pagination, and an
-accessible drawer/modal. Each must include dark, RTL, keyboard, empty/loading/
-error, and mobile behavior before it is adopted by a workflow.
+The shared library now covers native GET-form filter groups, URL-backed
+pagination, Radix dialog/drawer wrappers, skeletons, and the core control set.
+Use a shared component before adding a route-specific equivalent. A searchable
+list row remains route-specific until the live messaging and candidate
+repositories establish their final data shape. Every new primitive must include
+dark, RTL, keyboard, empty/loading/error, and mobile behavior before it is
+adopted by a workflow.

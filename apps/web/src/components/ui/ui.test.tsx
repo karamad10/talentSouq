@@ -10,6 +10,7 @@ import {
   IconButton,
   MetricCards,
   MeterBar,
+  Pagination,
   ProgressBar,
   Ring,
   SegmentedControl,
@@ -160,5 +161,13 @@ describe("command deck primitives", () => {
     );
     expect(screen.getByRole("link", { name: /Open roles/ })).toBeInTheDocument();
     expect(screen.getByText("168")).toBeInTheDocument();
+  });
+
+  it("renders an accessible URL-backed pagination control", () => {
+    render(<Pagination currentPage={3} totalPages={8} hrefForPage={(page) => `/seeker/jobs?page=${page}` as Route} ariaLabel="Job results" />);
+    expect(screen.getByRole("navigation", { name: "Job results" })).toBeInTheDocument();
+    expect(screen.getByText("Page 3 of 8")).toBeInTheDocument();
+    expect(screen.getByLabelText("Page 3")).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "Next page" })).toHaveAttribute("href", "/seeker/jobs?page=4");
   });
 });

@@ -6,6 +6,7 @@ import { FilterDisclosure, FilterGroup, FilterSelect, FilterSwitch, toArray, toS
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { EmptyState } from "@/components/ui/empty-state";
 import { MetricCards } from "@/components/ui/metric-cards";
+import { Pagination } from "@/components/ui/pagination";
 import {
   FilterSummary,
   IconTile,
@@ -41,7 +42,9 @@ type CandidatesSearchParams = {
   Salary?: string | string[];
   Availability?: string | string[];
   Skill?: string | string[];
+  page?: string | string[];
 };
+const RESULTS_PER_PAGE = 6;
 
 export default async function CandidatesPage({ searchParams }: { searchParams: Promise<CandidatesSearchParams> }) {
   const params = await searchParams;
@@ -68,6 +71,10 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
     .filter((candidate) => skills.length === 0 || skills.some((skill) => candidate.skills.includes(skill)))
     .filter((candidate) => !availableNow || candidate.availability === "Immediate")
     .sort((a, b) => (sort === "name" ? a.name.localeCompare(b.name) : sort === "recent" ? a.lastActive.localeCompare(b.lastActive) : b.score - a.score));
+  const requestedPage = Number(toScalar(params.page, "1"));
+  const totalPages = Math.max(1, Math.ceil(candidates.length / RESULTS_PER_PAGE));
+  const currentPage = Number.isFinite(requestedPage) ? Math.min(Math.max(1, Math.floor(requestedPage)), totalPages) : 1;
+  const paginatedCandidates = candidates.slice((currentPage - 1) * RESULTS_PER_PAGE, currentPage * RESULTS_PER_PAGE);
 
   const cvSearch = employerSummary.creditMeters.find((meter) => meter.label === "CV search");
   const cvUsed = cvSearch?.used ?? 0;
@@ -186,13 +193,31 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
             </SectionPanel>
           ) : (
             <div className="grid gap-4 min-[760px]:grid-cols-2 min-[1280px]:grid-cols-1 min-[1560px]:grid-cols-2">
-              {candidates.map((candidate) => (
+              {paginatedCandidates.map((candidate) => (
                 <TalentCard key={candidate.name} candidate={candidate} />
               ))}
             </div>
           )}
+          {candidates.length > 0 ? (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hrefForPage={(page) => pageHref("/employer/candidates", params, page)}
+              ariaLabel="Candidate search pages"
+            />
+          ) : null}
         </SplitLayout>
       </PageBody>
     </>
   );
+}
+
+function pageHref(pathname: "/employer/candidates", params: CandidatesSearchParams, page: number) {
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (key === "page" || value === undefined) continue;
+    for (const entry of Array.isArray(value) ? value : [value]) query.append(key, entry);
+  }
+  query.set("page", String(page));
+  return `${pathname}?${query.toString()}` as import("next").Route;
 }

@@ -7,6 +7,7 @@ import { JobRows, JobStrip } from "@/components/dashboard/job-list";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { PreviewActionButton } from "@/components/interaction-ui";
 import { buttonVariants } from "@/components/ui/button";
+import { Pagination } from "@/components/ui/pagination";
 import { Tabs } from "@/components/ui/tabs";
 import { WorkspaceHeader } from "@/components/workspace-ui";
 import { jobFacet, jobs, type Job } from "@/data/jobs";
@@ -34,6 +35,7 @@ type JobsSearchParams = {
   Language?: string | string[];
   Industry?: string | string[];
   Size?: string | string[];
+  page?: string | string[];
 };
 
 const POSTED_WINDOWS: Record<string, number> = { "7 days": 7, "30 days": 30, "90 days": 90 };
@@ -49,6 +51,7 @@ const MATCH_FLOORS = [
   { value: "75", label: "75% and above" },
   { value: "85", label: "85% and above" }
 ];
+const RESULTS_PER_PAGE = 5;
 
 /** The seeker's own disciplines, used for the "related to your function" fallback. */
 const MY_FUNCTIONS = ["Design", "Product"];
@@ -113,6 +116,10 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
     .slice(0, 6);
 
   const visible = saved ? savedJobs : sorted;
+  const requestedPage = Number(toScalar(query.page, "1"));
+  const totalPages = Math.max(1, Math.ceil(visible.length / RESULTS_PER_PAGE));
+  const currentPage = Number.isFinite(requestedPage) ? Math.min(Math.max(1, Math.floor(requestedPage)), totalPages) : 1;
+  const paginatedJobs = visible.slice((currentPage - 1) * RESULTS_PER_PAGE, currentPage * RESULTS_PER_PAGE);
   const resultTitle = saved ? "Saved jobs" : q ? `Results for “${query.q}”` : hasSearch ? "Filtered roles" : "All open roles";
 
   return (
@@ -253,7 +260,17 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
         action={<span className="text-[13px] font-bold text-ts-muted">{visible.length} roles</span>}
       >
         {visible.length > 0 ? (
-          <JobRows jobs={visible} />
+          <>
+            <JobRows jobs={paginatedJobs} />
+            <div className="border-t border-ts-line-soft px-6 py-4 max-[680px]:px-4">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                hrefForPage={(page) => pageHref("/seeker/jobs", query, page)}
+                ariaLabel="Job search pages"
+              />
+            </div>
+          </>
         ) : (
           <div className="flex flex-wrap items-center gap-4 px-6 py-6 max-[680px]:px-4">
             <span className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-surface-2 text-ts-muted">
@@ -294,4 +311,14 @@ function sortJobs(rows: Job[], sort: string): Job[] {
   if (sort === "salary") return sorted.sort((a, b) => b.salaryMax - a.salaryMax);
   if (sort === "applicants") return sorted.sort((a, b) => a.applicants - b.applicants);
   return sorted.sort((a, b) => b.matchScore - a.matchScore);
+}
+
+function pageHref(pathname: "/seeker/jobs", query: JobsSearchParams, page: number): Route {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (key === "page" || value === undefined) continue;
+    for (const entry of Array.isArray(value) ? value : [value]) params.append(key, entry);
+  }
+  params.set("page", String(page));
+  return `${pathname}?${params.toString()}` as Route;
 }

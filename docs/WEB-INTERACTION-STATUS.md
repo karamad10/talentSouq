@@ -11,6 +11,10 @@ This is the implementation ledger for making every visible control meaningful. A
 - Password reset and password update buttons include explicit pending labels.
 - Search forms submit through URL parameters where implemented (jobs, seeker
   jobs, employer candidates, employer jobs status tabs).
+- Seeker job search and employer candidate search paginate through the same
+  URL state (`?page=`), preserve all active filters while moving between pages,
+  and clamp invalid page values safely. The shared `Pagination` primitive is
+  ready for server-backed result repositories.
 - Job saves persist locally in preview using a pressed state; database persistence will replace this through the same component boundary.
 - Every route has a shared loading fallback and recoverable error screen.
 - Theme, locale, sign-out, and public auth flows retain their existing real behavior.
