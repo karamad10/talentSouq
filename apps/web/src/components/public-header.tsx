@@ -39,7 +39,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
       )}
     >
       <div className="mx-auto flex h-20 w-full max-w-[1240px] items-center gap-4 px-8 max-[900px]:gap-3 max-[680px]:h-18 max-[680px]:px-5">
-        <Logo inverted={overlay} />
+        <Logo inverted={overlay} compact="narrow" />
 
         <nav className="ms-8 hidden items-center gap-8 min-[900px]:flex" aria-label="Primary navigation">
           {links.map((link) => (
@@ -56,7 +56,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
           ))}
         </nav>
 
-        <div className="ms-auto flex min-w-0 items-center gap-2 min-[560px]:gap-3">
+        <div className="ms-auto flex min-w-0 shrink items-center gap-2 min-[560px]:gap-3">
           <Preferences initialLocale={locale} initialTheme={theme} className="max-[559px]:hidden" />
           {user ? (
             <Link
@@ -82,7 +82,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                 {copy.login}
               </Link>
               <Link
-                className="inline-flex h-11 shrink-0 items-center rounded-full bg-ts-accent px-4 text-sm font-bold whitespace-nowrap text-[#1d2525] transition-transform hover:-translate-y-0.5 min-[560px]:px-5 min-[560px]:text-[15px]"
+                className="inline-flex h-11 shrink-0 items-center rounded-full bg-ts-accent px-3.5 text-sm font-bold whitespace-nowrap text-[#1d2525] transition-transform hover:-translate-y-0.5 min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
                 href="/auth/login?mode=signup"
               >
                 {locale === "ar" ? "انضم الآن" : "Join now"}

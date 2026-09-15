@@ -147,7 +147,7 @@ export default async function PipelinePage({ searchParams }: { searchParams: Pro
           )}
         </div>
 
-        <div className="grid items-start gap-6 min-[1180px]:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 min-[1180px]:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
           <SectionPanel
             title="Waiting on your decision"
             description="Candidates who have had no movement since applying — oldest first."

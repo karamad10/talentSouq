@@ -26,6 +26,15 @@ export type NavItem = {
   icon: LucideIcon;
   exact?: boolean;
   count?: number;
+  /**
+   * Shown in the phone tab bar. Exactly four items per role carry this: five
+   * tabs plus "More" is the most a 320px bar fits with a readable label, and
+   * these four cover the work people actually open on a phone. Everything else
+   * stays one tap away behind "More".
+   */
+  primary?: true;
+  /** Tab-bar caption. The full `label` stays the accessible name. */
+  short?: string;
 };
 
 export type NavGroup = { label: string; items: NavItem[] };
@@ -35,9 +44,9 @@ export const navGroups: Record<WorkspaceRole, NavGroup[]> = {
     {
       label: "Workspace",
       items: [
-        { href: "/seeker", label: "Home", icon: LayoutDashboard, exact: true },
-        { href: "/seeker/jobs", label: "Discover jobs", icon: Search },
-        { href: "/seeker/applications", label: "Applications", icon: BriefcaseBusiness, count: seekerSummary.applications.length },
+        { href: "/seeker", label: "Home", icon: LayoutDashboard, exact: true, primary: true },
+        { href: "/seeker/jobs", label: "Discover jobs", icon: Search, primary: true, short: "Jobs" },
+        { href: "/seeker/applications", label: "Applications", icon: BriefcaseBusiness, count: seekerSummary.applications.length, primary: true, short: "Applied" },
         { href: "/seeker/offers", label: "Offers & interviews", icon: CalendarDays, count: seekerSummary.pendingInvites }
       ]
     },
@@ -45,7 +54,7 @@ export const navGroups: Record<WorkspaceRole, NavGroup[]> = {
       label: "Career",
       items: [
         { href: "/seeker/saved", label: "Saved & alerts", icon: Bookmark, count: seekerSummary.savedJobs },
-        { href: "/seeker/messages", label: "Messages", icon: MessageSquare, count: seekerSummary.unreadMessages },
+        { href: "/seeker/messages", label: "Messages", icon: MessageSquare, count: seekerSummary.unreadMessages, primary: true, short: "Inbox" },
         { href: "/seeker/notifications", label: "Notifications", icon: Bell },
         { href: "/seeker/companion", label: "AI companion", icon: Sparkles },
         { href: "/seeker/profile", label: "My profile", icon: UserRound }
@@ -56,10 +65,10 @@ export const navGroups: Record<WorkspaceRole, NavGroup[]> = {
     {
       label: "Hiring",
       items: [
-        { href: "/employer", label: "Home", icon: LayoutDashboard, exact: true },
-        { href: "/employer/jobs", label: "Jobs", icon: BriefcaseBusiness, count: employerSummary.openRoles },
+        { href: "/employer", label: "Home", icon: LayoutDashboard, exact: true, primary: true },
+        { href: "/employer/jobs", label: "Jobs", icon: BriefcaseBusiness, count: employerSummary.openRoles, primary: true },
         { href: "/employer/candidates", label: "Find candidates", icon: Search },
-        { href: "/employer/pipeline", label: "ATS pipeline", icon: FolderKanban, count: employerSummary.newApplicants },
+        { href: "/employer/pipeline", label: "ATS pipeline", icon: FolderKanban, count: employerSummary.newApplicants, primary: true, short: "Pipeline" },
         { href: "/employer/interviews", label: "Interviews", icon: CalendarDays, count: employerSummary.interviews },
         { href: "/employer/assessments", label: "Assessments", icon: ClipboardCheck }
       ]
@@ -67,7 +76,7 @@ export const navGroups: Record<WorkspaceRole, NavGroup[]> = {
     {
       label: "Organization",
       items: [
-        { href: "/employer/messages", label: "Messages", icon: MessageSquare, count: employerSummary.unreadMessages },
+        { href: "/employer/messages", label: "Messages", icon: MessageSquare, count: employerSummary.unreadMessages, primary: true, short: "Inbox" },
         { href: "/employer/notifications", label: "Notifications", icon: Bell },
         { href: "/employer/company", label: "Company profile", icon: Building2 },
         { href: "/employer/team", label: "Team & permissions", icon: UsersRound },

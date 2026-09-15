@@ -17,7 +17,7 @@ export function EmployerSpotlight() {
   const [lead, ...alsoToday] = employerSummary.tasks;
 
   return (
-    <section className="grid gap-6 overflow-hidden rounded-ts-xl border border-ts-primary/20 bg-ts-primary-tint p-6 min-[1180px]:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] min-[1180px]:items-center max-[680px]:p-5">
+    <section className="grid grid-cols-[minmax(0,1fr)] gap-6 overflow-hidden rounded-ts-xl border border-ts-primary/20 bg-ts-primary-tint p-6 min-[1180px]:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] min-[1180px]:items-center max-[680px]:p-5">
       <div className="min-w-0">
         <p className="m-0 flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] text-ts-primary-deep uppercase">
           <span aria-hidden="true" className="inline-block size-1.5 rounded-full bg-ts-accent" />
@@ -46,7 +46,7 @@ export function EmployerSpotlight() {
           <li key={task.title}>
             <Link
               href={task.href}
-              className="group flex items-center gap-3 rounded-ts-md bg-ts-surface px-4 py-3.5 transition-colors hover:bg-ts-surface-2"
+              className="group flex items-center gap-3 rounded-ts-md bg-ts-surface px-4 py-3.5 transition-colors hover:bg-ts-surface-2 max-[560px]:flex-wrap"
             >
               <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
                 <Sparkles size={16} />
@@ -55,7 +55,7 @@ export function EmployerSpotlight() {
                 <span className="block truncate text-sm font-bold text-ts-ink group-hover:text-ts-primary-deep">{task.title}</span>
                 <span className="block truncate text-[13px] text-ts-muted">{task.detail}</span>
               </span>
-              <span className="shrink-0 text-xs font-semibold whitespace-nowrap text-ts-muted">{task.when}</span>
+              <span className="shrink-0 text-xs font-semibold whitespace-nowrap text-ts-muted max-[560px]:order-last max-[560px]:mt-1 max-[560px]:basis-full max-[560px]:ps-[3.125rem]">{task.when}</span>
             </Link>
           </li>
         ))}
@@ -78,13 +78,13 @@ export function TodayPanel({ className }: { className?: string }) {
       <ul className="m-0 flex list-none flex-col p-0">
         {employerSummary.tasks.map((task, index) => (
           <li key={task.title} className={cn(index > 0 && "border-t border-ts-line-soft")}>
-            <Link href={task.href} className="group flex w-full items-center gap-3 px-5 py-3.5 transition-colors hover:bg-ts-surface-2/60">
+            <Link href={task.href} className="group flex w-full items-center gap-3 px-5 py-3.5 transition-colors hover:bg-ts-surface-2/60 max-[560px]:flex-wrap">
               <span aria-hidden="true" className="mt-1.5 size-1.5 shrink-0 self-start rounded-full bg-ts-primary" />
               <span className="min-w-0 flex-1">
                 <span className="block text-sm leading-snug font-bold text-ts-ink group-hover:text-ts-primary-deep">{task.title}</span>
                 <span className="mt-0.5 block truncate text-[13px] text-ts-muted">{task.detail}</span>
               </span>
-              <span className="shrink-0 text-xs font-semibold whitespace-nowrap text-ts-muted">{task.when}</span>
+              <span className="shrink-0 text-xs font-semibold whitespace-nowrap text-ts-muted max-[560px]:order-last max-[560px]:mt-1 max-[560px]:basis-full max-[560px]:ps-[0.875rem]">{task.when}</span>
             </Link>
           </li>
         ))}

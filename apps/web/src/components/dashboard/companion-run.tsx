@@ -65,7 +65,7 @@ export function CompanionRun({
   }
 
   return (
-    <section className="grid gap-6 overflow-hidden rounded-ts-lg border border-ts-primary/25 bg-ts-primary-tint px-8 py-6 min-[1180px]:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] min-[1180px]:items-center max-[680px]:px-5 max-[680px]:py-5">
+    <section className="grid grid-cols-[minmax(0,1fr)] gap-6 overflow-hidden rounded-ts-lg border border-ts-primary/25 bg-ts-primary-tint px-8 py-6 min-[1180px]:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] min-[1180px]:items-center max-[680px]:px-5 max-[680px]:py-5">
       <div className="min-w-0">
         <p className="m-0 flex items-center gap-2 text-xs font-bold tracking-[0.1em] text-ts-primary-deep uppercase">
           <Sparkles size={14} aria-hidden="true" />

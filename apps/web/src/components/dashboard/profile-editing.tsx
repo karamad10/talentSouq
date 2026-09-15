@@ -303,7 +303,9 @@ export function EditableChips({ storageKey, defaultItems, addLabel }: { storageK
             type="button"
             onClick={() => commit(items.filter((entry) => entry !== item))}
             aria-label={`Remove ${item}`}
-            className="grid size-6 place-items-center rounded-full text-ts-primary-deep/70 transition-colors hover:bg-ts-surface hover:text-ts-danger"
+            // The visible target is chip-sized; `after` widens the hit area to
+            // 40px for a thumb without changing the chip's layout.
+            className="relative grid size-7 place-items-center rounded-full text-ts-primary-deep/70 transition-colors after:absolute after:-inset-1.5 after:content-[''] hover:bg-ts-surface hover:text-ts-danger"
           >
             <X size={13} aria-hidden="true" />
           </button>

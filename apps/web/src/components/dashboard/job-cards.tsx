@@ -125,7 +125,7 @@ export function JobSummaryRow({ row }: { row: JobRow }) {
       </div>
 
       {draft ? (
-        <Link href="/employer/jobs" className="inline-flex items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep">
+        <Link href="/employer/jobs" className="tap-target inline-flex items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep">
           Publish <ArrowUpRight size={14} aria-hidden="true" className="rtl:-scale-x-100" />
         </Link>
       ) : (

@@ -43,8 +43,11 @@ export function ResponsesTable({ rows: visible }: { rows: JobRow[] }) {
   }
 
   return (
-    <div className="-mx-1 min-h-0 flex-1 overflow-x-auto px-1">
-      <table className="w-full min-w-190 border-collapse text-start">
+    <div className="-mx-1 min-h-0 flex-1 px-1 min-[900px]:overflow-x-auto">
+      {/* `.ts-table` (globals.css) stacks this into cards below 900px — eight
+          columns need 760px, which no phone has. The explicit roles keep the
+          grid semantics that `display: block` would otherwise drop. */}
+      <table role="table" className="ts-table w-full border-collapse text-start min-[900px]:min-w-190">
         {/* Percentage widths keep the table fluid inside any panel width. */}
         <colgroup>
           <col className="w-[30%]" />
@@ -56,33 +59,33 @@ export function ResponsesTable({ rows: visible }: { rows: JobRow[] }) {
           <col className="w-[12%]" />
           <col className="w-[4%]" />
         </colgroup>
-        <thead>
-          <tr className="border-b border-ts-line-soft text-start">
-            <th scope="col" className="pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Role</th>
-            <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Status</th>
-            <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Responses</th>
-            <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Shortlisted</th>
-            <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Rejected</th>
-            <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Views</th>
-            <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Reviewed</th>
-            <th scope="col" className="pb-3 ps-4 text-end text-[13px] font-semibold text-ts-muted">
+        <thead role="rowgroup">
+          <tr role="row" className="border-b border-ts-line-soft text-start">
+            <th role="columnheader" scope="col" className="pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Role</th>
+            <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Status</th>
+            <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Responses</th>
+            <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Shortlisted</th>
+            <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Rejected</th>
+            <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Views</th>
+            <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Reviewed</th>
+            <th role="columnheader" scope="col" className="pb-3 ps-4 text-end text-[13px] font-semibold text-ts-muted">
               <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody role="rowgroup">
           {visible.map((row) => (
-            <tr key={row.job} className="border-b border-ts-line-soft last:border-b-0">
-              <td className="py-3.5 pe-4">
+            <tr role="row" key={row.job} className="border-b border-ts-line-soft min-[900px]:last:border-b-0">
+              <td role="cell" className="py-3.5 pe-4 max-[899px]:p-0">
                 <p className="m-0 text-sm font-bold text-ts-ink">{row.job}</p>
                 <p className="m-0 mt-0.5 text-[13px] text-ts-muted">
                   {row.category} · {row.mode} · {row.updated}
                 </p>
               </td>
-              <td className="px-4 py-3.5">
+              <td role="cell" data-label="Status" className="px-4 py-3.5 max-[899px]:px-0">
                 <StatusPill status={row.status} className="px-2.5 py-0.5 text-[11px]" />
               </td>
-              <td className="px-4 py-3.5">
+              <td role="cell" data-label="Responses" className="px-4 py-3.5 max-[899px]:px-0">
                 <span className="text-sm font-bold text-ts-ink">{row.status === "Draft" ? "—" : row.total}</span>
                 {row.fresh > 0 ? (
                   <span className="ms-2 inline-flex h-5.5 items-center rounded-full bg-ts-accent-tint px-2 text-[11px] font-bold text-ts-accent-deep">
@@ -90,14 +93,14 @@ export function ResponsesTable({ rows: visible }: { rows: JobRow[] }) {
                   </span>
                 ) : null}
               </td>
-              <td className="px-4 py-3.5 text-sm font-bold text-ts-success">{row.status === "Draft" ? "—" : row.shortlisted}</td>
-              <td className="px-4 py-3.5 text-sm text-ts-muted">{row.status === "Draft" ? "—" : row.rejected}</td>
-              <td className="px-4 py-3.5 text-sm text-ts-ink">{row.status === "Draft" ? "—" : row.views}</td>
-              <td className="px-4 py-3.5">
+              <td role="cell" data-label="Shortlisted" className="px-4 py-3.5 text-sm font-bold text-ts-success max-[899px]:px-0">{row.status === "Draft" ? "—" : row.shortlisted}</td>
+              <td role="cell" data-label="Rejected" className="px-4 py-3.5 text-sm text-ts-muted max-[899px]:px-0">{row.status === "Draft" ? "—" : row.rejected}</td>
+              <td role="cell" data-label="Views" className="px-4 py-3.5 text-sm text-ts-ink max-[899px]:px-0">{row.status === "Draft" ? "—" : row.views}</td>
+              <td role="cell" data-label="Reviewed" className="px-4 py-3.5 max-[899px]:px-0">
                 {row.status === "Draft" ? (
                   <Link
                     href="/employer/jobs"
-                    className="inline-flex items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep"
+                    className="tap-target inline-flex items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep"
                   >
                     Publish <ArrowUpRight size={14} aria-hidden="true" className="rtl:-scale-x-100" />
                   </Link>
@@ -117,7 +120,7 @@ export function ResponsesTable({ rows: visible }: { rows: JobRow[] }) {
                   </span>
                 )}
               </td>
-              <td className="py-3.5 ps-4 text-end">
+              <td role="cell" data-label="Actions" className="py-3.5 ps-4 text-end max-[899px]:px-0">
                 <RowActions row={row} />
               </td>
             </tr>

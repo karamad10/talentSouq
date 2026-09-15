@@ -193,7 +193,7 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
                         <span className="block truncate text-sm font-bold text-ts-ink">{draft.job}</span>
                         <span className="block text-[13px] text-ts-muted">Draft — never published</span>
                       </span>
-                      <Link href="/employer/jobs" className="shrink-0 text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
+                      <Link href="/employer/jobs" className="tap-target shrink-0 text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
                         Publish
                       </Link>
                     </li>
@@ -204,7 +204,7 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
                       <span className="block truncate text-sm font-bold text-ts-ink">Frontend Engineer</span>
                       <span className="block text-[13px] text-ts-muted">Expires in 7 days</span>
                     </span>
-                    <Link href="/employer/jobs" className="shrink-0 text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
+                    <Link href="/employer/jobs" className="tap-target shrink-0 text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
                       Extend
                     </Link>
                   </li>

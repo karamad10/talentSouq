@@ -101,13 +101,13 @@ export default function CompanionPage() {
         ]}
       />
 
-      <div className="mt-6 grid items-stretch gap-6 min-[1280px]:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] items-stretch gap-6 min-[1280px]:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
         <SectionPanel
           title="This week’s picks"
           description="Ranked by fit, with the reasons the companion used."
           bodyClassName="p-0"
           action={
-            <Link href="/seeker/jobs" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+            <Link href="/seeker/jobs" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
               See all matches <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
           }

@@ -47,7 +47,7 @@ export function PrioritySpotlight() {
   const [, ...alsoThisWeek] = seekerSummary.week;
 
   return (
-    <section className="grid gap-6 overflow-hidden rounded-ts-lg border border-ts-primary/25 bg-ts-primary-tint px-8 py-6 min-[1400px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] min-[1400px]:items-center max-[680px]:px-5 max-[680px]:py-5">
+    <section className="grid grid-cols-[minmax(0,1fr)] gap-6 overflow-hidden rounded-ts-lg border border-ts-primary/25 bg-ts-primary-tint px-8 py-6 min-[1400px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] min-[1400px]:items-center max-[680px]:px-5 max-[680px]:py-5">
       <div className="min-w-0">
         <p className="m-0 flex items-center gap-2 text-xs font-bold tracking-[0.1em] text-ts-primary-deep uppercase">
           <span aria-hidden="true" className="inline-block size-2 rounded-full bg-ts-accent" />
@@ -73,7 +73,7 @@ export function PrioritySpotlight() {
       <ul className="m-0 flex list-none flex-col gap-px overflow-hidden rounded-ts-md bg-ts-primary/15 p-0">
         {alsoThisWeek.map((item) => (
           <li key={item.title}>
-            <Link href="/seeker/offers" className="group flex items-start gap-3.5 bg-ts-surface px-5 py-4 transition-colors hover:bg-ts-surface-2">
+            <Link href="/seeker/offers" className="group flex items-start gap-3.5 bg-ts-surface px-5 py-4 transition-colors hover:bg-ts-surface-2 max-[560px]:flex-wrap">
               <span
                 aria-hidden="true"
                 className={cn(
@@ -87,7 +87,7 @@ export function PrioritySpotlight() {
                 <span className="block text-sm font-bold text-ts-ink group-hover:text-ts-primary-deep">{item.title}</span>
                 <span className="block text-[13px] text-ts-muted">{item.detail}</span>
               </span>
-              <span className="shrink-0 text-xs font-semibold whitespace-nowrap text-ts-muted">{item.when}</span>
+              <span className="shrink-0 text-xs font-semibold whitespace-nowrap text-ts-muted max-[560px]:order-last max-[560px]:mt-1 max-[560px]:basis-full max-[560px]:ps-[3.125rem]">{item.when}</span>
             </Link>
           </li>
         ))}
@@ -104,7 +104,7 @@ export function MatchesPanel({ className }: { className?: string }) {
       className={className}
       bodyClassName="flex flex-col p-0"
       action={
-        <Link href="/seeker/jobs" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+        <Link href="/seeker/jobs" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
           See all <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
         </Link>
       }
@@ -139,7 +139,7 @@ export function MessagesPanel({ className }: { className?: string }) {
       className={className}
       bodyClassName="flex flex-col p-0"
       action={
-        <Link href="/seeker/messages" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+        <Link href="/seeker/messages" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
           Open inbox <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
         </Link>
       }
@@ -175,7 +175,7 @@ export function AlertsPanel({ className }: { className?: string }) {
       className={className}
       bodyClassName="flex flex-col p-0"
       action={
-        <Link href="/seeker/saved" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+        <Link href="/seeker/saved" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
           Manage <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
         </Link>
       }
@@ -217,7 +217,7 @@ export function ProfileStrengthPanel({ className }: { className?: string }) {
       className={className}
       bodyClassName="flex flex-col gap-5"
       action={
-        <Link href="/seeker/profile" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+        <Link href="/seeker/profile" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
           Improve <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
         </Link>
       }
@@ -281,7 +281,7 @@ export function SearchProgressPanel({ className }: { className?: string }) {
       className={className}
       bodyClassName="flex flex-col gap-5"
       action={
-        <Link href="/seeker/applications" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+        <Link href="/seeker/applications" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
           Details <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
         </Link>
       }

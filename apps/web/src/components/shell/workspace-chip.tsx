@@ -21,15 +21,23 @@ export function WorkspaceChip({ identity }: { identity: WorkspaceIdentity }) {
   return (
     <>
       <Menu>
-        <MenuTrigger className="flex h-11 items-center gap-2.5 rounded-full bg-ts-surface-2 ps-2 pe-3.5 text-sm font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint">
-          <span aria-hidden="true" className="grid size-7.5 place-items-center rounded-full bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
+        {/* min-w-0 + a truncating name let the chip give room back to the
+            unread bells rather than pushing them off a narrow screen. */}
+        <MenuTrigger className="flex h-11 min-w-0 shrink items-center gap-2 rounded-full bg-ts-surface-2 ps-2 pe-3 text-sm font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint min-[981px]:gap-2.5 min-[981px]:pe-3.5">
+          <span aria-hidden="true" className="grid size-7.5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
             {identity.initials}
           </span>
-          <span className="max-w-40 truncate">{identity.name}</span>
-          <ChevronDown size={15} aria-hidden="true" className="text-ts-muted" />
+          {/* dir="auto" so a Latin name inside an Arabic document truncates
+              from its own end rather than showing a leading ellipsis. */}
+          <span dir="auto" className="max-w-24 truncate min-[360px]:max-w-32 min-[560px]:max-w-40">{identity.name}</span>
+          <ChevronDown size={15} aria-hidden="true" className="shrink-0 text-ts-muted" />
         </MenuTrigger>
         <MenuContent align="start">
-          <MenuLabel>{identity.eyebrow}</MenuLabel>
+          {/* The name repeats here because the trigger truncates it on a phone. */}
+          <MenuLabel className="pb-2">
+            <span className="block text-[13px] font-bold text-ts-ink">{identity.name}</span>
+            <span className="mt-0.5 block">{identity.eyebrow}</span>
+          </MenuLabel>
           <MenuItem asChild>
             <Link href={identity.href}>
               <UserRound size={15} aria-hidden="true" className="text-ts-muted" />

@@ -7,6 +7,18 @@ import { NotificationBell } from "@/components/shell/notification-bell";
 import { messagesSeenStorageKey, seenStorageKey } from "@/lib/notifications";
 import { WorkspaceChip } from "@/components/shell/workspace-chip";
 
+/**
+ * The workspace app bar.
+ *
+ * Its contents are ordered by how little room they can survive in: brand,
+ * identity, unread bells. Everything is `shrink`-able or hidden at a stated
+ * width, because the bar has no horizontal scroll to fall back on — anything
+ * that overflows here is simply unreachable.
+ *
+ * Below 981px the profile link folds into the identity chip's menu (it opens
+ * the same page) and the search field gives way to the search pages reachable
+ * from the bottom tab bar, which have their own full-width fields.
+ */
 export function AppBar({ active }: { active: WorkspaceRole }) {
   const identity = workspaceIdentity[active];
   const search = workspaceSearch[active];
@@ -14,11 +26,13 @@ export function AppBar({ active }: { active: WorkspaceRole }) {
 
   return (
     <header className="sticky top-0 z-30 h-16 border-b border-ts-line bg-ts-surface">
-      <div className="flex h-full w-full items-center gap-4 px-5 max-[680px]:px-4">
-        <Logo />
+      <div className="flex h-full w-full items-center gap-2 px-5 max-[980px]:gap-2.5 max-[680px]:px-4">
+        <Logo compact="wide" />
         <WorkspaceChip identity={identity} />
+
         <div className="min-w-0 flex-1" />
-        <form action={search.action} className="hidden w-[540px] min-w-0 md:block" role="search">
+
+        <form action={search.action} className="hidden w-full max-w-[540px] min-w-0 shrink min-[981px]:block" role="search">
           <label className="sr-only" htmlFor="workspace-search">
             {search.label}
           </label>
@@ -33,14 +47,16 @@ export function AppBar({ active }: { active: WorkspaceRole }) {
             />
           </div>
         </form>
+
         <div className="min-w-0 flex-1" />
-        <div className="flex items-center gap-1">
+
+        <div className="flex shrink-0 items-center gap-0.5 min-[981px]:gap-1">
           <NotificationBell href={unread.notificationsHref} total={unread.notifications} storageKey={seenStorageKey(active)} />
           <MessagesBell href={unread.messagesHref} total={unread.messages} storageKey={messagesSeenStorageKey(active)} />
           <Link
             href={identity.href}
             aria-label={`${identity.name} — ${identity.eyebrow}`}
-            className="ms-1.5 grid size-10 place-items-center rounded-full bg-ts-primary text-xs font-bold text-white transition-opacity hover:opacity-90"
+            className="ms-1.5 hidden size-10 place-items-center rounded-full bg-ts-primary text-xs font-bold text-white transition-opacity hover:opacity-90 min-[981px]:grid"
           >
             <span aria-hidden="true">{identity.initials}</span>
           </Link>

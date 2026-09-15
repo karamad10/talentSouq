@@ -76,7 +76,7 @@ export default function SeekerProfilePage() {
         ]}
       />
 
-      <div className="mt-6 grid items-start gap-6 min-[1180px]:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] items-start gap-6 min-[1180px]:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col gap-6">
           <SectionPanel title="About" description="Two or three sentences on what you do and what you are looking for.">
             <EditableField

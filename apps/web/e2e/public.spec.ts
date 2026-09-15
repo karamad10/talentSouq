@@ -1,4 +1,20 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+/**
+ * Below 981px the workspace nav is a bottom tab bar carrying the four `primary`
+ * sections, with the rest behind "More". Reaching a non-primary section on a
+ * phone therefore takes one extra tap; on the desktop rail every link is
+ * already on screen and this is a no-op.
+ */
+async function openWorkspaceNav(page: Page, section: string) {
+  const nav = page.getByLabel(/ workspace$/);
+  const link = nav.getByRole("link", { name: section });
+  if (!(await link.isVisible())) {
+    await nav.getByRole("button", { name: "More" }).click();
+    await expect(link).toBeVisible();
+  }
+  return link;
+}
 
 test("public landing and job search journey", async ({ page }) => {
   await page.goto("/");
@@ -27,11 +43,11 @@ test("seeker workspace navigation opens focused sections", async ({ page }) => {
   await page.goto("/seeker");
   await expect(page.getByRole("heading", { name: "Good morning, Sarah." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("aria-current", "page");
-  await page.getByLabel("seeker workspace").getByRole("link", { name: "Discover jobs" }).click();
+  await (await openWorkspaceNav(page, "Discover jobs")).click();
   await expect(page).toHaveURL(/\/seeker\/jobs$/);
   await expect(page.getByRole("heading", { name: "Find your next role" })).toBeVisible();
   await expect(page.getByLabel("seeker workspace").getByRole("link", { name: "Discover jobs" })).toHaveAttribute("aria-current", "page");
-  await page.getByLabel("seeker workspace").getByRole("link", { name: "Applications" }).click();
+  await (await openWorkspaceNav(page, "Applications")).click();
   await expect(page).toHaveURL(/\/seeker\/applications$/);
   await expect(page.getByRole("heading", { name: "Applications" })).toBeVisible();
 });
@@ -40,19 +56,20 @@ test("employer workspace is separate and route based", async ({ page }) => {
   await page.goto("/employer");
   await expect(page.getByRole("heading", { name: "Hiring overview" })).toBeVisible();
   await expect(page.getByRole("banner").getByText("Nexa Commerce")).toBeVisible();
-  await page.getByLabel("employer workspace").getByRole("link", { name: "ATS pipeline" }).click();
+  await (await openWorkspaceNav(page, "ATS pipeline")).click();
   await expect(page).toHaveURL(/\/employer\/pipeline$/);
   await expect(page.getByRole("heading", { name: "ATS pipeline" })).toBeVisible();
   await expect(page.getByLabel("employer workspace").getByRole("link", { name: "ATS pipeline" })).toHaveAttribute("aria-current", "page");
-  await page.getByLabel("employer workspace").getByRole("link", { name: "Company profile" }).click();
+  await (await openWorkspaceNav(page, "Company profile")).click();
   await expect(page).toHaveURL(/\/employer\/company$/);
   await expect(page.getByRole("heading", { name: "Nexa Commerce" })).toBeVisible();
 });
 
 test("company profiles expose public hiring pages", async ({ page }) => {
   await page.goto("/companies");
-  await expect(page.getByRole("heading", { name: "Meet teams building across the Gulf." })).toBeVisible();
-  await page.getByRole("link", { name: "View Nexa Commerce" }).click();
+  await expect(page.getByRole("heading", { name: "Meet the teams building across the Gulf." })).toBeVisible();
+  // The card uses a stretched link, so its accessible name is the company name.
+  await page.getByRole("link", { name: "Nexa Commerce", exact: true }).click();
   await expect(page).toHaveURL(/\/companies\/nexa-commerce$/);
   await expect(page.getByRole("heading", { name: "Open roles" })).toBeVisible();
 });

@@ -24,10 +24,10 @@ export function Drawer({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {trigger ? <Dialog.Trigger asChild>{trigger}</Dialog.Trigger> : null}
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40" />
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/40" />
         <Dialog.Content
           className={cn(
-            "fixed inset-y-0 start-0 z-50 flex w-72 flex-col overflow-y-auto border-e border-ts-line-soft bg-ts-surface p-4 shadow-lg outline-none",
+            "fixed inset-y-0 start-0 z-[60] flex w-72 flex-col overflow-y-auto border-e border-ts-line-soft bg-ts-surface p-4 shadow-lg outline-none",
             className
           )}
         >

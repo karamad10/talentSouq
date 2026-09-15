@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { IBM_Plex_Sans_Arabic, Inter } from "next/font/google";
 import { isLocale } from "@/lib/i18n";
@@ -14,6 +14,21 @@ export const metadata: Metadata = {
   title: { default: "TalentSouq — Opportunity meets ambition", template: "%s · TalentSouq" },
   description: "Discover meaningful roles and build great teams across the Gulf.",
   openGraph: { title: "TalentSouq", description: "Opportunity meets ambition across the Gulf.", type: "website", locale: "en_US" }
+};
+
+/**
+ * `viewportFit: "cover"` lets the layout paint into a notched phone's inset
+ * area; the fixed bars then reserve it back with `env(safe-area-inset-*)`.
+ * Scale is deliberately left unpinned so pinch-zoom keeps working.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf6" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d1315" }
+  ]
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

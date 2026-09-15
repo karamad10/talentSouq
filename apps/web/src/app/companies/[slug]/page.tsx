@@ -44,7 +44,7 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
         <Container>
           <Link
             href="/companies"
-            className="inline-flex items-center gap-2 text-sm font-bold text-ts-muted transition-colors hover:text-ts-ink"
+            className="tap-target inline-flex items-center gap-2 text-sm font-bold text-ts-muted transition-colors hover:text-ts-ink"
           >
             <ArrowLeft size={16} aria-hidden="true" className="rtl:-scale-x-100" /> {arabic ? "العودة إلى الشركات" : "Back to companies"}
           </Link>
@@ -66,7 +66,7 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
       </section>
 
       <section className="py-14 max-[680px]:py-10">
-        <Container className="grid items-start gap-10 min-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
+        <Container className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 min-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
           <div className="flex min-w-0 flex-col gap-10">
             <div>
               <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "ما الذي يهمهم" : "What they value"}</h2>
@@ -85,7 +85,7 @@ export default async function CompanyProfilePage({ params }: { params: Promise<{
             <div>
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "الوظائف المفتوحة" : "Open roles"}</h2>
-                <Link href="/jobs" className="text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+                <Link href="/jobs" className="tap-target text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
                   {arabic ? "كل الوظائف" : "See all jobs"}
                 </Link>
               </div>

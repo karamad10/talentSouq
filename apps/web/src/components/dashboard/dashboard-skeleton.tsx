@@ -10,7 +10,7 @@ export function DashboardSkeleton() {
       </div>
       <Skeleton className="h-28 w-full rounded-ts-lg" />
       <Skeleton className="h-40 w-full rounded-ts-lg" />
-      <div className="grid items-start gap-6 min-[1560px]:grid-cols-[minmax(0,1.62fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 min-[1560px]:grid-cols-[minmax(0,1.62fr)_minmax(0,1fr)]">
         <Skeleton className="h-112 w-full rounded-ts-lg min-[1560px]:row-span-2" />
         <Skeleton className="h-52 w-full rounded-ts-lg" />
         <Skeleton className="h-56 w-full rounded-ts-lg" />

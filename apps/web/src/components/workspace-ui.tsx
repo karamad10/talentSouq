@@ -31,7 +31,7 @@ export function WorkspaceHeader({
   actionSlot?: ReactNode;
 }) {
   return (
-    <header className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+    <header className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 max-[680px]:mb-6">
       <div className="min-w-0">
         <p className="m-0 text-[11px] font-bold tracking-[0.1em] text-ts-primary uppercase">{eyebrow}</p>
         <h1 className="m-0 mt-2 text-[30px] leading-[1.12] font-bold tracking-[-0.03em] text-ts-ink max-[680px]:text-[24px]">{title}</h1>
@@ -39,7 +39,7 @@ export function WorkspaceHeader({
       </div>
       {actionSlot ??
         (action ? (
-          <Link href={action.href} className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-11 rounded-ts-md px-5 text-sm")}>
+          <Link href={action.href} className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-11 rounded-ts-md px-5 text-sm max-[560px]:w-full")}>
             {action.label}
           </Link>
         ) : null)}
@@ -49,7 +49,7 @@ export function WorkspaceHeader({
 
 /** Secondary and primary page actions, sized to sit beside a page title. */
 export function HeaderActions({ children }: { children: ReactNode }) {
-  return <div className="flex flex-wrap items-center gap-2.5">{children}</div>;
+  return <div className="flex flex-wrap items-center gap-2.5 max-[560px]:w-full max-[560px]:[&>*]:flex-1">{children}</div>;
 }
 
 export function HeaderAction({ href, children, tone = "secondary" }: { href: Route; children: ReactNode; tone?: "primary" | "secondary" }) {
@@ -57,7 +57,7 @@ export function HeaderAction({ href, children, tone = "secondary" }: { href: Rou
     <Link
       href={href}
       className={cn(
-        "inline-flex h-11 items-center gap-2 rounded-ts-md px-5 text-sm font-bold transition-colors",
+        "inline-flex h-11 items-center justify-center gap-2 rounded-ts-md px-5 text-sm font-bold transition-colors",
         tone === "primary"
           ? "bg-ts-primary text-white hover:bg-ts-primary-deep"
           : "border border-ts-line-soft bg-ts-surface text-ts-ink shadow-ts-card hover:border-ts-line hover:bg-ts-surface-2"
@@ -79,7 +79,7 @@ export function HeaderAction({ href, children, tone = "secondary" }: { href: Rou
  * most of what made these pages feel busy.
  */
 export function PageBody({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("flex flex-col gap-8", className)}>{children}</div>;
+  return <div className={cn("flex flex-col gap-8 max-[680px]:gap-5", className)}>{children}</div>;
 }
 
 /**
@@ -88,8 +88,8 @@ export function PageBody({ children, className }: { children: ReactNode; classNa
  */
 export function SplitLayout({ children, rail, className }: { children: ReactNode; rail: ReactNode; className?: string }) {
   return (
-    <div className={cn("grid items-start gap-8 min-[1280px]:grid-cols-[minmax(0,1fr)_356px]", className)}>
-      <div className="flex min-w-0 flex-col gap-8">{children}</div>
+    <div className={cn("grid grid-cols-[minmax(0,1fr)] items-start gap-8 max-[680px]:gap-5 min-[1280px]:grid-cols-[minmax(0,1fr)_356px]", className)}>
+      <div className="flex min-w-0 flex-col gap-8 max-[680px]:gap-5">{children}</div>
       <aside className="flex min-w-0 flex-col gap-5 min-[1280px]:sticky min-[1280px]:top-8">{rail}</aside>
     </div>
   );
@@ -145,7 +145,7 @@ export function SearchField({
       <label className="sr-only" htmlFor={id}>
         {label}
       </label>
-      <div className="flex h-11 min-w-60 flex-1 items-center gap-2.5 rounded-ts-md border border-ts-line bg-ts-surface px-3.5 transition-colors focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary/15">
+      <div className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-ts-md border border-ts-line bg-ts-surface px-3.5 transition-colors min-[420px]:min-w-60 focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary/15">
         <Icon size={16} aria-hidden="true" className="shrink-0 text-ts-muted" />
         <input
           id={id}
@@ -303,7 +303,7 @@ export function PanelAction({ href, children }: { href: Route; children: ReactNo
   return (
     <Link
       href={href}
-      className="inline-flex shrink-0 items-center gap-1 text-[13px] font-bold text-ts-primary transition-colors hover:text-ts-primary-deep"
+      className="tap-target inline-flex shrink-0 items-center gap-1 text-[13px] font-bold text-ts-primary transition-colors hover:text-ts-primary-deep"
     >
       {children}
     </Link>

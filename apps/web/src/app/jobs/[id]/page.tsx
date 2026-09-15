@@ -92,7 +92,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
       </section>
 
       <section className="py-14 max-[680px]:py-10">
-        <Container className="grid items-start gap-10 min-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,360px)]">
+        <Container className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 min-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,360px)]">
           <article className="flex min-w-0 flex-col gap-10">
             <div>
               <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "عن الوظيفة" : "About the role"}</h2>

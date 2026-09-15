@@ -15,7 +15,8 @@ export function MenuContent({ className, children, ...props }: ComponentProps<ty
       <DropdownMenu.Content
         align="end"
         sideOffset={6}
-        className={cn("z-50 min-w-44 rounded-ts-md border border-ts-line-soft bg-ts-surface p-1 text-ts-ink shadow-lg", className)}
+        collisionPadding={12}
+        className={cn("z-50 max-w-[calc(100vw-24px)] min-w-44 rounded-ts-md border border-ts-line-soft bg-ts-surface p-1 text-ts-ink shadow-lg", className)}
         {...props}
       >
         {children}
@@ -28,7 +29,8 @@ export function MenuItem({ className, children, ...props }: ComponentProps<typeo
   return (
     <DropdownMenu.Item
       className={cn(
-        "flex cursor-pointer items-center gap-2 rounded-ts-sm px-3 py-2 text-sm outline-none select-none",
+        // min-h-10 keeps every menu row a comfortable tap target on touch.
+        "flex min-h-10 cursor-pointer items-center gap-2 rounded-ts-sm px-3 py-2 text-sm outline-none select-none",
         "data-highlighted:bg-ts-surface-2 data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}

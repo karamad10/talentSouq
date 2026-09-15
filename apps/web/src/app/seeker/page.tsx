@@ -62,14 +62,14 @@ export default async function SeekerDashboardPage({ searchParams }: { searchPara
       {/* One grid, two shapes: below 1560px the tracker takes the full width and
           Messages/New matches sit side by side; above it, the tracker runs tall
           beside them so neither column is left with dead space. */}
-      <div className="grid items-stretch gap-6 min-[900px]:grid-cols-2 min-[1560px]:grid-cols-[minmax(0,1.62fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] items-stretch gap-6 min-[900px]:grid-cols-2 min-[1560px]:grid-cols-[minmax(0,1.62fr)_minmax(0,1fr)]">
         <SectionPanel
           title="Application tracker"
           description="Every live application with its stage, match, and the next thing to do."
           className="min-w-0 min-[900px]:col-span-2 min-[1560px]:col-span-1 min-[1560px]:row-span-2"
           bodyClassName="flex flex-col"
           action={
-            <Link href="/seeker/applications" className="inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+            <Link href="/seeker/applications" className="tap-target inline-flex items-center gap-1 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
               Open tracker <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
           }

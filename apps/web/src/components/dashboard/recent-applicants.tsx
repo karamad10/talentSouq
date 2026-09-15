@@ -35,7 +35,7 @@ export function RecentApplicants({ candidates }: { candidates: Candidate[] }) {
             <ScoreBadge value={candidate.score} />
             <Link
               href="/employer/pipeline"
-              className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep"
+              className="tap-target inline-flex shrink-0 items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep"
             >
               Review <ArrowUpRight size={14} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>

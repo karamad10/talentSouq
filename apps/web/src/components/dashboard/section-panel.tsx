@@ -56,7 +56,7 @@ export function SectionPanel({
 
 export function ArrowLink({ href, children }: { href: Route; children: ReactNode }) {
   return (
-    <Link href={href} className="inline-flex items-center gap-1 text-[13px] font-bold text-ts-primary transition-colors hover:text-ts-primary-deep">
+    <Link href={href} className="tap-target inline-flex items-center gap-1 text-[13px] font-bold text-ts-primary transition-colors hover:text-ts-primary-deep">
       {children}
       <ArrowUpRight size={14} aria-hidden="true" className="rtl:-scale-x-100" />
     </Link>

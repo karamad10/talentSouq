@@ -70,7 +70,7 @@ function TrackerSummary({ rows }: { rows: ApplicationRow[] }) {
           <dd className="m-0 text-sm font-bold text-ts-ink">{rows[rows.length - 1]?.updated}</dd>
         </div>
       </dl>
-      <Link href="/seeker/jobs" className="inline-flex items-center gap-1.5 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
+      <Link href="/seeker/jobs" className="tap-target inline-flex items-center gap-1.5 text-sm font-bold text-ts-primary hover:text-ts-primary-deep">
         Add another application <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
       </Link>
     </div>
@@ -84,8 +84,11 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
       {rows.length === 0 ? (
         <EmptyState icon={BriefcaseBusiness} title="No applications yet" description="Roles you apply to will show up here with their live status." action={{ href: "/seeker/jobs", label: "Discover jobs" }} />
       ) : (
-        <div className="-mx-1 min-h-0 flex-1 overflow-x-auto px-1">
-          <table className="h-full w-full min-w-170 border-collapse">
+        <div className="-mx-1 min-h-0 flex-1 px-1 min-[900px]:overflow-x-auto">
+          {/* `.ts-table` (globals.css) stacks this into cards below 900px, where
+              five columns would otherwise need 680px of sideways scrolling
+              inside a card. The explicit roles survive that display change. */}
+          <table role="table" className="ts-table h-full w-full border-collapse min-[900px]:min-w-170">
             {/* Percentage widths keep every column fluid: the table fills the
                 card at any width and only scrolls below its 680px minimum. */}
             <colgroup>
@@ -95,21 +98,28 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
               <col className="w-[23%]" />
               <col className="w-[13%]" />
             </colgroup>
-            <thead>
-              <tr className="border-b border-ts-line-soft">
-                <th scope="col" className="pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Company &amp; role</th>
-                <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Stage</th>
-                <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Match</th>
-                <th scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Next step</th>
-                <th scope="col" className="pb-3 ps-4 text-end text-[13px] font-semibold text-ts-muted">Updated</th>
+            <thead role="rowgroup">
+              <tr role="row" className="border-b border-ts-line-soft">
+                <th role="columnheader" scope="col" className="pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Company &amp; role</th>
+                <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Stage</th>
+                <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Match</th>
+                <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Next step</th>
+                <th role="columnheader" scope="col" className="pb-3 ps-4 text-end text-[13px] font-semibold text-ts-muted">Updated</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {rows.map((row) => {
                 const needsAction = row.stage === "Interview";
                 return (
-                  <tr key={`${row.company}-${row.role}`} className={cn("border-b border-ts-line-soft last:border-b-0", needsAction && "bg-ts-primary-tint/40")}>
-                    <td className="py-4 pe-4">
+                  <tr
+                    role="row"
+                    key={`${row.company}-${row.role}`}
+                    className={cn(
+                      "border-b border-ts-line-soft min-[900px]:last:border-b-0",
+                      needsAction && "bg-ts-primary-tint/40 max-[899px]:border-ts-primary/40"
+                    )}
+                  >
+                    <td role="cell" className="py-4 pe-4 max-[899px]:p-0">
                       <span className="flex items-center gap-3.5">
                         <span
                           aria-hidden="true"
@@ -123,27 +133,29 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
                         </span>
                       </span>
                     </td>
-                    <td className="px-4 py-4">
+                    <td role="cell" data-label="Stage" className="px-4 py-4 max-[899px]:px-0">
                       <StatusPill status={row.stage} className="px-3 py-1 text-xs" />
                     </td>
-                    <td className="px-4 py-4">
-                      <span className="flex items-center gap-2.5">
+                    <td role="cell" data-label="Match" className="px-4 py-4 max-[899px]:px-0">
+                      <span className="flex items-center gap-2.5 max-[899px]:w-32">
                         <span className="w-9 shrink-0 text-sm font-bold text-ts-ink">{row.score}%</span>
                         <span aria-hidden="true" className="h-2 w-16 min-w-10 flex-1 overflow-hidden rounded-full bg-ts-surface-2">
                           <span className="block h-full rounded-full bg-ts-primary" style={{ width: `${row.score}%` }} />
                         </span>
                       </span>
                     </td>
-                    <td className="px-4 py-4">
+                    <td role="cell" data-label="Next step" className="px-4 py-4 max-[899px]:px-0">
                       {needsAction ? (
-                        <Link href="/seeker/offers" className="inline-flex items-center gap-1.5 text-sm font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep">
+                        <Link href="/seeker/offers" className="tap-target inline-flex items-center gap-1.5 text-sm font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep">
                           {row.nextStep} <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
                         </Link>
                       ) : (
                         <span className="text-sm whitespace-nowrap text-ts-ink">{row.nextStep}</span>
                       )}
                     </td>
-                    <td className="py-4 ps-4 text-end text-[13px] whitespace-nowrap text-ts-muted">{row.updated}</td>
+                    <td role="cell" data-label="Updated" className="py-4 ps-4 text-end text-[13px] whitespace-nowrap text-ts-muted max-[899px]:px-0">
+                      {row.updated}
+                    </td>
                   </tr>
                 );
               })}

@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageSquare, Paperclip, SendHorizontal } from "lucide-react";
+import { ArrowLeft, MessageSquare, Paperclip, SendHorizontal } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { SectionPanel } from "@/components/dashboard/section-panel";
@@ -48,6 +48,14 @@ export function MessagesWorkspace({
   const [sent, setSent] = useState<Record<string, StoredMessage[]>>({});
   const [hydrated, setHydrated] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+  /**
+   * Below 981px the two panes do not fit side by side, and stacking them buries
+   * the open thread under the whole conversation list. So on a phone the pane
+   * pair behaves as one screen at a time, the way a mail app does. Above that
+   * breakpoint this is ignored and both panes show. A deep link names the
+   * thread to read, so it opens straight to it.
+   */
+  const [phonePane, setPhonePane] = useState<"list" | "thread">(initialThreadId ? "thread" : "list");
 
   // Read persisted messages after mount so server and client markup match.
   useEffect(() => {
@@ -117,14 +125,22 @@ export function MessagesWorkspace({
   }
 
   return (
-    <div className="grid items-stretch gap-6 min-[981px]:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
-      <SectionPanel title="Conversations" description={`${rows.length} threads`} bodyClassName="flex flex-col p-0">
+    <div className="grid grid-cols-[minmax(0,1fr)] items-stretch gap-6 min-[981px]:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+      <SectionPanel
+        title="Conversations"
+        description={`${rows.length} threads`}
+        bodyClassName="flex flex-col p-0"
+        className={cn(phonePane === "thread" && "max-[980px]:hidden")}
+      >
         <ul className="m-0 flex flex-1 list-none flex-col p-0">
           {rows.map((row, index) => (
             <li key={row.id} className={cn("flex", index > 0 && "border-t border-ts-line-soft")}>
               <button
                 type="button"
-                onClick={() => setActiveId(row.id)}
+                onClick={() => {
+                  setActiveId(row.id);
+                  setPhonePane("thread");
+                }}
                 aria-current={row.id === active.id ? "true" : undefined}
                 className={cn(
                   "flex w-full items-center gap-3.5 px-5 py-4 text-start transition-colors max-[680px]:px-4",
@@ -151,13 +167,21 @@ export function MessagesWorkspace({
       <SectionPanel
         title={active.name}
         description={active.meta}
-        bodyClassName="flex min-h-125 flex-col gap-4"
+        className={cn(phonePane === "list" && "max-[980px]:hidden")}
+        bodyClassName="flex flex-col gap-4 min-[981px]:min-h-125"
         action={
           <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-ts-muted">
             <MessageSquare size={15} aria-hidden="true" /> {active.messages.length} messages
           </span>
         }
       >
+        <button
+          type="button"
+          onClick={() => setPhonePane("list")}
+          className="-mt-1 inline-flex h-10 w-fit items-center gap-1.5 rounded-ts-md pe-3 text-[13px] font-bold text-ts-primary transition-colors hover:bg-ts-surface-2 min-[981px]:hidden"
+        >
+          <ArrowLeft size={16} aria-hidden="true" className="rtl:-scale-x-100" /> All conversations
+        </button>
         <div ref={listRef} className="flex max-h-150 min-h-0 flex-1 flex-col gap-3 overflow-y-auto pe-1" aria-label={`Conversation with ${active.name}`}>
           {active.messages.map((message, index) => (
             <div
@@ -183,7 +207,10 @@ export function MessagesWorkspace({
             data-pending="true" (globals.css then shows "Working…" and disables the submit
             button). This form never does a network submission, so that flag would never
             be cleared and the send button would lock up after the first message. */}
-        <form onSubmit={send} data-no-pending className="flex items-end gap-3 border-t border-ts-line-soft pt-4">
+        {/* Below 700px the field and its two buttons cannot share a line without
+            squeezing the field to a third of the card; the controls drop under
+            it instead. */}
+        <form onSubmit={send} data-no-pending className="flex flex-col gap-3 border-t border-ts-line-soft pt-4 min-[700px]:flex-row min-[700px]:items-end">
           <label className="sr-only" htmlFor="thread-composer">
             Reply to {active.name}
           </label>
@@ -193,7 +220,7 @@ export function MessagesWorkspace({
             required
             rows={2}
             placeholder={`Reply to ${active.name.split(" ")[0]}… (Enter to send)`}
-            className="min-h-12 w-full flex-1 resize-y rounded-ts-md border border-ts-field bg-ts-surface px-4 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
+            className="min-h-12 w-full min-w-0 flex-1 resize-y rounded-ts-md border border-ts-field bg-ts-surface px-4 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
@@ -201,15 +228,17 @@ export function MessagesWorkspace({
               }
             }}
           />
-          <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md border border-ts-line-soft text-ts-muted">
-            <Paperclip size={17} />
-          </span>
-          <button
-            type="submit"
-            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-white transition-opacity hover:opacity-90"
-          >
-            <SendHorizontal size={16} aria-hidden="true" className="rtl:-scale-x-100" /> Send
-          </button>
+          <div className="flex items-center gap-3 max-[699px]:justify-end">
+            <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md border border-ts-line-soft text-ts-muted">
+              <Paperclip size={17} />
+            </span>
+            <button
+              type="submit"
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            >
+              <SendHorizontal size={16} aria-hidden="true" className="rtl:-scale-x-100" /> Send
+            </button>
+          </div>
         </form>
         <p className="m-0 text-xs text-ts-muted">Replies are saved on this device until realtime messaging is connected.</p>
       </SectionPanel>

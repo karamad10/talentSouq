@@ -48,7 +48,9 @@ export function PipelineBoard({
   listHref: (stage: string) => Route;
 }) {
   return (
-    <div className="-mx-1 overflow-x-auto px-1 pb-2">
+    // Scroll snapping makes a six-column board usable with a thumb: one flick
+    // lands the next stage flush against the edge instead of mid-column.
+    <div className="-mx-1 snap-x snap-mandatory overflow-x-auto px-1 pb-2 [scrollbar-width:thin]">
       <div className="flex min-w-max items-start gap-4">
         {stages.map((stage, index) => {
           const candidates = candidatesInStage(stage.label);
@@ -61,7 +63,7 @@ export function PipelineBoard({
               key={stage.label}
               aria-label={`${stage.label} column`}
               className={cn(
-                "flex w-64 shrink-0 flex-col gap-3 rounded-ts-xl border p-3",
+                "flex w-64 shrink-0 snap-start flex-col gap-3 rounded-ts-xl border p-3 max-[680px]:w-[78vw]",
                 focused ? "border-ts-primary bg-ts-primary-tint/40" : "border-ts-line-soft bg-ts-surface-2/45"
               )}
             >

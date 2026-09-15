@@ -127,7 +127,7 @@ export function PublicFooter({ locale }: { locale: Locale }) {
           <div key={column.title} className="flex flex-col gap-3">
             <strong className="text-xs font-bold tracking-[0.12em] text-white/50 uppercase">{column.title}</strong>
             {column.links.map((link) => (
-              <Link key={`${column.title}-${link.label}`} href={link.href} className="text-sm font-medium text-white/80 transition-colors hover:text-white">
+              <Link key={`${column.title}-${link.label}`} href={link.href} className="tap-target text-sm font-medium text-white/80 transition-colors hover:text-white">
                 {link.label}
               </Link>
             ))}
