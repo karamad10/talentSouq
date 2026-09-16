@@ -48,7 +48,7 @@ const sections: LegalSection[] = [
   },
   {
     title: "Changes and contact",
-    body: <p>We may update this policy and will post the revised date here. Questions or privacy requests can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. The responsible entity is TalentSouq L.L.C, Amsterdam, Netherlands.</p>
+    body: <p>We may update this policy and will post the revised date here. Questions or privacy requests can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. The responsible entity is Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
   }
 ];
 
@@ -64,7 +64,7 @@ export default async function PrivacyPage() {
       theme={theme}
       title="Privacy Policy"
       updated="11 August 2026"
-      summary="TalentSouq L.L.C operates the TalentSouq recruitment platform for job seekers and employers. This policy explains what data we collect, why we use it, and the choices available to you."
+      summary="Triovate Management Consultancies L.L.C operates the TalentSouq recruitment platform for job seekers and employers. This policy explains what data we collect, why we use it, and the choices available to you."
       sections={sections}
       related={{
         href: "/terms",

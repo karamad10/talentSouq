@@ -45,6 +45,7 @@ export function LegalPage({
           <p className="legal-summary">{summary}</p>
           <div className="legal-meta">
             <span>Last updated: {updated}</span>
+            <span>By Triovate</span>
             <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>
           </div>
         </header>

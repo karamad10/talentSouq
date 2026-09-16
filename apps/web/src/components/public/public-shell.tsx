@@ -136,7 +136,7 @@ export function PublicFooter({ locale }: { locale: Locale }) {
       </Container>
       <Container className="mt-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-white/10 pt-6 text-[13px] text-white/50">
         <span>Dubai · Riyadh · Doha</span>
-        <span>© 2026 TalentSouq</span>
+        <span>© 2026 TalentSouq · By Triovate</span>
       </Container>
     </footer>
   );

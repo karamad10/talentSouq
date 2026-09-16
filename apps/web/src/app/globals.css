@@ -226,8 +226,8 @@ h2 { font-size: clamp(1.65rem, 4.5vw, 4.2rem); }
 
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink-deep); font-size: 20px; font-weight: 700; letter-spacing: 0; }
 .logo[data-inverted] { color: #fff; }
-.logo-mark { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 8px 8px 8px 2px; color: #fff; background: var(--teal); transform: rotate(-3deg); }
-.logo-mark span { transform: rotate(3deg); }
+.logo-mark { display: grid; width: 30px; height: 30px; place-items: center; }
+.logo-mark img { width: 28px; height: 28px; }
 .logo-type span { color: var(--coral); }
 /* Where a bar runs out of room, the mark alone carries the brand and the
    wordmark returns as soon as there is space. The link keeps a 44px tap

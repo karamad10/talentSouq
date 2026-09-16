@@ -52,7 +52,7 @@ const sections: LegalSection[] = [
   },
   {
     title: "Contact",
-    body: <p>Questions can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. TalentSouq L.L.C, Amsterdam, Netherlands.</p>
+    body: <p>Questions can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
   }
 ];
 
