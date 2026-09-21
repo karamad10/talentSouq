@@ -289,7 +289,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .minor-form-link { justify-self: end; margin: -6px 0 18px; color: var(--teal); font-size: 12px; font-weight: 800; }
 .form-divider { display: flex; align-items: center; gap: 14px; margin-block: 26px; color: var(--ink-soft); font-size: 11px; }
 .form-divider::before, .form-divider::after { flex: 1; height: 1px; content: ""; background: var(--line); }
-.social-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }.social-buttons form { display: contents; }.google-g { color: #4285f4; font-weight: 800; }
+.social-buttons { display: grid; grid-template-columns: 1fr; gap: 10px; }.social-buttons form { display: contents; }.google-g { color: #4285f4; font-weight: 800; }
 .switch-auth { margin-top: 26px; text-align: center; font-size: 13px; }.switch-auth a { color: var(--teal); font-weight: 700; }
 .form-note { padding: 12px; border-radius: 9px; color: var(--ink-soft); background: var(--surface-soft); font-size: 10px; line-height: 1.5; }
 
@@ -418,7 +418,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 
 @media (max-width: 420px) {
   /* Two half-width buttons stop being tappable targets at this size. */
-  .social-buttons, .role-choice { grid-template-columns: 1fr; }
+  .role-choice { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

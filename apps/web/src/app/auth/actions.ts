@@ -1,6 +1,5 @@
 "use server";
 
-import type { Provider } from "@supabase/supabase-js";
 import type { Route } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -112,8 +111,8 @@ export async function signUpWithPassword(formData: FormData) {
 }
 
 export async function signInWithOAuth(formData: FormData) {
-  const providerValue = formData.get("provider");
-  const provider = providerValue === "apple" ? "apple" : "google";
+  // Google is the only social provider the sign-in page offers, so the form's
+  // `provider` field is ignored rather than trusted.
   const next = safeRelativePath(formData.get("next"), "/seeker");
 
   let supabase;
@@ -125,10 +124,10 @@ export async function signInWithOAuth(formData: FormData) {
 
   const origin = await getWebOrigin();
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: provider as Provider,
+    provider: "google",
     options: {
       redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
-      queryParams: provider === "google" ? { prompt: "select_account" } : undefined
+      queryParams: { prompt: "select_account" }
     }
   });
 
