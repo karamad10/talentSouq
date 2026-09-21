@@ -25,10 +25,11 @@ function initialsFromEmail(email: string) {
 export function PublicHeader({ locale, theme = "light", overlay = false, user = null }: { locale: Locale; theme?: "light" | "dark"; overlay?: boolean; user?: SessionUser | null }) {
   const copy = dictionary[locale].nav;
   const dashboardHref = user?.role === "employer" ? "/employer" : "/seeker";
+  // No "For employers" entry: it pointed at a home-page anchor, so from any other
+  // route it just dropped you at the top of the home page with nothing to show.
   const links = [
     { href: "/jobs" as const, label: copy.jobs },
-    { href: "/companies" as const, label: copy.companies },
-    { href: "/#employers" as const, label: copy.forEmployers }
+    { href: "/companies" as const, label: copy.companies }
   ];
 
   return (

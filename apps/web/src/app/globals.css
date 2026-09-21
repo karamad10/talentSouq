@@ -96,16 +96,16 @@
   --radius-lg: 28px;
   --container: 1180px;
   /* Mobile parity tokens: use these for new product workspace UI. */
-  --ts-paper: #FAFBFC;
+  --ts-paper: #F6F8FA;
   --ts-surface: #FFFFFF;
   --ts-surface-2: #F1F4F5;
   --ts-ink: #0B1B23;
-  --ts-muted: #5C6B73;
-  --ts-subtle: #626D74;
-  --ts-line: #C7D0D4;
+  --ts-muted: #4A5A62;
+  --ts-subtle: #56636A;
+  --ts-line: #BAC5CB;
   /* Hairline for card edges and list dividers. Deliberately lighter than
      --ts-line: at dashboard density the stronger line reads as clutter. */
-  --ts-line-soft: #E4E9EB;
+  --ts-line-soft: #DAE1E5;
   --ts-field-border: #6B7880;
   --ts-shadow-card: 0 1px 2px rgba(11, 27, 35, .05);
   --ts-shadow-lift: 0 6px 20px rgba(11, 27, 35, .08);
@@ -173,10 +173,10 @@
   --ts-surface: #151D20;
   --ts-surface-2: #1B2427;
   --ts-ink: #E8EDEE;
-  --ts-muted: #93A1A6;
-  --ts-subtle: #828F94;
+  --ts-muted: #A4B1B6;
+  --ts-subtle: #93A0A5;
   --ts-line: #37444A;
-  --ts-line-soft: #263136;
+  --ts-line-soft: #2D383E;
   --ts-field-border: #4E5D64;
   --ts-shadow-card: 0 1px 2px rgba(0, 0, 0, .3);
   --ts-shadow-lift: 0 6px 20px rgba(0, 0, 0, .4);

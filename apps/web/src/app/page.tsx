@@ -1,4 +1,4 @@
-import { ArrowRight, BriefcaseBusiness, Check, FileText, LineChart, MessagesSquare, Search, Sparkles, UsersRound } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BriefcaseBusiness, Check, FileText, MessagesSquare, Search, UsersRound } from "lucide-react";
 import type { Route } from "next";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -11,6 +11,16 @@ import { companiesByOpenRoles } from "@/data/companies";
 import { jobs } from "@/data/jobs";
 import { getSessionUser } from "@/lib/auth/session";
 import { dictionary, isLocale } from "@/lib/i18n";
+
+/* The public home page runs on a quieter system than the workspace: hairline
+   edges, one accent, semibold (never bold) headings, and fluid clamp() rhythm
+   so the layout breathes rather than snapping between breakpoints. */
+const buttonPrimary =
+  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ts-primary px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ts-primary-deep";
+const buttonQuiet =
+  "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-ts-line bg-ts-surface px-6 text-[15px] font-semibold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep";
+const eyebrow = "m-0 text-[11px] font-semibold tracking-[0.18em] text-ts-primary-deep uppercase";
+const sectionPad = "py-[clamp(3.5rem,8vw,6.5rem)]";
 
 export default async function HomePage() {
   const [cookieStore, user] = await Promise.all([cookies(), getSessionUser()]);
@@ -35,105 +45,113 @@ export default async function HomePage() {
 
   return (
     <main className="bg-ts-paper">
-      {/* Hero: the image carries the region, the search bar carries the intent. */}
-      <section className="relative isolate overflow-hidden bg-ts-ink">
-        <Image
-          className="absolute inset-0 -z-10 object-cover"
-          src="/images/talentsouq-hero.webp"
-          alt="Professionals collaborating in a contemporary Gulf workplace"
-          fill
-          priority
-          sizes="100vw"
-        />
+      <PublicHeader locale={locale} theme={theme} user={user} />
+
+      {/* Hero: light ground, the photograph framed rather than flooded, and the
+          search bar as the single loudest element on the page. */}
+      <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,rgba(6,29,36,0.96)_0%,rgba(6,29,36,0.9)_38%,rgba(6,29,36,0.45)_70%,rgba(6,29,36,0.25)_100%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(70%_100%_at_50%_0%,var(--ts-primary-tint)_0%,transparent_72%)] opacity-70"
         />
-        <PublicHeader locale={locale} theme={theme} overlay user={user} />
-
-        <Container className="pt-40 pb-16 max-[900px]:pt-32 max-[680px]:pt-24 max-[680px]:pb-10">
-          <div className="max-w-3xl">
-            <p className="m-0 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold tracking-[0.12em] text-white uppercase backdrop-blur">
-              <Sparkles size={15} aria-hidden="true" className="text-ts-accent" />
+        <Container className="relative grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,5vw,4rem)] min-[1000px]:grid-cols-[1.05fr_0.95fr]">
+          <div className="min-w-0">
+            <p className={`${eyebrow} inline-flex items-center gap-2.5`}>
+              <span aria-hidden="true" className="inline-block size-1.5 rounded-full bg-ts-accent" />
               {copy.hero.eyebrow}
             </p>
-            <h1 className="m-0 mt-7 text-[clamp(2.2rem,8vw,5.2rem)] leading-[1.02] font-bold tracking-[-0.04em] text-white max-[680px]:mt-5">
+            <h1 className="m-0 mt-5 text-[clamp(2.3rem,5.6vw,4.1rem)] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-ts-ink">
               {copy.hero.titleStart}
               <br />
-              <em className="font-serif font-normal text-[#F5DCB9] italic">{copy.hero.titleAccent}</em>
+              <em className="font-serif font-normal text-ts-primary italic">{copy.hero.titleAccent}</em>
             </h1>
-            <p className="m-0 mt-6 max-w-xl text-[17px] leading-relaxed text-white/75 min-[680px]:text-[19px]">{copy.hero.body}</p>
-          </div>
+            <p className="m-0 mt-5 max-w-xl text-[clamp(1rem,1.3vw,1.125rem)] leading-relaxed text-pretty text-ts-muted">{copy.hero.body}</p>
 
-          <JobSearchForm locale={locale} tone="hero" className="mt-9 max-w-4xl" />
+            <JobSearchForm locale={locale} className="mt-8" />
 
-          <div className="mt-7 flex flex-col items-stretch gap-3 min-[520px]:flex-row min-[520px]:flex-wrap min-[520px]:items-center">
-            <Link
-              href="/jobs"
-              className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-7 text-base font-bold text-ts-ink transition-transform hover:-translate-y-0.5"
-            >
-              <Search size={18} aria-hidden="true" />
-              {copy.hero.find}
-            </Link>
-            <Link
-              href="/#employers"
-              className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/30 px-7 text-base font-bold text-white transition-colors hover:bg-white/10"
-            >
-              {copy.hero.hire}
-              <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
-            </Link>
-          </div>
+            <div className="mt-5 flex flex-col items-stretch gap-3 min-[520px]:flex-row min-[520px]:flex-wrap min-[520px]:items-center">
+              <Link href="/jobs" className={buttonPrimary}>
+                {copy.hero.find}
+                <ArrowRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
+              </Link>
+              <Link href="/#employers" className={buttonQuiet}>
+                {copy.hero.hire}
+              </Link>
+            </div>
 
-          <div className="mt-7 flex items-center gap-3 min-[900px]:flex-wrap">
-            <span className="shrink-0 text-sm font-semibold text-white/60">{arabic ? "الأكثر بحثاً" : "Popular"}</span>
-            <div className="-mx-1 flex min-w-0 flex-1 items-center gap-3 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-none min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
+            <div className="mt-7 flex flex-wrap items-baseline gap-x-5 gap-y-2.5">
+              <span className="text-[13px] text-ts-subtle">{arabic ? "الأكثر بحثاً" : "Popular"}</span>
               {categories.slice(0, 5).map((item) => (
                 <Link
                   key={item.category}
                   href={`/jobs?category=${encodeURIComponent(item.category)}` as Route}
-                  className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full border border-white/20 px-4 text-[13px] font-semibold whitespace-nowrap text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+                  className="text-[14px] font-medium text-ts-ink underline decoration-ts-line underline-offset-[6px] transition-colors hover:text-ts-primary hover:decoration-ts-primary"
                 >
                   {item.category}
-                  <span className="text-white/50">{item.count}</span>
                 </Link>
               ))}
             </div>
           </div>
+
+          {/* Framed photograph with one quiet product detail resting on it. */}
+          <div className="relative aspect-[5/4] w-full min-w-0 overflow-hidden rounded-ts-xl border border-ts-line-soft bg-ts-surface-2 max-[1000px]:order-first min-[1000px]:aspect-[7/8]">
+            <Image
+              className="object-cover"
+              src="/images/talentsouq-hero.webp"
+              alt="Professionals collaborating in a contemporary Gulf workplace"
+              fill
+              priority
+              sizes="(max-width: 1000px) 100vw, 46vw"
+            />
+            <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,27,35,0)_45%,rgba(11,27,35,0.6)_100%)]" />
+            {/* The one product detail in the hero: a caption on the gradient,
+                not a panel — a filled card here reads as a milky slab. */}
+            <div className="absolute inset-x-5 bottom-5 flex items-center gap-3">
+              <span aria-hidden="true" className="inline-flex h-7 shrink-0 items-center rounded-full bg-ts-primary px-2.5 text-[12px] font-semibold text-white">
+                92%
+              </span>
+              <span className="min-w-0 [text-shadow:0_1px_12px_rgba(11,27,35,0.55)]">
+                <strong className="block truncate text-sm font-semibold text-white">Senior Product Designer</strong>
+                <span className="block truncate text-[13px] text-white/75">{arabic ? "توافق قوي · دبي" : "Strong match · Dubai"}</span>
+              </span>
+            </div>
+          </div>
         </Container>
 
-        <div className="border-t border-white/15">
-          <Container className="flex flex-wrap items-center gap-x-10 gap-y-5 py-8 min-[900px]:gap-x-14 min-[900px]:gap-y-6">
-            <p className="m-0 w-full text-xs font-bold tracking-[0.12em] text-white/50 uppercase min-[900px]:w-auto">{copy.proof.label}</p>
+        {/* Proof, stated once and quietly. */}
+        <Container>
+          <div className="flex flex-wrap items-baseline gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-5 border-t border-ts-line-soft py-8">
+            <p className={`${eyebrow} w-full min-[900px]:w-auto`}>{copy.proof.label}</p>
             {[
               { value: "500+", label: copy.proof.jobs },
               { value: "120+", label: copy.proof.companies },
               { value: "01", label: copy.proof.response }
             ].map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-1">
-                <strong className="text-2xl leading-none font-bold tracking-[-0.03em] text-white">{stat.value}</strong>
-                <span className="text-[13px] text-white/60">{stat.label}</span>
+              <div key={stat.label} className="flex items-baseline gap-2.5">
+                <strong className="text-xl font-semibold tracking-[-0.02em] text-ts-ink">{stat.value}</strong>
+                <span className="text-[13px] text-ts-muted">{stat.label}</span>
               </div>
             ))}
-          </Container>
-        </div>
+          </div>
+        </Container>
       </section>
 
-      {/* Who is hiring — real companies from the job data. */}
-      <section className="border-b border-ts-line bg-ts-surface py-10">
-        <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-10 min-[900px]:gap-y-6">
-          <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-muted uppercase">{arabic ? "يوظفون الآن" : "Hiring right now"}</p>
-          <div className="-mx-5 flex items-center gap-3 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0 min-[900px]:pb-0">
+      {/* Who is hiring — a quiet marquee row, not a wall of chips. */}
+      <section className="border-y border-ts-line-soft bg-ts-surface py-7">
+        <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-9">
+          <p className={eyebrow}>{arabic ? "يوظفون الآن" : "Hiring right now"}</p>
+          <div className="-mx-5 flex items-center gap-x-7 gap-y-3 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
             {hiring.map(({ company, openRoles }) => (
               <Link
                 key={company.slug}
                 href={`/companies/${company.slug}` as Route}
-                className="inline-flex shrink-0 items-center gap-2.5 rounded-full border border-ts-line px-4 py-2 whitespace-nowrap transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40"
+                className="group inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
               >
-                <span aria-hidden="true" className="grid size-8 place-items-center rounded-ts-sm text-xs font-bold text-ts-ink/80" style={{ backgroundColor: company.accent }}>
+                <span aria-hidden="true" className="grid size-7 place-items-center rounded-ts-sm text-[11px] font-semibold text-ts-ink/75" style={{ backgroundColor: company.accent }}>
                   {company.initials}
                 </span>
-                <span className="text-sm font-bold text-ts-ink">{company.name}</span>
-                <span className="text-[13px] font-semibold text-ts-muted">{openRoles}</span>
+                <span className="text-sm font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{company.name}</span>
+                <span className="text-[13px] text-ts-subtle">{openRoles}</span>
               </Link>
             ))}
           </div>
@@ -141,7 +159,7 @@ export default async function HomePage() {
       </section>
 
       {/* Featured roles */}
-      <section className="py-20 max-[680px]:py-14">
+      <section className={sectionPad}>
         <Container>
           <SectionHeading
             eyebrow={copy.sections.jobsEyebrow}
@@ -149,7 +167,7 @@ export default async function HomePage() {
             body={copy.sections.jobsBody}
             action={{ href: "/jobs", label: copy.sections.viewAll }}
           />
-          <div className="mt-10 grid grid-cols-1 gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
             {featured.map((job) => (
               <PublicJobCard key={job.id} job={job} locale={locale} />
             ))}
@@ -157,28 +175,28 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Browse by function */}
-      <section className="border-y border-ts-line bg-ts-surface py-16 max-[680px]:py-12">
+      {/* Browse by function — a hairline list, fluid across widths. */}
+      <section className={`border-y border-ts-line-soft bg-ts-surface ${sectionPad}`}>
         <Container>
           <SectionHeading
             eyebrow={arabic ? "تصفح المجالات" : "Browse by function"}
             title={arabic ? "ابدأ من مجالك." : "Start where you already work."}
             body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج." : "Every function shows what is genuinely open across the Gulf today."}
           />
-          <div className="mt-8 grid grid-cols-1 gap-4 min-[560px]:grid-cols-2 min-[1100px]:grid-cols-5">
+          <div className="mt-9 grid gap-x-10 border-t border-ts-line [grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))]">
             {categories.map((item) => (
               <Link
                 key={item.category}
                 href={`/jobs?category=${encodeURIComponent(item.category)}` as Route}
-                className="group flex items-center justify-between gap-3 rounded-ts-lg border border-ts-line bg-ts-paper px-5 py-5 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40"
+                className="group flex items-center justify-between gap-4 border-b border-ts-line py-5 transition-colors hover:border-ts-primary"
               >
                 <span className="min-w-0">
-                  <span className="block text-[17px] font-bold text-ts-ink group-hover:text-ts-primary-deep">{item.category}</span>
-                  <span className="mt-1 block text-[13px] text-ts-muted">
+                  <span className="block text-[16px] font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{item.category}</span>
+                  <span className="mt-0.5 block text-[13px] text-ts-subtle">
                     {item.count} {arabic ? "وظيفة" : item.count === 1 ? "open role" : "open roles"}
                   </span>
                 </span>
-                <ArrowRight size={18} aria-hidden="true" className="shrink-0 text-ts-muted transition-transform group-hover:translate-x-1 rtl:-scale-x-100" />
+                <ArrowUpRight size={17} aria-hidden="true" className="shrink-0 text-ts-subtle transition-colors group-hover:text-ts-primary rtl:-scale-x-100" />
               </Link>
             ))}
           </div>
@@ -186,74 +204,73 @@ export default async function HomePage() {
       </section>
 
       {/* For talent */}
-      <section className="py-20 max-[680px]:py-14" id="talent">
-        <Container className="grid grid-cols-1 items-center gap-10 min-[1000px]:grid-cols-2 min-[1000px]:gap-14">
+      <section className={sectionPad} id="talent">
+        <Container className="grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4.5rem)] min-[1000px]:grid-cols-2">
           <div className="order-2 min-w-0 min-[1000px]:order-1">
-            <span className="grid size-14 place-items-center rounded-ts-lg bg-ts-primary-tint text-ts-primary">
-              <UsersRound size={26} aria-hidden="true" />
+            <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-primary-tint text-ts-primary-deep">
+              <UsersRound size={20} aria-hidden="true" />
             </span>
-            <p className="m-0 mt-6 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{arabic ? "للباحثين عن عمل" : "For talent"}</p>
-            <h2 className="m-0 mt-3 text-[clamp(1.9rem,3.2vw,2.9rem)] leading-[1.08] font-bold tracking-[-0.03em] text-ts-ink">{copy.sections.seekerTitle}</h2>
-            <p className="m-0 mt-4 max-w-xl text-[17px] leading-relaxed text-ts-muted">{copy.sections.seekerBody}</p>
-            <ul className="m-0 mt-7 flex list-none flex-col gap-3.5 p-0">
+            <p className={`${eyebrow} mt-5`}>{arabic ? "للباحثين عن عمل" : "For talent"}</p>
+            <h2 className="m-0 mt-3 text-[clamp(1.7rem,3vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.03em] text-balance text-ts-ink">{copy.sections.seekerTitle}</h2>
+            <p className="m-0 mt-4 max-w-xl text-[16px] leading-relaxed text-pretty text-ts-muted">{copy.sections.seekerBody}</p>
+            <ul className="m-0 mt-6 flex list-none flex-col gap-3 p-0">
               {[
                 arabic ? "ملف مهني متكامل" : "One complete professional profile",
                 arabic ? "توصيات وظائف أذكى" : "Smarter role recommendations",
                 arabic ? "تتبع واضح للطلبات" : "Clear application tracking"
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-[15px] font-semibold text-ts-ink">
-                  <span aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-full bg-ts-primary text-white">
-                    <Check size={14} />
+                <li key={item} className="flex items-center gap-3 text-[15px] text-ts-ink">
+                  <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-ts-primary-deep">
+                    <Check size={12} strokeWidth={2.5} />
                   </span>
                   {item}
                 </li>
               ))}
             </ul>
-            <Link
-              href="/auth/login?mode=signup"
-              className="mt-8 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-ts-primary px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5 min-[520px]:w-auto"
-            >
-              {copy.sections.start} <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
+            <Link href="/auth/login?mode=signup" className={`${buttonPrimary} mt-8 w-full min-[520px]:w-auto`}>
+              {copy.sections.start} <ArrowRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
           </div>
 
           {/* Profile mock */}
-          <div className="relative order-1 min-w-0 min-[560px]:mb-10 min-[1000px]:order-2 min-[1000px]:mb-0">
-            <div className="rounded-ts-lg border border-ts-line bg-ts-surface p-6 shadow-sm">
+          <div className="order-1 min-w-0 min-[1000px]:order-2">
+            <div className="rounded-ts-xl border border-ts-line bg-ts-surface p-6 shadow-ts-card">
               <div className="flex items-center gap-4">
-                <span aria-hidden="true" className="grid size-14 place-items-center rounded-full bg-[#bb7568] text-lg font-bold text-white">
+                <span aria-hidden="true" className="grid size-12 place-items-center rounded-full bg-[#e8d6d2] text-sm font-semibold text-[#7b453b]">
                   SA
                 </span>
                 <div className="min-w-0 flex-1">
-                  <strong className="block text-base font-bold text-ts-ink">Sarah Ahmed</strong>
+                  <strong className="block text-[15px] font-semibold text-ts-ink">Sarah Ahmed</strong>
                   <span className="block text-[13px] text-ts-muted">Senior Product Designer</span>
                 </div>
-                <span className="inline-flex h-9 items-center rounded-full bg-ts-primary-tint px-3.5 text-sm font-bold text-ts-primary-deep">92%</span>
+                <span className="inline-flex h-8 items-center rounded-full bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">92%</span>
               </div>
-              <div className="mt-6 flex flex-col gap-2.5" aria-hidden="true">
-                <span className="block h-2.5 w-full rounded-full bg-ts-surface-2" />
-                <span className="block h-2.5 w-3/5 rounded-full bg-ts-surface-2" />
+              <div className="mt-6 flex flex-col gap-2" aria-hidden="true">
+                <span className="block h-2 w-full rounded-full bg-ts-surface-2" />
+                <span className="block h-2 w-3/5 rounded-full bg-ts-surface-2" />
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
                 {["Product strategy", "Research", "Design systems"].map((skill) => (
-                  <span key={skill} className="inline-flex h-8 items-center rounded-full bg-ts-surface-2 px-3 text-[13px] font-semibold text-ts-muted">
+                  <span key={skill} className="inline-flex h-7 items-center rounded-full border border-ts-line px-3 text-[13px] text-ts-muted">
                     {skill}
                   </span>
                 ))}
               </div>
-              <div className="mt-6 flex items-center gap-3 border-t border-ts-line pt-5">
-                <LineChart size={18} aria-hidden="true" className="shrink-0 text-ts-primary" />
+              <div className="mt-6 flex items-center gap-3 border-t border-ts-line-soft pt-5">
                 <span className="flex-1 text-[13px] text-ts-muted">{arabic ? "قوة الملف" : "Profile strength"}</span>
-                <strong className="text-sm font-bold text-ts-success">{arabic ? "ممتاز" : "Excellent"}</strong>
+                <span aria-hidden="true" className="h-1.5 w-24 overflow-hidden rounded-full bg-ts-surface-2">
+                  <span className="block h-full w-[86%] rounded-full bg-ts-primary" />
+                </span>
+                <strong className="text-[13px] font-semibold text-ts-primary-deep">{arabic ? "ممتاز" : "Excellent"}</strong>
               </div>
             </div>
-            <div className="mt-4 flex items-center gap-3 rounded-ts-md border border-ts-line bg-ts-surface px-4 py-3 shadow-lg min-[560px]:absolute min-[560px]:end-6 min-[560px]:-bottom-6 min-[560px]:mt-0">
-              <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-ts-success-tint text-ts-success">
-                <Check size={16} />
+            <div className="mt-4 flex items-center gap-3 rounded-ts-lg border border-ts-line bg-ts-surface px-4 py-3 shadow-ts-card">
+              <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-ts-success-tint text-ts-success">
+                <Check size={14} strokeWidth={2.5} />
               </span>
               <span className="min-w-0">
                 <span className="block text-[13px] text-ts-muted">{arabic ? "تم إرسال الطلب" : "Application sent"}</span>
-                <strong className="block text-sm font-bold text-ts-ink">Nexa Commerce</strong>
+                <strong className="block text-sm font-semibold text-ts-ink">Nexa Commerce</strong>
               </span>
             </div>
           </div>
@@ -261,73 +278,66 @@ export default async function HomePage() {
       </section>
 
       {/* For employers */}
-      <section className="border-y border-ts-line bg-ts-surface py-20 max-[680px]:py-14" id="employers">
-        <Container className="grid grid-cols-1 items-center gap-10 min-[1000px]:grid-cols-2 min-[1000px]:gap-14">
+      <section className={`border-y border-ts-line-soft bg-ts-surface ${sectionPad}`} id="employers">
+        <Container className="grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4.5rem)] min-[1000px]:grid-cols-2">
           {/* Pipeline mock */}
-          <div className="relative min-w-0 min-[560px]:mt-6 min-[1000px]:mt-0">
-            <div className="rounded-ts-lg border border-ts-line bg-ts-paper p-6 shadow-sm">
-              <div className="flex items-center justify-between gap-3 border-b border-ts-line pb-4">
-                <strong className="text-base font-bold text-ts-ink">Product Designer</strong>
-                <span className="text-[13px] font-semibold text-ts-muted">24 {arabic ? "متقدم" : "applicants"}</span>
+          <div className="min-w-0">
+            <div className="rounded-ts-xl border border-ts-line bg-ts-paper p-6 shadow-ts-card">
+              <div className="flex items-center justify-between gap-3 border-b border-ts-line-soft pb-4">
+                <strong className="text-[15px] font-semibold text-ts-ink">Product Designer</strong>
+                <span className="text-[13px] text-ts-muted">24 {arabic ? "متقدم" : "applicants"}</span>
               </div>
               <ul className="m-0 flex list-none flex-col p-0">
                 {[
                   { initials: "MA", name: "Maya Alami", stage: arabic ? "طلب جديد" : "New applicant", score: "95%", tone: "bg-[#e6f4f1] text-[#0B5A51]" },
-                  { initials: "LK", name: "Liam Khan", stage: arabic ? "قائمة مختصرة" : "Shortlisted", score: "91%", tone: "bg-[#fff0e5] text-[#8A4B0A]" },
-                  { initials: "NO", name: "Noor Omar", stage: arabic ? "مقابلة" : "Interview", score: "88%", tone: "bg-[#ecebff] text-[#4338ca]" }
+                  { initials: "LK", name: "Liam Khan", stage: arabic ? "قائمة مختصرة" : "Shortlisted", score: "91%", tone: "bg-[#fdf0e4] text-[#8A4B0A]" },
+                  { initials: "NO", name: "Noor Omar", stage: arabic ? "مقابلة" : "Interview", score: "88%", tone: "bg-[#ecebf7] text-[#464396]" }
                 ].map((row) => (
-                  <li key={row.name} className="flex items-center gap-3.5 border-b border-ts-line py-4 last:border-b-0">
-                    <span aria-hidden="true" className={`grid size-10 shrink-0 place-items-center rounded-full text-[13px] font-bold ${row.tone}`}>
+                  <li key={row.name} className="flex items-center gap-3.5 border-b border-ts-line-soft py-4 last:border-b-0">
+                    <span aria-hidden="true" className={`grid size-9 shrink-0 place-items-center rounded-full text-[12px] font-semibold ${row.tone}`}>
                       {row.initials}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <strong className="block truncate text-sm font-bold text-ts-ink">{row.name}</strong>
+                      <strong className="block truncate text-sm font-semibold text-ts-ink">{row.name}</strong>
                       <span className="block text-[13px] text-ts-muted">{row.stage}</span>
                     </span>
-                    <b className="text-sm font-bold text-ts-primary">{row.score}</b>
+                    <span className="text-[13px] font-semibold text-ts-primary-deep">{row.score}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-ts-ink px-4 py-2.5 text-[13px] font-bold text-white shadow-lg min-[560px]:absolute min-[560px]:end-6 min-[560px]:-top-5 min-[560px]:mt-0">
-              <Sparkles size={15} aria-hidden="true" className="text-ts-accent" />
-              {arabic ? "أفضل المرشحين جاهزون" : "Top matches ready"}
-            </div>
           </div>
 
           <div className="min-w-0">
-            <span className="grid size-14 place-items-center rounded-ts-lg bg-ts-accent-tint text-ts-accent-deep">
-              <BriefcaseBusiness size={26} aria-hidden="true" />
+            <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-accent-tint text-ts-accent-deep">
+              <BriefcaseBusiness size={20} aria-hidden="true" />
             </span>
-            <p className="m-0 mt-6 text-xs font-bold tracking-[0.12em] text-ts-accent-deep uppercase">{arabic ? "لأصحاب العمل" : "For employers"}</p>
-            <h2 className="m-0 mt-3 text-[clamp(1.9rem,3.2vw,2.9rem)] leading-[1.08] font-bold tracking-[-0.03em] text-ts-ink">{copy.sections.employerTitle}</h2>
-            <p className="m-0 mt-4 max-w-xl text-[17px] leading-relaxed text-ts-muted">{copy.sections.employerBody}</p>
-            <ul className="m-0 mt-7 flex list-none flex-col gap-3.5 p-0">
+            <p className={`${eyebrow} mt-5`}>{arabic ? "لأصحاب العمل" : "For employers"}</p>
+            <h2 className="m-0 mt-3 text-[clamp(1.7rem,3vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.03em] text-balance text-ts-ink">{copy.sections.employerTitle}</h2>
+            <p className="m-0 mt-4 max-w-xl text-[16px] leading-relaxed text-pretty text-ts-muted">{copy.sections.employerBody}</p>
+            <ul className="m-0 mt-6 flex list-none flex-col gap-3 p-0">
               {[
                 arabic ? "إدارة الوظائف والمتقدمين" : "Jobs and applicants in one view",
                 arabic ? "مراحل توظيف واضحة" : "A clear, collaborative pipeline",
                 arabic ? "توافق مدعوم بالذكاء الاصطناعي" : "AI-assisted talent matching"
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-[15px] font-semibold text-ts-ink">
-                  <span aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-full bg-ts-accent text-white">
-                    <Check size={14} />
+                <li key={item} className="flex items-center gap-3 text-[15px] text-ts-ink">
+                  <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-accent-tint text-ts-accent-deep">
+                    <Check size={12} strokeWidth={2.5} />
                   </span>
                   {item}
                 </li>
               ))}
             </ul>
-            <Link
-              href="/auth/login?mode=signup"
-              className="mt-8 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-ts-ink px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5 min-[520px]:w-auto"
-            >
-              {copy.sections.start} <ArrowRight size={18} aria-hidden="true" className="rtl:-scale-x-100" />
+            <Link href="/auth/login?mode=signup" className={`${buttonQuiet} mt-8 w-full min-[520px]:w-auto`}>
+              {copy.sections.start} <ArrowRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
             </Link>
           </div>
         </Container>
       </section>
 
-      {/* How it works */}
-      <section className="py-20 max-[680px]:py-14">
+      {/* How it works — numbered, no boxes; the rhythm carries it. */}
+      <section className={sectionPad}>
         <Container>
           <SectionHeading
             eyebrow={arabic ? "كيف يعمل" : "How it works"}
@@ -335,19 +345,19 @@ export default async function HomePage() {
             body={arabic ? "من الملف الشخصي إلى العرض، بمسار واضح." : "From profile to offer, on a path you can actually follow."}
             align="center"
           />
-          <ol className="m-0 mt-12 grid list-none grid-cols-1 gap-6 p-0 min-[760px]:grid-cols-3">
+          <ol className="m-0 mt-11 grid list-none grid-cols-1 gap-x-10 gap-y-9 p-0 [grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))]">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <li key={step.title} className="relative rounded-ts-lg border border-ts-line bg-ts-surface p-7">
-                  <span className="grid size-12 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
-                    <Icon size={22} aria-hidden="true" />
-                  </span>
-                  <span className="mt-5 block text-xs font-bold tracking-[0.12em] text-ts-muted uppercase">
-                    {arabic ? `الخطوة ${index + 1}` : `Step ${index + 1}`}
-                  </span>
-                  <h3 className="m-0 mt-2 text-xl font-bold tracking-[-0.02em] text-ts-ink">{step.title}</h3>
-                  <p className="m-0 mt-2.5 text-[15px] leading-relaxed text-ts-muted">{step.body}</p>
+                <li key={step.title} className="min-w-0 border-t border-ts-line pt-6">
+                  <div className="flex items-center gap-3">
+                    <Icon size={18} aria-hidden="true" className="shrink-0 text-ts-primary" />
+                    <span className="text-[11px] font-semibold tracking-[0.18em] text-ts-subtle uppercase">
+                      {arabic ? `الخطوة ${index + 1}` : `Step ${index + 1}`}
+                    </span>
+                  </div>
+                  <h3 className="m-0 mt-4 text-[19px] font-semibold tracking-[-0.02em] text-ts-ink">{step.title}</h3>
+                  <p className="m-0 mt-2 text-[15px] leading-relaxed text-pretty text-ts-muted">{step.body}</p>
                 </li>
               );
             })}
