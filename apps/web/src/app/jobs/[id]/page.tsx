@@ -10,6 +10,7 @@ import { PublicJobCard } from "@/components/public/job-card";
 import { Container, CtaBand, PublicFooter } from "@/components/public/public-shell";
 import { getCompany } from "@/data/companies";
 import { getJob, jobs } from "@/data/jobs";
+import { getLiveJob } from "@/data/live-job";
 import { getSessionUser } from "@/lib/auth/session";
 import { isLocale } from "@/lib/i18n";
 
@@ -18,13 +19,17 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const job = getJob((await params).id);
+  const id = (await params).id;
+  const job = getJob(id) ?? (await getLiveJob(id));
   return job ? { title: job.title, description: `${job.title} at ${job.company} in ${job.location}.` } : {};
 }
 
 export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [resolved, cookieStore, user] = await Promise.all([params, cookies(), getSessionUser()]);
-  const job = getJob(resolved.id);
+  // Curated demo listings first, then the live database. The mobile app shares
+  // links of the form /jobs/<uuid>, and those ids only exist in the database —
+  // without the fallback every shared job link rendered "404".
+  const job = getJob(resolved.id) ?? (await getLiveJob(resolved.id));
   if (!job) notFound();
   const rawLocale = cookieStore.get("ts-locale")?.value;
   const locale = isLocale(rawLocale) ? rawLocale : "en";
@@ -122,20 +127,28 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               </ul>
             </div>
 
-            <div>
-              <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "المهارات المطلوبة" : "Skills for this role"}</h2>
-              <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
-                {job.skills.map((skill) => (
-                  <li key={skill} className="inline-flex h-10 items-center rounded-full border border-ts-line bg-ts-surface px-4 text-sm font-semibold text-ts-ink">
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-              <p className="m-0 mt-4 text-[15px] text-ts-muted">
-                {arabic ? "لغات العمل: " : "Working languages: "}
-                <span className="font-semibold text-ts-ink">{job.languages.join(", ")}</span>
-              </p>
-            </div>
+            {job.skills.length > 0 || job.languages.length > 0 ? (
+              <div>
+                {job.skills.length > 0 ? (
+                  <>
+                    <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "المهارات المطلوبة" : "Skills for this role"}</h2>
+                    <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
+                      {job.skills.map((skill) => (
+                        <li key={skill} className="inline-flex h-10 items-center rounded-full border border-ts-line bg-ts-surface px-4 text-sm font-semibold text-ts-ink">
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : null}
+                {job.languages.length > 0 ? (
+                  <p className="m-0 mt-4 text-[15px] text-ts-muted">
+                    {arabic ? "لغات العمل: " : "Working languages: "}
+                    <span className="font-semibold text-ts-ink">{job.languages.join(", ")}</span>
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
 
             {similar.length > 0 ? (
               <div>
