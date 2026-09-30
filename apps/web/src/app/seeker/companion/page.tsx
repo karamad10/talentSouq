@@ -121,7 +121,7 @@ export default function CompanionPage() {
                       {job.initials}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <Link href={`/jobs/${job.id}`} className="block text-[15px] font-bold text-ts-ink after:absolute after:inset-0 group-hover:text-ts-primary-deep">
+                      <Link href={`/seeker/jobs/${job.id}`} className="block text-[15px] font-bold text-ts-ink after:absolute after:inset-0 group-hover:text-ts-primary-deep">
                         {job.title}
                       </Link>
                       <span className="mt-1 block truncate text-[13px] text-ts-muted">

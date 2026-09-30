@@ -78,7 +78,7 @@ export function OfferDetailsDialog({ offer, triggerClassName }: { offer: Offer; 
             Reply to {offer.contact.split(" ")[0]}
           </Link>
           <Link
-            href={`/jobs/${offer.jobId}`}
+            href={`/seeker/jobs/${offer.jobId}`}
             className="inline-flex h-11 items-center gap-1.5 rounded-ts-md border border-ts-line-soft bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:bg-ts-surface-2"
           >
             Open the role <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />

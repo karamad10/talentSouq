@@ -229,3 +229,11 @@ for (const path of ["/", "/jobs", "/companies", "/download", "/auth/login", "/pr
     expect(text.match(UI_WORDS)?.[0] ?? null).toBeNull();
   });
 }
+
+test("workspace jobs open inside the workspace, and a gone job says so", async ({ page }) => {
+  await page.goto("/seeker/jobs/design-systems-lead");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Design Systems Lead");
+  expect((await page.goto("/seeker/jobs/closed-long-ago"))?.status()).toBe(200);
+  await expect(page.getByText("This job is no longer available")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Find similar roles" })).toHaveAttribute("href", "/seeker/jobs");
+});
