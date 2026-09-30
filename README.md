@@ -48,8 +48,23 @@ seeker/employer workspace shells (dashboards, applications, jobs, candidates,
 pipeline, profile, billing, etc.) built on a shared component library at
 `apps/web/src/components/ui/` (Button, Card, Badge, Field, StatTile,
 DataTable, and friends — see
-[`docs/WEB-UI-SYSTEM.md`](docs/WEB-UI-SYSTEM.md)). Most workspace data is
-still local/typed mock data rather than live Supabase queries — see
+[`docs/WEB-UI-SYSTEM.md`](docs/WEB-UI-SYSTEM.md)).
+
+**Public pages run on live data** (agency report RPT-2026-014): `/`, `/jobs`,
+`/jobs/[id]`, `/companies`, `/careers/[slug]` and the sitemap read the board
+through anon-callable RPCs (`public_jobs`, `public_job`, `public_companies`,
+`public_career_page` — karehan migration `20260930141608_public_board`), via
+`src/lib/supabase/public-rpc.ts`. If Supabase is unreachable, the env is
+missing, or the migration is not on the project yet, those pages show honest
+empty states — never demo data. A unit test fails if a public page imports the
+demo sets in `src/data/jobs.ts` / `companies.ts`. `/download` lists the app
+store links and the direct APK from `NEXT_PUBLIC_IOS_APP_URL`,
+`NEXT_PUBLIC_ANDROID_APP_URL` and `NEXT_PUBLIC_ANDROID_APK_URL` (see
+`.env.example`); the link-preview image is regenerated with
+`pnpm --filter @talentsouq/web og:render`.
+
+Most **workspace** data (`/seeker/*`, `/employer/*`) is still local/typed mock
+data rather than live Supabase queries — see
 [`docs/PRODUCTION-WEB-ROADMAP.md`](docs/PRODUCTION-WEB-ROADMAP.md) for what's
 wired to the database versus still mock, and
 [`docs/WEB-INTERACTION-STATUS.md`](docs/WEB-INTERACTION-STATUS.md) for which

@@ -3,9 +3,12 @@
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
+import { appLinks } from "@/lib/app-links";
 
-const IOS_URL = process.env.NEXT_PUBLIC_IOS_APP_URL ?? "";
-const ANDROID_URL = process.env.NEXT_PUBLIC_ANDROID_APP_URL ?? "";
+const LINKS = appLinks();
+const IOS_URL = LINKS.ios ?? "";
+// Where Play is unavailable (report RPT-2026-014 §9) the direct download page stands in.
+const ANDROID_URL = LINKS.android ?? (LINKS.apk ? "/download" : "");
 const DISMISSED_KEY = "ts-app-banner-dismissed";
 const DISMISSED_EVENT = "ts-app-banner-dismissed";
 const NARROW = "(max-width: 900px)";

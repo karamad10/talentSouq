@@ -97,7 +97,8 @@ export function PublicFooter({ locale }: { locale: Locale }) {
       title: copy.footer.product,
       links: [
         { href: "/jobs", label: copy.nav.jobs },
-        { href: "/companies", label: copy.nav.companies }
+        { href: "/companies", label: copy.nav.companies },
+        { href: "/download", label: locale === "ar" ? "احصل على التطبيق" : "Get the app" }
       ]
     },
     {

@@ -107,7 +107,7 @@ test("organization invite landing is safe before backend validation", async ({ p
 test("legal pages use complete shared public layout", async ({ page }) => {
   await page.goto("/privacy");
   await expect(page.getByRole("heading", { name: "Privacy Policy" })).toBeVisible();
-  await expect(page.getByText("Last updated: 11 August 2026")).toBeVisible();
+  await expect(page.getByText("Last updated: 11 Aug 2026")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Data we collect" })).toBeVisible();
   await expect(page.getByRole("link", { name: "privacy@talentsouq.it.com" }).first()).toHaveAttribute("href", "mailto:privacy@talentsouq.it.com");
   await page.getByRole("link", { name: "Read the Terms of Service" }).click();
@@ -169,3 +169,48 @@ test("auth and 404 pages speak Arabic", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("هذه الفرصة لم تعد هنا.");
   await expect(page.getByRole("link", { name: "تصفّح الوظائف المفتوحة" })).toBeVisible();
 });
+
+test("legal pages keep the English text but speak Arabic around it", async ({ page }) => {
+  await inArabic(page);
+  await page.goto("/privacy");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("سياسة الخصوصية");
+  await expect(page.getByText("النص القانوني متاح حالياً باللغة الإنجليزية.")).toBeVisible();
+  await expect(page.getByText(/^آخر تحديث:/)).toBeVisible();
+  await expect(page.getByRole("link", { name: "اقرأ شروط الخدمة" })).toHaveAttribute("href", "/terms");
+});
+
+// Report RPT-2026-014 §9: a direct download next to the stores. With no links
+// configured the page exists and says the app is coming.
+test("the download page is honest about what is available", async ({ page }) => {
+  const res = await page.goto("/download");
+  expect(res?.status()).toBe(200);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/The app is coming soon|Get the TalentSouq app\./);
+  await inArabic(page);
+  await page.goto("/download");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/التطبيق قادم قريباً|احصل على تطبيق تالنت سوق\./);
+  await expect(page.locator("footer").getByRole("link", { name: "احصل على التطبيق" })).toHaveAttribute("href", "/download");
+});
+
+// Report RPT-2026-014 §6: English UI words inside the Arabic site. Brand names,
+// e-mail addresses, URLs and digits are removed first; employer-entered data
+// (company names, English job titles) is not UI and is not checked here.
+const UI_WORDS = /\b(Jobs|Companies|Log in|Join now|Search|Remote|Hybrid|On-site|Full-time|Part-time|Contract|ago|open roles?|Apply|Browse|Sort|Newest|Clear|Salary|Posted)\b/;
+for (const path of ["/", "/jobs", "/companies", "/download", "/auth/login", "/privacy"]) {
+  test(`no English UI in Arabic on ${path}`, async ({ page }) => {
+    await inArabic(page);
+    await page.goto(path);
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+    let text = await page.evaluate(() => {
+      // The legal body is English until an approved translation exists (lang="en").
+      const clone = document.body.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('[lang="en"], script, style').forEach((el) => el.remove());
+      return clone.innerText;
+    });
+    text = text
+      .replace(/\S+@\S+/g, " ")
+      .replace(/https?:\/\/\S+|\b[a-z0-9.-]+\.(com|ae|it\.com)\b/gi, " ")
+      .replace(/TalentSouq|Triovate|Google Play|Google|App Store|iPhone|Android|APK|\bEN\b/g, " ")
+      .replace(/\d+/g, " ");
+    expect(text.match(UI_WORDS)?.[0] ?? null).toBeNull();
+  });
+}

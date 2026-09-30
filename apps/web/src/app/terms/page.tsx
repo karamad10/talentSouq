@@ -1,9 +1,8 @@
-import { cookies } from "next/headers";
 import { BRAND } from "@/lib/brand";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
-import { isLocale } from "@/lib/i18n";
+import { getPreferences } from "@/lib/locale";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -58,23 +57,23 @@ const sections: LegalSection[] = [
 ];
 
 export default async function TermsPage() {
-  const store = await cookies();
-  const value = store.get("ts-locale")?.value;
-  const locale = isLocale(value) ? value : "en";
-  const theme = store.get("ts-theme")?.value === "dark" ? "dark" : "light";
+  const { locale, theme } = await getPreferences();
 
   return (
     <LegalPage
       locale={locale}
       theme={theme}
-      title="Terms of Service"
-      updated="11 August 2026"
+      title={{ en: "Terms of Service", ar: "شروط الخدمة" }}
+      updated="2026-08-11"
       summary="These Terms govern your use of TalentSouq. By creating an account or using the service, you agree to them. If you use TalentSouq for an organization, you confirm that you are authorized to bind that organization."
       sections={sections}
       related={{
         href: "/privacy",
-        label: "Read the Privacy Policy",
-        text: "The Terms explain how TalentSouq can be used. The Privacy Policy explains how personal data is handled."
+        label: { en: "Read the Privacy Policy", ar: "اقرأ سياسة الخصوصية" },
+        text: {
+          en: "The Terms explain how TalentSouq can be used. The Privacy Policy explains how personal data is handled.",
+          ar: "توضّح الشروط كيف يمكن استخدام تالنت سوق، وتوضّح سياسة الخصوصية كيف نتعامل مع البيانات الشخصية."
+        }
       }}
     />
   );
