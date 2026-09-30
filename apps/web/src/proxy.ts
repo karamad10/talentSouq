@@ -8,8 +8,16 @@ const protectedPrefixes = ["/seeker", "/employer"];
 export async function proxy(request: NextRequest) {
   const env = getSupabaseEnv();
   let response = NextResponse.next({ request });
+  const pathname = request.nextUrl.pathname;
+  const needsAuth = protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+  const guardsDisabledForTests = process.env.TALENTSOUQ_DISABLE_AUTH_GUARDS === "1";
 
   if (!env) {
+    // No auth backend means nobody can be signed in: the workspace stays closed
+    // (it used to open to everyone whenever the Supabase env was missing).
+    if (needsAuth && !guardsDisabledForTests) {
+      return NextResponse.redirect(new URL(authRedirectPath({ next: `${pathname}${request.nextUrl.search}` }), request.url));
+    }
     return response;
   }
 
@@ -38,9 +46,6 @@ export async function proxy(request: NextRequest) {
   });
 
   const { data, error } = await supabase.auth.getClaims();
-  const pathname = request.nextUrl.pathname;
-  const needsAuth = protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
-  const guardsDisabledForTests = process.env.TALENTSOUQ_DISABLE_AUTH_GUARDS === "1";
 
   // A transient error here (network blip, a concurrent refresh-token rotation racing
   // another request) is not proof the session is invalid — only a definitive "no

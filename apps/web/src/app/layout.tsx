@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { IBM_Plex_Sans_Arabic, Inter } from "next/font/google";
 import { isLocale } from "@/lib/i18n";
+import { BRAND } from "@/lib/brand";
 import { AppInteractionLayer } from "@/components/app-interaction-layer";
 import { AppBanner } from "@/components/public/app-banner";
 import "./globals.css";
@@ -9,11 +10,21 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "optional", fallback: ["Arial", "sans-serif"] });
 const arabic = IBM_Plex_Sans_Arabic({ weight: ["400", "500", "600", "700"], subsets: ["arabic"], variable: "--font-arabic", display: "optional", fallback: ["Arial", "sans-serif"] });
 
+const DESCRIPTION = "Discover meaningful roles and build great teams across the Gulf and Syria.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://talentsouq.it.com"),
-  title: { default: "TalentSouq — Opportunity meets ambition", template: "%s · TalentSouq" },
-  description: "Discover meaningful roles and build great teams across the Gulf.",
-  openGraph: { title: "TalentSouq", description: "Opportunity meets ambition across the Gulf.", type: "website", locale: "en_US" }
+  metadataBase: new URL(BRAND.origin),
+  title: { default: `TalentSouq — ${BRAND.tagline.en}`, template: "%s · TalentSouq" },
+  description: DESCRIPTION,
+  openGraph: {
+    title: `TalentSouq ${BRAND.signature}`,
+    description: `${BRAND.tagline.en} ${DESCRIPTION}`,
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["ar_AE"],
+    siteName: "TalentSouq"
+  },
+  twitter: { card: "summary_large_image", title: `TalentSouq ${BRAND.signature}`, description: BRAND.tagline.en }
 };
 
 /**

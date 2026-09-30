@@ -1,10 +1,10 @@
-import { cookies } from "next/headers";
+import { BRAND } from "@/lib/brand";
 import type { Metadata } from "next";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
-import { isLocale } from "@/lib/i18n";
+import { getPreferences } from "@/lib/locale";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy · TalentSouq",
+  title: "Privacy Policy",
   description: "Learn what personal data TalentSouq collects, how it is used, and the choices available to job seekers and employers."
 };
 
@@ -48,28 +48,28 @@ const sections: LegalSection[] = [
   },
   {
     title: "Changes and contact",
-    body: <p>We may update this policy and will post the revised date here. Questions or privacy requests can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. The responsible entity is Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
+    body: <p>We may update this policy and will post the revised date here. Questions or privacy requests can be sent to <a href={`mailto:${BRAND.email.privacy}`}>{BRAND.email.privacy}</a>. The responsible entity is Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
   }
 ];
 
 export default async function PrivacyPage() {
-  const store = await cookies();
-  const value = store.get("ts-locale")?.value;
-  const locale = isLocale(value) ? value : "en";
-  const theme = store.get("ts-theme")?.value === "dark" ? "dark" : "light";
+  const { locale, theme } = await getPreferences();
 
   return (
     <LegalPage
       locale={locale}
       theme={theme}
-      title="Privacy Policy"
-      updated="11 August 2026"
+      title={{ en: "Privacy Policy", ar: "سياسة الخصوصية" }}
+      updated="2026-08-11"
       summary="Triovate Management Consultancies L.L.C operates the TalentSouq recruitment platform for job seekers and employers. This policy explains what data we collect, why we use it, and the choices available to you."
       sections={sections}
       related={{
         href: "/terms",
-        label: "Read the Terms of Service",
-        text: "The Privacy Policy explains how data is handled. The Terms explain the rules for using TalentSouq."
+        label: { en: "Read the Terms of Service", ar: "اقرأ شروط الخدمة" },
+        text: {
+          en: "The Privacy Policy explains how data is handled. The Terms explain the rules for using TalentSouq.",
+          ar: "توضّح سياسة الخصوصية كيف نتعامل مع البيانات، وتوضّح الشروط قواعد استخدام تالنت سوق."
+        }
       }}
     />
   );

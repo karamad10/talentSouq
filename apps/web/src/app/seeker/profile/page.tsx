@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Eye, MapPin, MessageSquare, ShieldCheck, Sparkles, UserRound } from "lucide-react";
+import { Eye, MapPin, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { EditableChips, EditableField, EditableList, EditableToggle } from "@/components/dashboard/profile-editing";
@@ -12,6 +12,12 @@ import { seekerSummary } from "@/data/workspace";
 export const metadata: Metadata = { title: "My profile" };
 
 const KEY = "talentsouq:seeker:profile";
+
+/** "Sarah Ahmed" → "SA": until photo upload exists, the avatar shows who it is. */
+function initialsOf(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  return ((parts[0]?.[0] ?? "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase() || "?";
+}
 
 export default function SeekerProfilePage() {
   const profile = seekerSummary.profile;
@@ -33,35 +39,43 @@ export default function SeekerProfilePage() {
       />
 
       {/* Identity card: the four things a recruiter reads first, all editable. */}
-      <section className="flex flex-wrap items-center gap-6 rounded-ts-lg border border-ts-line-soft bg-ts-surface p-6 max-[680px]:p-4">
-        <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-2xl font-bold text-ts-primary-deep">
-          <UserRound size={34} />
-        </span>
-        <div className="min-w-70 flex-1">
-          <h2 className="m-0 text-[26px] leading-tight font-bold tracking-[-0.025em] text-ts-ink">{seekerSummary.name}</h2>
-          <div className="mt-3 flex max-w-2xl flex-col gap-3">
-            <EditableField label="Headline" storageKey={`${KEY}:headline`} defaultValue={profile.headline} valueClassName="text-[15px] font-semibold" layout="inline" />
-            <EditableField
-              label="Location & availability"
-              storageKey={`${KEY}:location`}
-              defaultValue={`${seekerSummary.location} · ${seekerSummary.availability}`}
-              valueClassName="text-sm font-medium text-ts-muted"
-              layout="inline"
-            />
+      <section className="overflow-hidden rounded-ts-lg border border-ts-line-soft bg-ts-surface">
+        {/* Who: photo, name and the facts under it, with completeness on the far side. */}
+        <div className="flex flex-wrap items-center gap-5 p-6 max-[680px]:p-4">
+          <span
+            aria-hidden="true"
+            className="grid size-18 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-xl font-bold tracking-[-0.02em] text-ts-primary-deep ring-4 ring-ts-surface outline outline-1 outline-ts-line-soft"
+          >
+            {initialsOf(seekerSummary.name)}
+          </span>
+          <div className="min-w-56 flex-1">
+            <h2 className="m-0 text-[26px] leading-tight font-bold tracking-[-0.025em] text-ts-ink">{seekerSummary.name}</h2>
+            <p className="m-0 mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-ts-muted">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin size={14} aria-hidden="true" /> {seekerSummary.location}
+              </span>
+              <span aria-hidden="true">·</span>
+              <span>{profile.followers} followers</span>
+              <span aria-hidden="true">·</span>
+              <span>{profile.following} following</span>
+            </p>
           </div>
-          <p className="m-0 mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-ts-muted">
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin size={14} aria-hidden="true" /> {seekerSummary.location}
-            </span>
-            <span>{profile.followers} followers</span>
-            <span>{profile.following} following</span>
-          </p>
+          <div className="flex items-center gap-3 rounded-ts-md border border-ts-line-soft px-4 py-3 max-[680px]:w-full">
+            <Ring value={profile.completeness} size={56} strokeWidth={6} label="Profile completeness" valueClassName="text-[13px] font-bold" />
+            <div className="max-w-44">
+              <strong className="block text-sm font-bold text-ts-ink">Profile {profile.completeness}% complete</strong>
+              <span className="block text-[13px] text-ts-muted">Add a portfolio link to reach 100%.</span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-4 rounded-ts-md bg-ts-surface-2/60 p-4">
-          <Ring value={profile.completeness} size={84} strokeWidth={8} label="Profile completeness" valueClassName="text-base font-bold" />
-          <div className="max-w-40">
-            <strong className="block text-sm font-bold text-ts-ink">Profile complete</strong>
-            <span className="block text-[13px] text-ts-muted">Add a portfolio link to reach 100%.</span>
+
+        {/* What a recruiter reads first — each field edits in place. */}
+        <div className="grid gap-px border-t border-ts-line-soft bg-ts-line-soft min-[760px]:grid-cols-2">
+          <div className="bg-ts-surface px-6 py-5 max-[680px]:px-4">
+            <EditableField label="Headline" storageKey={`${KEY}:headline`} defaultValue={profile.headline} valueClassName="text-[15px] font-semibold" layout="inline" />
+          </div>
+          <div className="bg-ts-surface px-6 py-5 max-[680px]:px-4">
+            <EditableField label="Availability" storageKey={`${KEY}:availability`} defaultValue={seekerSummary.availability} valueClassName="text-[15px] font-semibold" layout="inline" />
           </div>
         </div>
       </section>

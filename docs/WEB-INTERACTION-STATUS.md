@@ -1,6 +1,6 @@
 # TalentSouq web interaction status
 
-Last updated: 1 September 2026
+Last updated: 30 September 2026
 
 This is the implementation ledger for making every visible control meaningful. A control may not silently do nothing.
 
@@ -16,7 +16,13 @@ This is the implementation ledger for making every visible control meaningful. A
   and clamp invalid page values safely. The shared `Pagination` primitive is
   ready for server-backed result repositories.
 - Job saves persist locally in preview using a pressed state; database persistence will replace this through the same component boundary.
-- Every route has a shared loading fallback and recoverable error screen.
+- The seeker and employer workspaces have loading fallbacks; every route has a
+  recoverable error screen. Public pages render without a root loading
+  fallback on purpose, so an unknown job or career page returns a real 404
+  (a Suspense fallback commits the response to 200 before `notFound()`).
+- Public pages (`/`, `/jobs`, `/jobs/[id]`, `/companies`, `/careers/[slug]`,
+  sitemap) are backed by live data through the public-board RPCs; they show
+  empty states, never demo data, when the board is empty or unreachable.
 - Theme, locale, sign-out, and public auth flows retain their existing real behavior.
 - The marketing header (`PublicHeader`) is now session-aware: signed-in users
   see a compact initials chip linking to their workspace instead of
@@ -61,7 +67,6 @@ inert as of the audit above — same fix pattern as above applies to each:
 | `employer/interviews` | Today/Upcoming/Past tabs, "Open"/"Feedback" |
 | `seeker/offers` | "View details"/"Message employer" |
 | `seeker/saved` | Alert-frequency button |
-| `jobs/[id]` (public job detail) | "Save job" (should reuse `job-card.tsx`'s working `BookmarkToggle` instead of a separate dead button), "Share this role" |
 
 ## Backend mutations to wire next
 

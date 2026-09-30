@@ -117,7 +117,7 @@ export default function CompanionPage() {
               <li key={job.id} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
                 <div className="group relative flex flex-col gap-3 px-6 py-5 transition-colors hover:bg-ts-primary-tint/30 max-[680px]:px-4">
                   <div className="flex items-center gap-4">
-                    <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
+                    <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-[#0B1B23]/80" style={{ backgroundColor: job.accent }}>
                       {job.initials}
                     </span>
                     <span className="min-w-0 flex-1">

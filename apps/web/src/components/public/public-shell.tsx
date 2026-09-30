@@ -6,6 +6,7 @@ import { Logo } from "@/components/logo";
 import type { Locale } from "@/lib/i18n";
 import { dictionary } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
+import { BRAND } from "@/lib/brand";
 
 /** Eyebrow → title → optional body, the standard opening of every public section. */
 export function SectionHeading({
@@ -96,7 +97,8 @@ export function PublicFooter({ locale }: { locale: Locale }) {
       title: copy.footer.product,
       links: [
         { href: "/jobs", label: copy.nav.jobs },
-        { href: "/companies", label: copy.nav.companies }
+        { href: "/companies", label: copy.nav.companies },
+        { href: "/download", label: locale === "ar" ? "احصل على التطبيق" : "Get the app" }
       ]
     },
     {
@@ -134,7 +136,7 @@ export function PublicFooter({ locale }: { locale: Locale }) {
         ))}
       </Container>
       <Container className="mt-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-ts-on-strong/10 pt-6 text-[13px] text-ts-on-strong/60">
-        <span>Dubai · Riyadh · Doha</span>
+        <span>{BRAND.cities}</span>
         <span>© 2026 TalentSouq · By Triovate</span>
       </Container>
     </footer>

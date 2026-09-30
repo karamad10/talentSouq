@@ -35,7 +35,7 @@ export function JobRow({ job }: { job: Job }) {
       <div className="group relative flex items-center gap-4 px-6 py-4 transition-colors hover:bg-ts-primary-tint/30 max-[680px]:flex-wrap max-[680px]:px-4">
         <span
           aria-hidden="true"
-          className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-ts-ink/80"
+          className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-[#0B1B23]/80"
           style={{ backgroundColor: job.accent }}
         >
           {job.initials}
@@ -114,7 +114,7 @@ export function JobStrip({ jobs: rows }: { jobs: Job[] }) {
         <li key={job.id} className="min-w-70 flex-1 snap-start">
           <article className="group relative flex h-full flex-col gap-3 rounded-ts-md border border-ts-line-soft bg-ts-surface p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/30">
             <div className="flex items-start justify-between gap-3">
-              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
+              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-[#0B1B23]/80" style={{ backgroundColor: job.accent }}>
                 {job.initials}
               </span>
               <MatchPill score={job.matchScore} />

@@ -1,52 +1,66 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight, BriefcaseBusiness, Check, Clock3, GraduationCap, MapPin, Users, Wallet, Zap } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, BriefcaseBusiness, CalendarClock, Clock3, GraduationCap, MapPin, Wallet, Zap } from "lucide-react";
 import type { Route } from "next";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/public-header";
-import { salaryLabel } from "@/components/dashboard/job-list";
-import { PublicJobCard } from "@/components/public/job-card";
+import { CompanyAvatar, PublicJobCard, companyName, jobTitle } from "@/components/public/job-card";
 import { Container, CtaBand, PublicFooter } from "@/components/public/public-shell";
-import { getCompany } from "@/data/companies";
-import { getJob, jobs } from "@/data/jobs";
-import { getLiveJob } from "@/data/live-job";
+import { getPublicJob, listPublicJobs, type PublicJobDetail } from "@/data/public-jobs";
+import { authRedirectPath } from "@/lib/auth/redirects";
 import { getSessionUser } from "@/lib/auth/session";
-import { isLocale } from "@/lib/i18n";
-
-export function generateStaticParams() {
-  return jobs.map((job) => ({ id: job.id }));
-}
+import type { Locale } from "@/lib/i18n";
+import { categoryLabel, employmentTypeLabel, experienceLabel, formatDate, postedLabel, salaryLabel, workModeLabel } from "@/lib/labels";
+import { getLocale, getPreferences } from "@/lib/locale";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const id = (await params).id;
-  const job = getJob(id) ?? (await getLiveJob(id));
-  return job ? { title: job.title, description: `${job.title} at ${job.company} in ${job.location}.` } : {};
+  const [{ id }, locale] = await Promise.all([params, getLocale()]);
+  const job = await getPublicJob(id);
+  if (!job) return {};
+  const title = jobTitle(job, locale);
+  const name = companyName(job, locale);
+  const where = job.location ? (locale === "ar" ? ` في ${job.location}` : ` in ${job.location}`) : "";
+  const description = locale === "ar" ? `${title} لدى ${name}${where}.` : `${title} at ${name}${where}.`;
+  return { title, description, openGraph: { title: `${title} · ${name}`, description, url: `/jobs/${job.id}` } };
+}
+
+type ApplyTarget = { href: string; kind: "external" | "signup" | "app" };
+
+/**
+ * Where "Apply" goes: the employer's own site; for applying inside TalentSouq,
+ * registration first when signed out (and back to this job afterwards), or the
+ * app once the visitor has an account.
+ */
+function applyTarget(job: PublicJobDetail, signedIn: boolean): ApplyTarget {
+  if (job.applyUrl) return { href: job.applyUrl, kind: "external" };
+  if (!signedIn) return { href: authRedirectPath({ mode: "signup", next: `/jobs/${job.id}` }), kind: "signup" };
+  return { href: "/download", kind: "app" };
 }
 
 export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const [resolved, cookieStore, user] = await Promise.all([params, cookies(), getSessionUser()]);
-  // Curated demo listings first, then the live database. The mobile app shares
-  // links of the form /jobs/<uuid>, and those ids only exist in the database —
-  // without the fallback every shared job link rendered "404".
-  const job = getJob(resolved.id) ?? (await getLiveJob(resolved.id));
+  const [{ id }, { locale, theme }, user] = await Promise.all([params, getPreferences(), getSessionUser()]);
+  const job = await getPublicJob(id);
   if (!job) notFound();
-  const rawLocale = cookieStore.get("ts-locale")?.value;
-  const locale = isLocale(rawLocale) ? rawLocale : "en";
-  const theme = cookieStore.get("ts-theme")?.value === "dark" ? "dark" : "light";
   const arabic = locale === "ar";
 
-  const company = getCompany(job.company.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
-  const similar = jobs.filter((item) => item.id !== job.id && item.category === job.category).slice(0, 2);
+  const title = jobTitle(job, locale);
+  const name = companyName(job, locale);
+  // The employer's own words, in Arabic when they wrote them and the visitor reads Arabic.
+  const description = arabic && job.descriptionAr ? job.descriptionAr : job.description;
+  const similar = job.category
+    ? (await listPublicJobs({ category: job.category, limit: 4 })).items.filter((item) => item.id !== job.id).slice(0, 3)
+    : [];
+  const apply = applyTarget(job, Boolean(user));
+  const companyHref = (job.company.careerSlug ? `/careers/${job.company.careerSlug}` : `/jobs?q=${encodeURIComponent(job.company.name)}`) as Route;
 
   const facts = [
-    { icon: Wallet, label: arabic ? "الراتب الشهري" : "Monthly salary", value: salaryLabel(job) },
-    { icon: BriefcaseBusiness, label: arabic ? "نوع العقد" : "Contract", value: `${job.type} · ${job.seniority}` },
-    { icon: MapPin, label: arabic ? "الموقع" : "Location", value: `${job.location} · ${job.mode}` },
-    { icon: GraduationCap, label: arabic ? "التعليم" : "Education", value: job.education },
-    { icon: Users, label: arabic ? "المتقدمون" : "Applicants", value: `${job.applicants}` },
-    { icon: Clock3, label: arabic ? "نُشرت" : "Posted", value: job.posted }
-  ];
+    { icon: Wallet, label: arabic ? "الراتب" : "Salary", value: salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale) },
+    { icon: BriefcaseBusiness, label: arabic ? "نوع العقد" : "Contract", value: employmentTypeLabel(job.employmentType, locale) },
+    { icon: MapPin, label: arabic ? "الموقع" : "Location", value: [job.location, workModeLabel(job.workMode, locale)].filter(Boolean).join(" · ") },
+    { icon: GraduationCap, label: arabic ? "الخبرة" : "Experience", value: experienceLabel(job.experienceMin, job.experienceMax, locale) },
+    { icon: CalendarClock, label: arabic ? "آخر موعد للتقديم" : "Apply by", value: formatDate(job.deadline, locale) },
+    { icon: Clock3, label: arabic ? "نُشرت" : "Posted", value: postedLabel(job.createdAt, locale) }
+  ].filter((fact) => fact.value);
 
   return (
     <main className="bg-ts-paper">
@@ -59,35 +73,31 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           </Link>
 
           <div className="mt-8 flex flex-wrap items-start gap-6">
-            <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-ts-lg text-2xl font-bold text-ts-ink/80" style={{ backgroundColor: job.accent }}>
-              {job.initials}
-            </span>
+            <CompanyAvatar name={name} logoUrl={job.company.logoUrl} size="lg" />
             <div className="min-w-0 flex-1 min-[560px]:min-w-70">
-              <Link href={company ? (`/companies/${company.slug}` as Route) : "/companies"} className="text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
-                {job.company}
+              <Link href={companyHref} className="text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
+                {name}
               </Link>
-              <h1 className="m-0 mt-2 text-[clamp(2rem,3.8vw,3rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">{job.title}</h1>
+              <h1 className="m-0 mt-2 text-[clamp(2rem,3.8vw,3rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">{title}</h1>
               <p className="m-0 mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[15px] text-ts-muted">
+                {job.location ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin size={16} aria-hidden="true" /> {job.location}
+                  </span>
+                ) : null}
                 <span className="inline-flex items-center gap-1.5">
-                  <MapPin size={16} aria-hidden="true" /> {job.location}
+                  <BriefcaseBusiness size={16} aria-hidden="true" />
+                  {[employmentTypeLabel(job.employmentType, locale), workModeLabel(job.workMode, locale)].filter(Boolean).join(" · ")}
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <BriefcaseBusiness size={16} aria-hidden="true" /> {job.type} · {job.mode}
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock3 size={16} aria-hidden="true" /> {arabic ? "نُشرت" : "Posted"} {job.posted}
-                </span>
+                {job.category ? <span>{categoryLabel(job.category, locale)}</span> : null}
               </p>
               <div className="mt-5 flex flex-wrap items-center gap-2">
-                <span className="inline-flex h-9 items-center rounded-full bg-ts-primary-tint px-4 text-[13px] font-bold text-ts-primary-deep">{salaryLabel(job)}</span>
+                <span className="inline-flex h-9 items-center rounded-full bg-ts-primary-tint px-4 text-[13px] font-bold text-ts-primary-deep">
+                  {salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale)}
+                </span>
                 {job.easyApply ? (
                   <span className="inline-flex h-9 items-center gap-1.5 rounded-full bg-ts-accent-tint px-4 text-[13px] font-bold text-ts-accent-deep">
                     <Zap size={14} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy apply"}
-                  </span>
-                ) : null}
-                {job.visaSponsorship ? (
-                  <span className="inline-flex h-9 items-center rounded-full bg-ts-success-tint px-4 text-[13px] font-bold text-ts-success">
-                    {arabic ? "كفالة إقامة" : "Visa sponsorship"}
                   </span>
                 ) : null}
               </div>
@@ -101,52 +111,24 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           <article className="flex min-w-0 flex-col gap-10">
             <div>
               <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "عن الوظيفة" : "About the role"}</h2>
-              <p className="m-0 mt-4 text-[17px] leading-relaxed text-ts-muted">
-                {job.summary}{" "}
-                {arabic
-                  ? "ستعمل مع فريق متعدد التخصصات، وتحوّل الأفكار إلى نتائج عملية، وترفع مستوى الجودة مع نمو الشركة."
-                  : "You will work with a thoughtful cross-functional team, turn insight into practical outcomes, and help raise the quality bar as the company grows."}
+              <p className="[unicode-bidi:plaintext] m-0 mt-4 text-[17px] leading-relaxed whitespace-pre-line text-ts-muted">
+                {description}
               </p>
+              {arabic && !job.descriptionAr && description ? (
+                <p className="m-0 mt-3 text-[13px] text-ts-subtle">كتب صاحب العمل هذا الوصف بالإنجليزية.</p>
+              ) : null}
             </div>
 
-            <div>
-              <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "ما نبحث عنه" : "What you’ll bring"}</h2>
-              <ul className="m-0 mt-4 flex list-none flex-col gap-3 p-0">
-                {[
-                  arabic ? "إتقان واضح في تخصصك وتواصل فعّال." : "Strong craft and clear communication in your discipline.",
-                  arabic ? "خبرة في العمل عبر الفرق والتعامل مع الغموض." : "Experience collaborating across functions and navigating ambiguity.",
-                  arabic ? "نهج عملي وفضولي يهتم بالعملاء والزملاء." : "A practical, curious approach with care for customers and colleagues."
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[15px] leading-relaxed text-ts-ink">
-                    <span aria-hidden="true" className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-ts-primary text-white">
-                      <Check size={14} />
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {job.skills.length > 0 || job.languages.length > 0 ? (
+            {job.skills.length > 0 ? (
               <div>
-                {job.skills.length > 0 ? (
-                  <>
-                    <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "المهارات المطلوبة" : "Skills for this role"}</h2>
-                    <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
-                      {job.skills.map((skill) => (
-                        <li key={skill} className="inline-flex h-10 items-center rounded-full border border-ts-line bg-ts-surface px-4 text-sm font-semibold text-ts-ink">
-                          {skill}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : null}
-                {job.languages.length > 0 ? (
-                  <p className="m-0 mt-4 text-[15px] text-ts-muted">
-                    {arabic ? "لغات العمل: " : "Working languages: "}
-                    <span className="font-semibold text-ts-ink">{job.languages.join(", ")}</span>
-                  </p>
-                ) : null}
+                <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "المهارات المطلوبة" : "Skills for this role"}</h2>
+                <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
+                  {job.skills.map((skill) => (
+                    <li key={skill} className="[unicode-bidi:plaintext] inline-flex h-10 items-center rounded-full border border-ts-line bg-ts-surface px-4 text-sm font-semibold text-ts-ink">
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ) : null}
 
@@ -164,19 +146,29 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
           <aside className="flex min-w-0 flex-col gap-6 min-[1000px]:sticky min-[1000px]:top-8">
             <div className="rounded-ts-lg border border-ts-line bg-ts-surface p-6">
-              <span className="inline-flex h-8 items-center rounded-full bg-ts-success-tint px-3 text-[13px] font-bold text-ts-success">
-                {arabic ? "يوظفون الآن" : "Actively hiring"}
-              </span>
-              <h2 className="m-0 mt-4 text-xl font-bold tracking-[-0.02em] text-ts-ink">{arabic ? "مهتم بهذه الوظيفة؟" : "Interested in this role?"}</h2>
+              <h2 className="m-0 text-xl font-bold tracking-[-0.02em] text-ts-ink">{arabic ? "مهتم بهذه الوظيفة؟" : "Interested in this role?"}</h2>
               <p className="m-0 mt-2 text-[15px] leading-relaxed text-ts-muted">
-                {arabic ? "أنشئ ملفك مرة واحدة وقدّم بثقة." : "Create your TalentSouq profile once and apply with confidence."}
+                {apply.kind === "external"
+                  ? arabic
+                    ? "يستقبل صاحب العمل الطلبات عبر موقعه."
+                    : "This employer takes applications on their own site."
+                  : apply.kind === "signup"
+                    ? arabic
+                      ? "أنشئ حساباً مجانياً للتقديم بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
+                      : "Create a free account to apply with your profile and CV, and follow your application step by step."
+                    : arabic
+                      ? "قدّم من تطبيق تالنت سوق بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
+                      : "Apply in the TalentSouq app with your profile and CV, and follow your application step by step."}
               </p>
-              <Link
-                href="/auth/login?mode=signup"
-                className="mt-6 inline-flex h-13 w-full items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-base font-bold text-white transition-opacity hover:opacity-90"
-              >
-                {arabic ? "قدّم الآن" : "Apply now"}
-              </Link>
+              <ApplyButton target={apply} locale={locale} />
+              {apply.kind === "signup" ? (
+                <p className="m-0 mt-3 text-center text-[13px] text-ts-muted">
+                  {arabic ? "لديك حساب؟ " : "Already have an account? "}
+                  <Link href={authRedirectPath({ next: `/jobs/${job.id}` }) as Route} className="font-bold text-ts-primary-deep hover:underline">
+                    {arabic ? "سجّل الدخول" : "Log in"}
+                  </Link>
+                </p>
+              ) : null}
               <Link
                 href="/jobs"
                 className="mt-3 inline-flex h-12 w-full items-center justify-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-6 text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
@@ -203,21 +195,14 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               </ul>
             </div>
 
-            {company ? (
-              <Link
-                href={`/companies/${company.slug}` as Route}
-                className="group flex items-center gap-4 rounded-ts-lg border border-ts-line bg-ts-surface p-6 transition-colors hover:border-ts-primary"
-              >
-                <span aria-hidden="true" className="grid size-13 shrink-0 place-items-center rounded-ts-md text-base font-bold text-ts-ink/80" style={{ backgroundColor: company.accent }}>
-                  {company.initials}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[15px] font-bold text-ts-ink group-hover:text-ts-primary-deep">{company.name}</span>
-                  <span className="block text-[13px] text-ts-muted">{company.industry}</span>
-                </span>
-                <ArrowUpRight size={18} aria-hidden="true" className="shrink-0 text-ts-muted rtl:-scale-x-100" />
-              </Link>
-            ) : null}
+            <Link href={companyHref} className="group flex items-center gap-4 rounded-ts-lg border border-ts-line bg-ts-surface p-6 transition-colors hover:border-ts-primary">
+              <CompanyAvatar name={name} logoUrl={job.company.logoUrl} />
+              <span className="min-w-0 flex-1">
+                <span className="block text-[15px] font-bold text-ts-ink group-hover:text-ts-primary-deep">{name}</span>
+                {job.company.industry ? <span className="block text-[13px] text-ts-muted">{categoryLabel(job.company.industry, locale)}</span> : null}
+              </span>
+              <ArrowUpRight size={18} aria-hidden="true" className="shrink-0 text-ts-muted rtl:-scale-x-100" />
+            </Link>
           </aside>
         </Container>
       </section>
@@ -225,5 +210,24 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
       <CtaBand locale={locale} />
       <PublicFooter locale={locale} />
     </main>
+  );
+}
+
+function ApplyButton({ target, locale }: { target: ApplyTarget; locale: Locale }) {
+  const { href, kind } = target;
+  const arabic = locale === "ar";
+  const className =
+    "mt-6 inline-flex h-13 w-full items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-base font-bold text-white transition-opacity hover:opacity-90";
+  if (kind === "external") {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer nofollow" className={className}>
+        {arabic ? "قدّم على موقع الشركة" : "Apply on company site"} <ArrowUpRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
+      </a>
+    );
+  }
+  return (
+    <Link href={href as Route} className={className}>
+      {kind === "signup" ? (arabic ? "أنشئ حساباً للتقديم" : "Sign up to apply") : arabic ? "قدّم عبر التطبيق" : "Apply in the app"}
+    </Link>
   );
 }

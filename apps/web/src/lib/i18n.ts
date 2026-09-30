@@ -8,11 +8,11 @@ export const dictionary = {
       eyebrow: "Work that moves you forward",
       titleStart: "Your ambition.",
       titleAccent: "The right opportunity.",
-      body: "Discover meaningful roles across the Gulf and connect with teams that value what you bring.",
+      body: "Discover meaningful roles across the Gulf and Syria and connect with teams that value what you bring.",
       find: "Explore open roles",
       hire: "I’m hiring"
     },
-    proof: { label: "Built for careers in the Gulf", jobs: "Live opportunities", companies: "Growing teams", response: "One simple profile" },
+    proof: { label: "Built for careers in the Gulf and Syria", jobs: "Live opportunities", companies: "Growing teams", response: "One simple profile" },
     sections: {
       jobsEyebrow: "Selected for you",
       jobsTitle: "Opportunity, without the noise.",
@@ -24,7 +24,7 @@ export const dictionary = {
       employerBody: "Bring your vacancies, applicants, interviews, and team into one calm workspace.",
       start: "Get started",
       finalTitle: "The next chapter starts here.",
-      finalBody: "Join ambitious people and companies shaping what’s next across the region."
+      finalBody: "Join ambitious people and companies shaping what’s next across the Gulf and Syria."
     },
     footer: { tagline: "Talent, opportunity, and progress—brought together.", product: "Product", company: "Company", legal: "Legal" }
   },
@@ -34,11 +34,11 @@ export const dictionary = {
       eyebrow: "عمل يدفعك إلى الأمام",
       titleStart: "طموحك.",
       titleAccent: "والفرصة المناسبة.",
-      body: "اكتشف فرصاً مميزة في الخليج وتواصل مع فرق تقدّر ما يمكنك تقديمه.",
+      body: "اكتشف فرصاً مميزة في الخليج وسوريا وتواصل مع فرق تقدّر ما يمكنك تقديمه.",
       find: "استكشف الوظائف",
       hire: "أبحث عن مواهب"
     },
-    proof: { label: "مصمم لمسيرتك في الخليج", jobs: "فرص متاحة", companies: "شركات متنامية", response: "ملف شخصي واحد" },
+    proof: { label: "مصمم لمسيرتك في الخليج وسوريا", jobs: "فرص متاحة", companies: "شركات متنامية", response: "ملف شخصي واحد" },
     sections: {
       jobsEyebrow: "مختارة لك",
       jobsTitle: "فرص واضحة، بلا ضوضاء.",
@@ -50,7 +50,7 @@ export const dictionary = {
       employerBody: "اجمع الوظائف والمتقدمين والمقابلات وفريقك في مساحة عمل هادئة.",
       start: "ابدأ الآن",
       finalTitle: "فصلك القادم يبدأ هنا.",
-      finalBody: "انضم إلى أشخاص وشركات طموحة تصنع مستقبل المنطقة."
+      finalBody: "انضم إلى أشخاص وشركات طموحة تصنع المستقبل في الخليج وسوريا."
     },
     footer: { tagline: "المواهب والفرص والتقدم، في مكان واحد.", product: "المنتج", company: "الشركة", legal: "قانوني" }
   }
