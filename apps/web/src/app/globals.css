@@ -238,8 +238,8 @@ h2 { font-size: clamp(1.65rem, 4.5vw, 4.2rem); }
 
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink-deep); font-size: 20px; font-weight: 700; letter-spacing: 0; }
 .logo[data-inverted] { color: #fff; }
-.logo-mark { display: grid; width: 30px; height: 30px; place-items: center; }
-.logo-mark img { width: 28px; height: 28px; }
+.logo-mark { display: grid; width: 27px; height: 35px; place-items: center; }
+.logo-mark img { width: 27px; height: 35px; }
 .logo-type { display: grid; line-height: 1.05; }
 .logo-word span { color: var(--coral); }
 .logo-sig { margin-top: 2px; color: var(--ts-muted); font-size: 11px; font-weight: 500; line-height: 1.2; letter-spacing: 0; }

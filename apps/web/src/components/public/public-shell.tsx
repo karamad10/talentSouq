@@ -67,7 +67,7 @@ export function Container({ children, className }: { children: ReactNode; classN
 export function CtaBand({ locale }: { locale: Locale }) {
   const copy = dictionary[locale].sections;
   return (
-    <section className="border-t border-ts-line-soft bg-surface-strong py-[clamp(3.5rem,8vw,6rem)]">
+    <section className="border-t border-ts-line-soft bg-surface-strong py-[clamp(2.25rem,5vw,3.5rem)]">
       <Container className="flex flex-col gap-9 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-end min-[900px]:justify-between">
         <div className="min-w-0 max-w-2xl">
           <p className="m-0 text-[11px] font-semibold tracking-[0.18em] text-ts-on-strong/60 uppercase">TalentSouq</p>
@@ -121,14 +121,14 @@ export function PublicFooter({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <footer className="border-t border-ts-on-strong/10 bg-surface-strong py-[clamp(3rem,6vw,4.5rem)]">
-      <Container className="grid grid-cols-2 gap-8 min-[560px]:grid-cols-3 min-[900px]:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] min-[900px]:gap-10">
+    <footer className="border-t border-ts-on-strong/10 bg-surface-strong py-[clamp(2rem,4vw,2.75rem)]">
+      <Container className="grid grid-cols-2 gap-8 min-[560px]:grid-cols-3 min-[900px]:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] min-[900px]:gap-8">
         <div className="col-span-full min-w-0 min-[900px]:col-span-1">
           <Logo inverted />
-          <p className="m-0 mt-4 max-w-xs text-sm leading-relaxed text-ts-on-strong-muted">{copy.footer.tagline}</p>
+          <p className="m-0 mt-3 max-w-xs text-sm leading-relaxed text-ts-on-strong-muted">{copy.footer.tagline}</p>
         </div>
         {columns.map((column) => (
-          <div key={column.title} className="flex flex-col gap-3">
+          <div key={column.title} className="flex flex-col gap-2">
             <strong className="text-[11px] font-semibold tracking-[0.18em] text-ts-on-strong/60 uppercase">{column.title}</strong>
             {column.links.map((link) => (
               <Link key={`${column.title}-${link.label}`} href={link.href} className="tap-target text-sm text-ts-on-strong/75 transition-colors hover:text-ts-on-strong">
@@ -138,7 +138,7 @@ export function PublicFooter({ locale }: { locale: Locale }) {
           </div>
         ))}
       </Container>
-      <Container className="mt-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-ts-on-strong/10 pt-6 text-[13px] text-ts-on-strong/60">
+      <Container className="mt-7 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-ts-on-strong/10 pt-4 text-[13px] text-ts-on-strong/60">
         <span>{BRAND.cities}</span>
         <span>© 2026 TalentSouq · By Triovate</span>
       </Container>

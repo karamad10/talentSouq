@@ -12,13 +12,14 @@ import Link from "next/link";
  *
  * The mark itself is the same brand SVG used for the mobile app's header
  * (`assets/brand/mark-light.svg` / `mark-ondark.svg` in the mobile repo) so
- * the two apps show one consistent icon.
+ * the two apps show one consistent icon. The `-tight` copies crop the square's
+ * padding so the symbol stands as tall as the wordmark and its signature.
  */
 export function Logo({ inverted = false, compact }: { inverted?: boolean; compact?: "narrow" | "wide" }) {
   return (
     <Link className="logo" data-inverted={inverted || undefined} data-compact={compact} href="/" aria-label="TalentSouq home">
       <span className="logo-mark" aria-hidden="true">
-        <Image src={inverted ? "/brand/mark-ondark.svg" : "/brand/mark-light.svg"} alt="" width={28} height={28} />
+        <Image src={inverted ? "/brand/mark-ondark-tight.svg" : "/brand/mark-light-tight.svg"} alt="" width={27} height={35} />
       </span>
       <span className="logo-type">
         <span className="logo-word">

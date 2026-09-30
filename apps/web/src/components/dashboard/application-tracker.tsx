@@ -88,7 +88,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
           {/* `.ts-table` (globals.css) stacks this into cards below 900px, where
               five columns would otherwise need 680px of sideways scrolling
               inside a card. The explicit roles survive that display change. */}
-          <table role="table" className="ts-table h-full w-full border-collapse min-[900px]:min-w-170">
+          <table role="table" className="ts-table w-full border-collapse min-[900px]:min-w-170">
             {/* Percentage widths keep every column fluid: the table fills the
                 card at any width and only scrolls below its 680px minimum. */}
             <colgroup>
@@ -100,11 +100,11 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
             </colgroup>
             <thead role="rowgroup">
               <tr role="row" className="border-b border-ts-line-soft">
-                <th role="columnheader" scope="col" className="pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Company &amp; role</th>
+                <th role="columnheader" scope="col" className="ps-3 pb-3 pe-4 text-start text-[13px] font-semibold text-ts-muted">Company &amp; role</th>
                 <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Stage</th>
                 <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Match</th>
                 <th role="columnheader" scope="col" className="px-4 pb-3 text-start text-[13px] font-semibold text-ts-muted">Next step</th>
-                <th role="columnheader" scope="col" className="pb-3 ps-4 text-end text-[13px] font-semibold text-ts-muted">Updated</th>
+                <th role="columnheader" scope="col" className="pe-3 pb-3 ps-4 text-end text-[13px] font-semibold text-ts-muted">Updated</th>
               </tr>
             </thead>
             <tbody role="rowgroup">
@@ -119,7 +119,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
                       needsAction && "bg-ts-primary-tint/40 max-[899px]:border-ts-primary/40"
                     )}
                   >
-                    <td role="cell" className="py-4 pe-4 max-[899px]:p-0">
+                    <td role="cell" className="py-3.5 ps-3 pe-4 max-[899px]:p-0">
                       <span className="flex items-center gap-3.5">
                         <span
                           aria-hidden="true"
@@ -133,10 +133,10 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
                         </span>
                       </span>
                     </td>
-                    <td role="cell" data-label="Stage" className="px-4 py-4 max-[899px]:px-0">
+                    <td role="cell" data-label="Stage" className="px-4 py-3.5 max-[899px]:px-0">
                       <StatusPill status={row.stage} className="px-3 py-1 text-xs" />
                     </td>
-                    <td role="cell" data-label="Match" className="px-4 py-4 max-[899px]:px-0">
+                    <td role="cell" data-label="Match" className="px-4 py-3.5 max-[899px]:px-0">
                       <span className="flex items-center gap-2.5 max-[899px]:w-32">
                         <span className="w-9 shrink-0 text-sm font-bold text-ts-ink">{row.score}%</span>
                         <span aria-hidden="true" className="h-2 w-16 min-w-10 flex-1 overflow-hidden rounded-full bg-ts-surface-2">
@@ -144,7 +144,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
                         </span>
                       </span>
                     </td>
-                    <td role="cell" data-label="Next step" className="px-4 py-4 max-[899px]:px-0">
+                    <td role="cell" data-label="Next step" className="px-4 py-3.5 max-[899px]:px-0">
                       {needsAction ? (
                         <Link href="/seeker/offers" className="tap-target inline-flex items-center gap-1.5 text-sm font-bold whitespace-nowrap text-ts-primary hover:text-ts-primary-deep">
                           {row.nextStep} <ArrowUpRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
@@ -153,7 +153,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
                         <span className="text-sm whitespace-nowrap text-ts-ink">{row.nextStep}</span>
                       )}
                     </td>
-                    <td role="cell" data-label="Updated" className="py-4 ps-4 text-end text-[13px] whitespace-nowrap text-ts-muted max-[899px]:px-0">
+                    <td role="cell" data-label="Updated" className="py-3.5 ps-4 pe-3 text-end text-[13px] whitespace-nowrap text-ts-muted max-[899px]:px-0">
                       {row.updated}
                     </td>
                   </tr>
