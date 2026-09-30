@@ -181,7 +181,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow={arabic ? "تصفح المجالات" : "Browse by function"}
             title={arabic ? "ابدأ من مجالك." : "Start where you already work."}
-            body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج." : "Every function shows what is genuinely open across the Gulf today."}
+            body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج وسوريا." : "Every function shows what is genuinely open across the Gulf and Syria today."}
           />
           <div className="mt-9 grid gap-x-10 border-t border-ts-line [grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))]">
             {categories.map((item) => (

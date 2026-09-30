@@ -56,7 +56,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
         <Container>
           <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{arabic ? "ملفات الشركات" : "Company profiles"}</p>
           <h1 className="m-0 mt-3 max-w-3xl text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">
-            {arabic ? "تعرّف على الفرق التي تبني في الخليج." : "Meet the teams building across the Gulf."}
+            {arabic ? "تعرّف على الفرق التي توظّف في الخليج وسوريا." : "Meet the teams hiring across the Gulf and Syria."}
           </h1>
           <p className="m-0 mt-4 max-w-2xl text-[17px] leading-relaxed text-ts-muted">
             {arabic

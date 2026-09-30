@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { BRAND } from "@/lib/brand";
 import type { Metadata } from "next";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
 import { isLocale } from "@/lib/i18n";
@@ -48,7 +49,7 @@ const sections: LegalSection[] = [
   },
   {
     title: "Changes and contact",
-    body: <p>We may update this policy and will post the revised date here. Questions or privacy requests can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. The responsible entity is Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
+    body: <p>We may update this policy and will post the revised date here. Questions or privacy requests can be sent to <a href={`mailto:${BRAND.email.privacy}`}>{BRAND.email.privacy}</a>. The responsible entity is Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
   }
 ];
 

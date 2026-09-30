@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { BRAND } from "@/lib/brand";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal-page";
@@ -52,7 +53,7 @@ const sections: LegalSection[] = [
   },
   {
     title: "Contact",
-    body: <p>Questions can be sent to <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>. Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
+    body: <p>Questions can be sent to <a href={`mailto:${BRAND.email.privacy}`}>{BRAND.email.privacy}</a>. Triovate Management Consultancies L.L.C, Dubai, United Arab Emirates.</p>
   }
 ];
 

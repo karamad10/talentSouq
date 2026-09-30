@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { PublicHeader } from "@/components/public-header";
+import { BRAND } from "@/lib/brand";
 
 export type LegalSection = {
   title: string;
@@ -46,7 +47,7 @@ export function LegalPage({
           <div className="legal-meta">
             <span>Last updated: {updated}</span>
             <span>By Triovate</span>
-            <a href="mailto:privacy@talentsouq.com">privacy@talentsouq.com</a>
+            <a href={`mailto:${BRAND.email.privacy}`}>{BRAND.email.privacy}</a>
           </div>
         </header>
 

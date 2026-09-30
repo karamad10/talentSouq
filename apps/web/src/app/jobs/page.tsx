@@ -12,7 +12,7 @@ import { getSessionUser } from "@/lib/auth/session";
 import { isLocale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
-export const metadata: Metadata = { title: "Find jobs", description: "Explore open opportunities across the Gulf." };
+export const metadata: Metadata = { title: "Find jobs", description: "Explore open opportunities across the Gulf and Syria." };
 
 type JobsSearchParams = { q?: string; location?: string; category?: string; mode?: string; type?: string; sort?: string };
 

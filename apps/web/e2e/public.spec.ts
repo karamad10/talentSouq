@@ -67,7 +67,7 @@ test("employer workspace is separate and route based", async ({ page }) => {
 
 test("company profiles expose public hiring pages", async ({ page }) => {
   await page.goto("/companies");
-  await expect(page.getByRole("heading", { name: "Meet the teams building across the Gulf." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Meet the teams hiring across the Gulf and Syria." })).toBeVisible();
   // The card uses a stretched link, so its accessible name is the company name.
   await page.getByRole("link", { name: "Nexa Commerce", exact: true }).click();
   await expect(page).toHaveURL(/\/companies\/nexa-commerce$/);
@@ -86,7 +86,7 @@ test("legal pages use complete shared public layout", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Privacy Policy" })).toBeVisible();
   await expect(page.getByText("Last updated: 11 August 2026")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Data we collect" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "privacy@talentsouq.com" }).first()).toHaveAttribute("href", "mailto:privacy@talentsouq.com");
+  await expect(page.getByRole("link", { name: "privacy@talentsouq.it.com" }).first()).toHaveAttribute("href", "mailto:privacy@talentsouq.it.com");
   await page.getByRole("link", { name: "Read the Terms of Service" }).click();
   await expect(page).toHaveURL(/\/terms$/);
   await expect(page.getByRole("heading", { name: "Terms of Service" })).toBeVisible();
@@ -107,4 +107,19 @@ test("mobile association files are served without redirects", async ({ request }
   expect(assetlinks.headers()["content-type"]).toContain("application/json");
   const assetlinksJson = await assetlinks.json();
   expect(assetlinksJson[0].target.package_name).toBe("com.karehan.app");
+});
+
+// Report RPT-2026-014 §6: a shared link showed no preview image.
+test("shares with a preview image and has an icon", async ({ page, request }) => {
+  await page.goto("/");
+  const og = await page.locator('meta[property="og:image"]').getAttribute("content");
+  expect(og).toContain("/opengraph-image");
+  const img = await request.get(new URL(og!).pathname);
+  expect(img.status()).toBe(200);
+  expect(img.headers()["content-type"]).toContain("image/png");
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+  await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute("content", /by Triovate/);
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+  await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute("content", /\/twitter-image/);
+  expect((await request.get("/icon.svg")).status()).toBe(200);
 });
