@@ -12,6 +12,7 @@ import { getSessionUser } from "@/lib/auth/session";
 import { dictionary } from "@/lib/i18n";
 import { categoryLabel, companiesCount, rolesCount } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
+import { Eyebrow, Stopped } from "@/components/brand-stop";
 
 /** Below this the board is too small for a number to be worth showing. */
 const PROOF_THRESHOLD = 20;
@@ -20,10 +21,9 @@ const PROOF_THRESHOLD = 20;
    edges, one accent, semibold (never bold) headings, and fluid clamp() rhythm
    so the layout breathes rather than snapping between breakpoints. */
 const buttonPrimary =
-  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ts-primary px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ts-primary-deep";
+  "inline-flex h-12 items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-[15px] font-semibold text-ts-on-primary transition-colors hover:bg-ts-primary-deep";
 const buttonQuiet =
-  "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-ts-line bg-ts-surface px-6 text-[15px] font-semibold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep";
-const eyebrow = "m-0 text-[11px] font-semibold tracking-[0.18em] text-ts-primary-deep uppercase";
+  "inline-flex h-12 items-center justify-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-6 text-[15px] font-semibold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep";
 const sectionPad = "py-[clamp(3.5rem,8vw,6.5rem)]";
 
 export default async function HomePage() {
@@ -67,14 +67,13 @@ export default async function HomePage() {
         />
         <Container className="relative grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,5vw,4rem)] min-[1000px]:grid-cols-[1.05fr_0.95fr]">
           <div className="min-w-0">
-            <p className={`${eyebrow} inline-flex items-center gap-2.5`}>
-              <span aria-hidden="true" className="inline-block size-1.5 rounded-full bg-ts-accent" />
-              {copy.hero.eyebrow}
-            </p>
+            <Eyebrow>{copy.hero.eyebrow}</Eyebrow>
             <h1 className="m-0 mt-5 text-[clamp(2.3rem,5.6vw,4.1rem)] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-ts-ink">
-              {copy.hero.titleStart}
+              <Stopped>{copy.hero.titleStart}</Stopped>
               <br />
-              <em className="font-serif font-normal text-ts-primary italic">{copy.hero.titleAccent}</em>
+              <span className="text-ts-primary">
+                <Stopped>{copy.hero.titleAccent}</Stopped>
+              </span>
             </h1>
             <p className="m-0 mt-5 max-w-xl text-[clamp(1rem,1.3vw,1.125rem)] leading-relaxed text-pretty text-ts-muted">{copy.hero.body}</p>
 
@@ -122,7 +121,7 @@ export default async function HomePage() {
             {/* Illustrative UI, not a claim about a real match: hidden from
                 assistive tech and deliberately without a city or a person. */}
             <div aria-hidden="true" className="absolute inset-x-5 bottom-5 flex items-center gap-3">
-              <span aria-hidden="true" className="inline-flex h-7 shrink-0 items-center rounded-full bg-ts-primary px-2.5 text-[12px] font-semibold text-white">
+              <span aria-hidden="true" className="inline-flex h-7 shrink-0 items-center rounded-ts-xs bg-ts-primary px-2.5 text-[12px] font-semibold text-ts-on-primary">
                 92%
               </span>
               <span className="min-w-0 [text-shadow:0_1px_12px_rgba(11,27,35,0.55)]">
@@ -136,7 +135,7 @@ export default async function HomePage() {
         {/* Proof, stated once and quietly. */}
         <Container>
           <div className="flex flex-wrap items-baseline gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-5 border-t border-ts-line-soft py-8">
-            <p className={`${eyebrow} w-full min-[900px]:w-auto`}>{copy.proof.label}</p>
+            <Eyebrow className="w-full min-[900px]:w-auto">{copy.proof.label}</Eyebrow>
             {proof.map((claim) => (
               <div key={claim} className="flex items-baseline gap-2.5">
                 <span aria-hidden="true" className="inline-block size-1.5 rounded-full bg-ts-accent" />
@@ -151,7 +150,7 @@ export default async function HomePage() {
       {hiring.length > 0 ? (
         <section className="border-y border-ts-line-soft bg-ts-surface py-7">
           <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-9">
-            <p className={eyebrow}>{arabic ? "يوظفون الآن" : "Hiring right now"}</p>
+            <Eyebrow>{arabic ? "يوظفون الآن" : "Hiring right now"}</Eyebrow>
             <div className="-mx-5 flex items-center gap-x-7 gap-y-3 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
               {hiring.map((company) => (
                 <Link
@@ -238,7 +237,7 @@ export default async function HomePage() {
             <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-primary-tint text-ts-primary-deep">
               <UsersRound size={20} aria-hidden="true" />
             </span>
-            <p className={`${eyebrow} mt-5`}>{arabic ? "للباحثين عن عمل" : "For talent"}</p>
+            <Eyebrow className="mt-5">{arabic ? "للباحثين عن عمل" : "For talent"}</Eyebrow>
             <h2 className="m-0 mt-3 text-[clamp(1.7rem,3vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.03em] text-balance text-ts-ink">{copy.sections.seekerTitle}</h2>
             <p className="m-0 mt-4 max-w-xl text-[16px] leading-relaxed text-pretty text-ts-muted">{copy.sections.seekerBody}</p>
             <ul className="m-0 mt-6 flex list-none flex-col gap-3 p-0">
@@ -264,22 +263,22 @@ export default async function HomePage() {
           <div className="order-1 min-w-0 min-[1000px]:order-2">
             <div className="rounded-ts-xl border border-ts-line bg-ts-surface p-6 shadow-ts-card">
               <div className="flex items-center gap-4">
-                <span aria-hidden="true" className="grid size-12 place-items-center rounded-full bg-[#e8d6d2] text-sm font-semibold text-[#7b453b]">
+                <span aria-hidden="true" className="grid size-12 place-items-center rounded-ts-sm bg-[#e8d6d2] text-sm font-semibold text-[#7b453b]">
                   SA
                 </span>
                 <div className="min-w-0 flex-1">
                   <strong className="block text-[15px] font-semibold text-ts-ink">Sarah Ahmed</strong>
                   <span className="block text-[13px] text-ts-muted">Senior Product Designer</span>
                 </div>
-                <span className="inline-flex h-8 items-center rounded-full bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">92%</span>
+                <span className="inline-flex h-8 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">92%</span>
               </div>
               <div className="mt-6 flex flex-col gap-2" aria-hidden="true">
-                <span className="block h-2 w-full rounded-full bg-ts-surface-2" />
-                <span className="block h-2 w-3/5 rounded-full bg-ts-surface-2" />
+                <span className="block h-2 w-full rounded-ts-xs bg-ts-surface-2" />
+                <span className="block h-2 w-3/5 rounded-ts-xs bg-ts-surface-2" />
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
                 {["Product strategy", "Research", "Design systems"].map((skill) => (
-                  <span key={skill} className="inline-flex h-7 items-center rounded-full border border-ts-line px-3 text-[13px] text-ts-muted">
+                  <span key={skill} className="inline-flex h-7 items-center rounded-ts-xs border border-ts-line px-3 text-[13px] text-ts-muted">
                     {skill}
                   </span>
                 ))}
@@ -293,7 +292,7 @@ export default async function HomePage() {
               </div>
             </div>
             <div className="mt-4 flex items-center gap-3 rounded-ts-lg border border-ts-line bg-ts-surface px-4 py-3 shadow-ts-card">
-              <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-ts-success-tint text-ts-success">
+              <span aria-hidden="true" className="grid size-7 place-items-center rounded-ts-sm bg-ts-success-tint text-ts-success">
                 <Check size={14} strokeWidth={2.5} />
               </span>
               <span className="min-w-0">
@@ -322,7 +321,7 @@ export default async function HomePage() {
                   { initials: "NO", name: "Noor Omar", stage: arabic ? "مقابلة" : "Interview", score: "88%", tone: "bg-[#ecebf7] text-[#464396]" }
                 ].map((row) => (
                   <li key={row.name} className="flex items-center gap-3.5 border-b border-ts-line-soft py-4 last:border-b-0">
-                    <span aria-hidden="true" className={`grid size-9 shrink-0 place-items-center rounded-full text-[12px] font-semibold ${row.tone}`}>
+                    <span aria-hidden="true" className={`grid size-9 shrink-0 place-items-center rounded-ts-sm text-[12px] font-semibold ${row.tone}`}>
                       {row.initials}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -340,7 +339,7 @@ export default async function HomePage() {
             <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-accent-tint text-ts-accent-deep">
               <BriefcaseBusiness size={20} aria-hidden="true" />
             </span>
-            <p className={`${eyebrow} mt-5`}>{arabic ? "لأصحاب العمل" : "For employers"}</p>
+            <Eyebrow className="mt-5">{arabic ? "لأصحاب العمل" : "For employers"}</Eyebrow>
             <h2 className="m-0 mt-3 text-[clamp(1.7rem,3vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.03em] text-balance text-ts-ink">{copy.sections.employerTitle}</h2>
             <p className="m-0 mt-4 max-w-xl text-[16px] leading-relaxed text-pretty text-ts-muted">{copy.sections.employerBody}</p>
             <ul className="m-0 mt-6 flex list-none flex-col gap-3 p-0">

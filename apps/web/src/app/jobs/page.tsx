@@ -11,6 +11,7 @@ import { getSessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/cn";
 import { categoryLabel, employmentTypeLabel, rolesCount, workModeLabel } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
+import { Eyebrow, Stopped } from "@/components/brand-stop";
 
 export const metadata: Metadata = { title: "Find jobs", description: "Explore open opportunities across the Gulf and Syria." };
 
@@ -68,9 +69,9 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
 
       <section className="border-b border-ts-line bg-ts-surface py-14 max-[680px]:py-10">
         <Container>
-          <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{arabic ? "فرصتك القادمة" : "Your next opportunity"}</p>
+          <Eyebrow>{arabic ? "فرصتك القادمة" : "Your next opportunity"}</Eyebrow>
           <h1 className="m-0 mt-3 max-w-3xl text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">
-            {arabic ? "اعثر على عمل يناسب طموحك." : "Find work that fits your ambition."}
+            <Stopped>{arabic ? "اعثر على عمل يناسب طموحك." : "Find work that fits your ambition."}</Stopped>
           </h1>
           <p className="m-0 mt-4 max-w-2xl text-[17px] leading-relaxed text-ts-muted">
             {arabic ? "ابحث في الوظائف المنشورة في الخليج وسوريا، وقدّم بملف واحد." : "Search roles open across the Gulf and Syria, and apply with one profile."}
@@ -89,7 +90,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
             <FacetRow label={arabic ? "نمط العمل" : "Work mode"} facets={board.facets.workModes} active={mode} name={(v) => workModeLabel(v, locale)} href={(v) => facetHref("mode", v)} />
             <FacetRow label={arabic ? "نوع العقد" : "Contract"} facets={board.facets.employmentTypes} active={type} name={(v) => employmentTypeLabel(v, locale)} href={(v) => facetHref("type", v)} />
             {hasFilters ? (
-              <Link href="/jobs" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-full px-3 text-[13px] font-bold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
+              <Link href="/jobs" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-ts-chip px-3 text-[13px] font-semibold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
                 <X size={14} aria-hidden="true" /> {arabic ? "مسح الكل" : "Clear all"}
               </Link>
             ) : null}
@@ -116,7 +117,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
                     href={hrefWith({ sort: option.value === "recent" ? "" : option.value })}
                     aria-current={sort === option.value ? "page" : undefined}
                     className={cn(
-                      "inline-flex h-10 items-center rounded-full px-4 text-[13px] font-bold transition-colors",
+                      "inline-flex h-10 items-center rounded-ts-chip px-4 text-[13px] font-semibold transition-colors",
                       sort === option.value ? "bg-ts-primary-tint text-ts-primary-deep" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
                     )}
                   >
@@ -137,13 +138,13 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
               {pages > 1 ? (
                 <nav aria-label={arabic ? "الصفحات" : "Pages"} className="mt-10 flex items-center justify-center gap-3 text-sm font-bold">
                   {page > 1 ? (
-                    <Link href={hrefWith({ page: page - 1 > 1 ? String(page - 1) : "" })} className="inline-flex h-10 items-center gap-1.5 rounded-full border border-ts-line bg-ts-surface px-4 text-ts-ink hover:border-ts-primary">
+                    <Link href={hrefWith({ page: page - 1 > 1 ? String(page - 1) : "" })} className="inline-flex h-10 items-center gap-1.5 rounded-ts-chip border border-ts-line bg-ts-surface px-4 text-ts-ink hover:border-ts-primary">
                       <ArrowLeft size={15} aria-hidden="true" className="rtl:-scale-x-100" /> {arabic ? "السابق" : "Previous"}
                     </Link>
                   ) : null}
                   <span className="text-ts-muted">{arabic ? `الصفحة ${page} من ${pages}` : `Page ${page} of ${pages}`}</span>
                   {page < pages ? (
-                    <Link href={hrefWith({ page: String(page + 1) })} className="inline-flex h-10 items-center gap-1.5 rounded-full border border-ts-line bg-ts-surface px-4 text-ts-ink hover:border-ts-primary">
+                    <Link href={hrefWith({ page: String(page + 1) })} className="inline-flex h-10 items-center gap-1.5 rounded-ts-chip border border-ts-line bg-ts-surface px-4 text-ts-ink hover:border-ts-primary">
                       {arabic ? "التالي" : "Next"} <ArrowRight size={15} aria-hidden="true" className="rtl:-scale-x-100" />
                     </Link>
                   ) : null}
@@ -152,7 +153,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
             </>
           ) : (
             <div className="mt-8 flex flex-col items-center gap-4 rounded-ts-lg border border-dashed border-ts-line px-6 py-16 text-center">
-              <span aria-hidden="true" className="grid size-14 place-items-center rounded-full bg-ts-surface-2 text-ts-muted">
+              <span aria-hidden="true" className="grid size-14 place-items-center rounded-ts-md bg-ts-surface-2 text-ts-muted">
                 <Search size={24} />
               </span>
               <h3 className="m-0 text-xl font-bold text-ts-ink">
@@ -169,7 +170,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
               </p>
               <Link
                 href={hasFilters ? "/jobs" : "/auth/login?mode=signup"}
-                className="inline-flex h-11 items-center rounded-full border border-ts-line bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+                className="inline-flex h-11 items-center rounded-ts-md border border-ts-line bg-ts-surface px-5 text-sm font-semibold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
               >
                 {hasFilters ? (arabic ? "مسح عوامل التصفية" : "Clear filters") : arabic ? "أنشئ ملفك" : "Create your profile"}
               </Link>
@@ -212,9 +213,9 @@ function FacetRow({
             href={href(facet.value)}
             aria-pressed={active === facet.value}
             className={cn(
-              "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-semibold whitespace-nowrap transition-colors",
+              "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-ts-chip border px-3.5 text-[13px] font-semibold whitespace-nowrap transition-colors",
               active === facet.value
-                ? "border-ts-primary bg-ts-primary text-white"
+                ? "border-ts-primary bg-ts-primary text-ts-on-primary"
                 : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
             )}
           >

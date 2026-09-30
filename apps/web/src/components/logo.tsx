@@ -20,7 +20,13 @@ export function Logo({ inverted = false, compact }: { inverted?: boolean; compac
       <span className="logo-mark" aria-hidden="true">
         <Image src={inverted ? "/brand/mark-ondark.svg" : "/brand/mark-light.svg"} alt="" width={28} height={28} />
       </span>
-      <span className="logo-type">Talent<span>Souq</span></span>
+      <span className="logo-type">
+        <span className="logo-word">
+          Talent<span>Souq</span>
+        </span>
+        {/* The parent-brand signature, as on the app's welcome screen (report RPT-2026-014 §7). */}
+        <span className="logo-sig">by Triovate</span>
+      </span>
     </Link>
   );
 }

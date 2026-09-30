@@ -70,7 +70,7 @@ function PageLink({
 }) {
   const className = cn(
     "inline-flex size-10 items-center justify-center gap-1 rounded-ts-sm px-2 text-[13px] font-bold transition-colors",
-    current ? "bg-ts-primary text-white" : "text-ts-ink hover:bg-ts-surface-2",
+    current ? "bg-ts-primary text-ts-on-primary" : "text-ts-ink hover:bg-ts-surface-2",
     !href && !current && "cursor-not-allowed text-ts-muted/50"
   );
 

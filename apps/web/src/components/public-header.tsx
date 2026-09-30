@@ -63,7 +63,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
             <Link
               className={cn(
                 "grid size-11 shrink-0 place-items-center rounded-full text-[13px] font-bold transition-opacity hover:opacity-90",
-                overlay ? "bg-white/15 text-white" : "bg-ts-primary text-white"
+                overlay ? "bg-white/15 text-ts-on-primary" : "bg-ts-primary text-ts-on-primary"
               )}
               href={dashboardHref}
               aria-label={locale === "ar" ? "الذهاب إلى لوحة التحكم" : "Go to your dashboard"}
@@ -83,7 +83,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                 {copy.login}
               </Link>
               <Link
-                className="inline-flex h-11 shrink-0 items-center rounded-full bg-ts-accent px-3.5 text-sm font-bold whitespace-nowrap text-[#1d2525] transition-transform hover:-translate-y-0.5 min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
+                className="inline-flex h-11 shrink-0 items-center rounded-ts-md bg-ts-accent px-3.5 text-sm font-semibold whitespace-nowrap text-[#1d2525] transition-transform hover:-translate-y-0.5 min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
                 href="/auth/login?mode=signup"
               >
                 {locale === "ar" ? "انضم الآن" : "Join now"}

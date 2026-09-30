@@ -84,7 +84,7 @@ export function AppBanner() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-ts-line bg-ts-surface/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_20px_rgba(11,27,35,0.12)] backdrop-blur">
       <div className="flex items-center gap-3 px-4 py-3">
-        <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-ts-md bg-ts-primary text-base font-bold text-white">
+        <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-ts-md bg-ts-primary text-base font-bold text-ts-on-primary">
           T
         </span>
         <span className="min-w-0 flex-1">
@@ -95,7 +95,7 @@ export function AppBanner() {
           href={href}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex h-10 shrink-0 items-center rounded-full bg-ts-primary px-4 text-sm font-bold whitespace-nowrap text-white"
+          className="inline-flex h-10 shrink-0 items-center rounded-ts-chip bg-ts-primary px-4 text-sm font-semibold whitespace-nowrap text-ts-on-primary"
         >
           {copy.open}
         </a>

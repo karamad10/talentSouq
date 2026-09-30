@@ -20,7 +20,7 @@ const permissions = [
 
 const fieldLabelClass = "block text-xs font-bold tracking-[0.06em] text-ts-muted uppercase";
 const fieldClass =
-  "mt-2 h-11 w-full rounded-ts-md border border-ts-field bg-ts-surface px-3.5 text-sm text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary";
+  "mt-2 h-11 w-full rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 text-sm text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring";
 
 export default function TeamPage() {
   return (

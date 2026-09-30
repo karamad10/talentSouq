@@ -11,6 +11,7 @@ import { BRAND } from "@/lib/brand";
 import { categoryLabel, rolesCount } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { toEmbedUrl } from "@/lib/video-embed";
+import { Eyebrow } from "@/components/brand-stop";
 
 /**
  * A company's public career page (report RPT-2026-014 §6: the app printed
@@ -72,7 +73,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
           <div className="flex flex-wrap items-center gap-5">
             <CompanyAvatar name={name} logoUrl={company.logoUrl} size="lg" />
             <div className="min-w-0 flex-1">
-              <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{arabic ? "الوظائف لدى" : "Careers at"}</p>
+              <Eyebrow>{arabic ? "الوظائف لدى" : "Careers at"}</Eyebrow>
               <h1 className="m-0 mt-2 text-[clamp(2rem,4vw,3rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">{name}</h1>
               <p className="m-0 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[15px] text-ts-muted">
                 {company.industry ? (

@@ -6,6 +6,7 @@ import { Logo } from "@/components/logo";
 import { authMessage } from "@/lib/auth-copy";
 import { getLocale } from "@/lib/locale";
 import { getSupabaseEnv } from "@/lib/supabase/env";
+import { Stopped } from "@/components/brand-stop";
 
 const COPY = {
   en: {
@@ -88,7 +89,7 @@ export default async function LoginPage({
         <div className="auth-brand-copy">
           <Logo inverted />
           <p className="eyebrow">{copy.eyebrow}</p>
-          <h1>{signup ? copy.titleSignup : copy.titleLogin}</h1>
+          <h1><Stopped>{signup ? copy.titleSignup : copy.titleLogin}</Stopped></h1>
           <ul>
             {copy.points.map((point) => (
               <li key={point}>

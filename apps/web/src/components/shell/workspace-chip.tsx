@@ -23,8 +23,8 @@ export function WorkspaceChip({ identity }: { identity: WorkspaceIdentity }) {
       <Menu>
         {/* min-w-0 + a truncating name let the chip give room back to the
             unread bells rather than pushing them off a narrow screen. */}
-        <MenuTrigger className="flex h-11 min-w-0 shrink items-center gap-2 rounded-full bg-ts-surface-2 ps-2 pe-3 text-sm font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint min-[981px]:gap-2.5 min-[981px]:pe-3.5">
-          <span aria-hidden="true" className="grid size-7.5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
+        <MenuTrigger className="flex h-11 min-w-0 shrink items-center gap-2 rounded-ts-md bg-ts-surface-2 ps-2 pe-3 text-sm font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint min-[981px]:gap-2.5 min-[981px]:pe-3.5">
+          <span aria-hidden="true" className="grid size-7.5 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-[11px] font-bold text-ts-primary-deep">
             {identity.initials}
           </span>
           {/* dir="auto" so a Latin name inside an Arabic document truncates

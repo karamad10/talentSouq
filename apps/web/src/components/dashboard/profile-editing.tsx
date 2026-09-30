@@ -54,8 +54,8 @@ const parseList = (raw: string): string[] => {
 };
 
 const inputClass =
-  "w-full rounded-ts-md border border-ts-field bg-ts-surface px-3.5 py-2.5 text-sm leading-relaxed text-ts-ink outline-none transition-colors focus:border-ts-primary";
-const saveClass = "inline-flex h-9 items-center gap-1.5 rounded-ts-md bg-ts-primary px-3.5 text-[13px] font-bold text-white transition-opacity hover:opacity-90";
+  "w-full rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 py-2.5 text-sm leading-relaxed text-ts-ink outline-none transition-colors focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring";
+const saveClass = "inline-flex h-9 items-center gap-1.5 rounded-ts-md bg-ts-primary px-3.5 text-[13px] font-bold text-ts-on-primary transition-opacity hover:opacity-90";
 const cancelClass = "inline-flex h-9 items-center gap-1.5 rounded-ts-md border border-ts-line-soft px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2";
 const editClass = "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-ts-md px-2.5 text-[13px] font-bold text-ts-primary transition-colors hover:bg-ts-primary-tint";
 
@@ -297,7 +297,7 @@ export function EditableChips({ storageKey, defaultItems, addLabel }: { storageK
   return (
     <div className="flex flex-wrap items-center gap-2">
       {items.map((item) => (
-        <span key={item} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-ts-primary-tint ps-3.5 pe-1.5 text-[13px] font-semibold text-ts-primary-deep">
+        <span key={item} className="inline-flex h-9 items-center gap-1.5 rounded-ts-chip bg-ts-primary-tint ps-3.5 pe-1.5 text-[13px] font-semibold text-ts-primary-deep">
           {item}
           <button
             type="button"
@@ -324,7 +324,7 @@ export function EditableChips({ storageKey, defaultItems, addLabel }: { storageK
               }
               if (event.key === "Escape") setAdding(false);
             }}
-            className="h-9 w-44 rounded-full border border-ts-field bg-ts-surface px-3.5 text-[13px] text-ts-ink outline-none focus:border-ts-primary"
+            className="h-9 w-44 rounded-ts-chip border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 text-[13px] text-ts-ink outline-none focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring"
           />
           <button type="button" onClick={add} className={saveClass}>
             <Check size={15} aria-hidden="true" /> Add
@@ -334,7 +334,7 @@ export function EditableChips({ storageKey, defaultItems, addLabel }: { storageK
         <button
           type="button"
           onClick={() => setAdding(true)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-full border border-dashed border-ts-line-soft px-3.5 text-[13px] font-bold text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+          className="inline-flex h-9 items-center gap-1.5 rounded-ts-chip border border-dashed border-ts-line-soft px-3.5 text-[13px] font-semibold text-ts-muted transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
         >
           <Plus size={14} aria-hidden="true" /> {addLabel}
         </button>

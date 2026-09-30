@@ -20,7 +20,7 @@ export function FilterGroup({
       <legend className="mb-2.5 flex items-center gap-2 p-0 text-xs font-bold tracking-[0.06em] text-ts-muted uppercase">
         {title}
         {selected.length > 0 ? (
-          <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ts-primary px-1.5 text-[11px] font-bold text-white">{selected.length}</span>
+          <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ts-primary px-1.5 text-[11px] font-bold text-ts-on-primary">{selected.length}</span>
         ) : null}
       </legend>
       <div className="flex flex-wrap gap-2">
@@ -29,8 +29,8 @@ export function FilterGroup({
             <input type="checkbox" name={name ?? title} value={value} defaultChecked={selected.includes(value)} className="peer sr-only" />
             <span
               className={
-                "inline-flex h-9 items-center rounded-full border border-ts-field px-3.5 text-[13px] font-medium text-ts-ink transition-colors " +
-                "hover:bg-ts-surface-2 peer-checked:border-ts-primary peer-checked:bg-ts-primary peer-checked:text-white " +
+                "inline-flex h-9 items-center rounded-ts-chip border border-ts-field px-3.5 text-[13px] font-medium text-ts-ink transition-colors " +
+                "hover:bg-ts-surface-2 peer-checked:border-ts-primary peer-checked:bg-ts-primary peer-checked:text-ts-on-primary " +
                 "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ts-primary"
               }
             >
@@ -50,7 +50,7 @@ export function FilterSwitch({ label, name, description, checked }: { label: str
       <input type="checkbox" name={name} value="1" defaultChecked={checked} className="peer sr-only" />
       <span
         aria-hidden="true"
-        className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-ts-sm border border-ts-field bg-ts-surface text-transparent peer-checked:border-ts-primary peer-checked:bg-ts-primary peer-checked:text-white"
+        className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-ts-sm border border-ts-field bg-ts-surface text-transparent peer-checked:border-ts-primary peer-checked:bg-ts-primary peer-checked:text-ts-on-primary"
       >
         <svg viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 8.5 6.5 12 13 4.5" />
@@ -82,7 +82,7 @@ export function FilterSelect({
       <select
         name={name}
         defaultValue={value}
-        className="h-11 w-full rounded-ts-md border border-ts-field bg-ts-surface px-3 text-sm font-medium text-ts-ink outline-none transition-colors focus:border-ts-primary"
+        className="h-11 w-full rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3 text-sm font-medium text-ts-ink outline-none transition-colors focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

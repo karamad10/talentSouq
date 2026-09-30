@@ -88,7 +88,7 @@ export function ResponsesTable({ rows: visible }: { rows: JobRow[] }) {
               <td role="cell" data-label="Responses" className="px-4 py-3.5 max-[899px]:px-0">
                 <span className="text-sm font-bold text-ts-ink">{row.status === "Draft" ? "—" : row.total}</span>
                 {row.fresh > 0 ? (
-                  <span className="ms-2 inline-flex h-5.5 items-center rounded-full bg-ts-accent-tint px-2 text-[11px] font-bold text-ts-accent-deep">
+                  <span className="ms-2 inline-flex h-5.5 items-center rounded-ts-xs bg-ts-accent-tint px-2 text-[11px] font-semibold text-ts-accent-deep">
                     {row.fresh} new
                   </span>
                 ) : null}

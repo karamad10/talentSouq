@@ -167,7 +167,7 @@ function FilterChip({ active, onClick, label, count }: { active: boolean; onClic
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors",
+        "inline-flex h-10 items-center gap-2 rounded-ts-chip px-4 text-sm font-semibold transition-colors",
         active ? "bg-ts-primary-tint text-ts-primary-deep" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
       )}
     >

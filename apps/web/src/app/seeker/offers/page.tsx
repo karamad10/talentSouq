@@ -78,7 +78,7 @@ export default function OffersPage() {
               <footer className="mt-auto flex flex-wrap items-center gap-3 border-t border-ts-line-soft pt-4">
                 <OfferDetailsDialog
                   offer={offer}
-                  triggerClassName="inline-flex h-11 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+                  triggerClassName="inline-flex h-11 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-ts-on-primary transition-opacity hover:opacity-90"
                 />
                 <Link
                   href={`/seeker/messages?thread=${offer.threadId}` as Route}

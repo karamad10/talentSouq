@@ -11,7 +11,7 @@ type SegmentedControlProps<T extends string> = {
 
 export function SegmentedControl<T extends string>({ options, value, onChange, className }: SegmentedControlProps<T>) {
   return (
-    <div className={cn("inline-grid grid-flow-col gap-1 rounded-full border border-line bg-surface-soft p-1", className)}>
+    <div className={cn("inline-grid grid-flow-col gap-1 rounded-ts-md bg-ts-surface-2 p-1", className)}>
       {options.map((option) => (
         <button
           key={option.value}
@@ -19,8 +19,8 @@ export function SegmentedControl<T extends string>({ options, value, onChange, c
           aria-pressed={option.value === value}
           onClick={() => onChange(option.value)}
           className={cn(
-            "min-h-9.5 rounded-full px-4 text-xs font-extrabold transition-colors",
-            option.value === value ? "bg-teal text-white shadow-sm" : "text-ink-soft hover:text-ink"
+            "min-h-9.5 rounded-ts-sm px-4 text-[13px] transition-colors",
+            option.value === value ? "border border-ts-line-soft bg-ts-surface font-semibold text-ts-ink" : "text-ts-muted hover:text-ts-ink"
           )}
         >
           {option.label}

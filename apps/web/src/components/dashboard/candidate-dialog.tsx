@@ -42,7 +42,7 @@ export function CandidateDialog({ candidate, triggerLabel = "Open", triggerClass
             </p>
             <p className="m-0 mt-0.5 text-xs text-ts-muted">{candidate.role}</p>
           </div>
-          <span className="inline-flex h-7 shrink-0 items-center rounded-full bg-ts-primary-tint px-2.5 text-[13px] font-bold text-ts-primary-deep">
+          <span className="inline-flex h-7 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-2.5 text-[13px] font-semibold text-ts-primary-deep">
             {candidate.score}% match
           </span>
         </div>

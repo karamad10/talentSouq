@@ -19,7 +19,7 @@ export function EmployerSpotlight() {
   return (
     <section className="grid grid-cols-[minmax(0,1fr)] gap-6 overflow-hidden rounded-ts-xl border border-ts-primary/20 bg-ts-primary-tint p-6 min-[1180px]:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] min-[1180px]:items-center max-[680px]:p-5">
       <div className="min-w-0">
-        <p className="m-0 flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] text-ts-primary-deep uppercase">
+        <p className="m-0 flex items-center gap-2 text-[13px] font-semibold text-ts-primary-deep">
           <span aria-hidden="true" className="inline-block size-1.5 rounded-full bg-ts-accent" />
           Needs you today
         </p>
@@ -165,7 +165,7 @@ export function SavedSearchesPanel({ className }: { className?: string }) {
                 <Search size={14} />
               </span>
               <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ts-ink group-hover:text-ts-primary-deep">{saved.name}</span>
-              <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-ts-primary-tint px-2.5 text-xs font-bold text-ts-primary-deep">
+              <span className="inline-flex h-6 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-2.5 text-xs font-semibold text-ts-primary-deep">
                 +{saved.fresh}
               </span>
             </Link>

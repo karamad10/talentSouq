@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { getLocale } from "@/lib/locale";
+import { Stopped } from "@/components/brand-stop";
 
 export default async function NotFound() {
   const arabic = (await getLocale()) === "ar";
@@ -8,7 +9,7 @@ export default async function NotFound() {
     <main className="not-found">
       <Logo />
       <p className="eyebrow">{arabic ? "404 · خارج الخريطة" : "404 · Off the map"}</p>
-      <h1>{arabic ? "هذه الفرصة لم تعد هنا." : "This opportunity moved on."}</h1>
+      <h1><Stopped>{arabic ? "هذه الفرصة لم تعد هنا." : "This opportunity moved on."}</Stopped></h1>
       <p>
         {arabic
           ? "ربما تغيّرت الصفحة، لكن أمامك الكثير من الوجهات الجيدة."

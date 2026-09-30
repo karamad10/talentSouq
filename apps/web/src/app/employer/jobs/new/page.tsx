@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = { title: "Post a job" };
 
 const inputClass =
-  "h-12 w-full rounded-ts-md border border-ts-field bg-ts-surface px-3.5 text-sm text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary";
+  "h-12 w-full rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 text-sm text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring";
 const labelClass = "flex flex-col gap-2 text-xs font-bold tracking-[0.06em] text-ts-muted uppercase";
 
 export default function NewJobPage() {
@@ -96,7 +96,7 @@ export default function NewJobPage() {
                 name="new-description"
                 rows={8}
                 placeholder="What the role owns, who it works with, and what success looks like."
-                className="w-full resize-y rounded-ts-md border border-ts-field bg-ts-surface px-3.5 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
+                className="w-full resize-y rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring"
               />
             </label>
             <label className={labelClass}>

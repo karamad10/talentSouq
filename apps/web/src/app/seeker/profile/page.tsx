@@ -27,11 +27,12 @@ export default function SeekerProfilePage() {
       <WorkspaceHeader
         eyebrow="Personal profile"
         title={seekerSummary.name}
+        titleIsName
         description="Everything on this page is editable and is what employers see when they open your profile."
         actionSlot={
           <Link
             href="/seeker/jobs"
-            className="inline-flex h-12 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-[15px] font-bold text-white transition-opacity hover:opacity-90"
+            className="inline-flex h-12 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-[15px] font-bold text-ts-on-primary transition-opacity hover:opacity-90"
           >
             <Sparkles size={16} aria-hidden="true" /> Find matching roles
           </Link>
@@ -44,7 +45,7 @@ export default function SeekerProfilePage() {
         <div className="flex flex-wrap items-center gap-5 p-6 max-[680px]:p-4">
           <span
             aria-hidden="true"
-            className="grid size-18 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-xl font-bold tracking-[-0.02em] text-ts-primary-deep ring-4 ring-ts-surface outline outline-1 outline-ts-line-soft"
+            className="grid size-18 shrink-0 place-items-center rounded-ts-lg bg-ts-primary-tint text-xl font-bold tracking-[-0.02em] text-ts-primary-deep ring-4 ring-ts-surface outline outline-1 outline-ts-line-soft"
           >
             {initialsOf(seekerSummary.name)}
           </span>

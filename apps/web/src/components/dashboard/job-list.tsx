@@ -15,7 +15,7 @@ function MatchPill({ score }: { score: number }) {
   return (
     <span
       className={cn(
-        "inline-flex h-7 shrink-0 items-center rounded-full px-2.5 text-[13px] font-bold",
+        "inline-flex h-7 shrink-0 items-center rounded-ts-xs px-2.5 text-[13px] font-semibold",
         strong ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-slate-tint text-ts-muted"
       )}
       title={`${score}% match with your profile`}
@@ -57,10 +57,10 @@ export function JobRow({ job }: { job: Job }) {
         </span>
 
         <span className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 max-[981px]:hidden">
-          <span className="inline-flex h-7 items-center rounded-full bg-ts-surface-2 px-2.5 text-xs font-semibold text-ts-muted">{job.type}</span>
-          <span className="inline-flex h-7 items-center rounded-full bg-ts-surface-2 px-2.5 text-xs font-semibold text-ts-muted">{job.seniority}</span>
+          <span className="inline-flex h-7 items-center rounded-ts-xs bg-ts-surface-2 px-2.5 text-xs font-semibold text-ts-muted">{job.type}</span>
+          <span className="inline-flex h-7 items-center rounded-ts-xs bg-ts-surface-2 px-2.5 text-xs font-semibold text-ts-muted">{job.seniority}</span>
           {job.easyApply ? (
-            <span className="inline-flex h-7 items-center gap-1 rounded-full bg-ts-accent-tint px-2.5 text-xs font-bold text-ts-accent-deep">
+            <span className="inline-flex h-7 items-center gap-1 rounded-ts-xs bg-ts-accent-tint px-2.5 text-xs font-semibold text-ts-accent-deep">
               <Zap size={12} aria-hidden="true" /> Easy apply
             </span>
           ) : null}

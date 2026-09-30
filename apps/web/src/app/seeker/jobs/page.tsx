@@ -144,7 +144,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
           <label className="sr-only" htmlFor="seeker-jobs-q">
             Job title, company, or skill
           </label>
-          <div className="flex h-12 min-w-64 flex-1 items-center gap-2.5 rounded-ts-md border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary/15">
+          <div className="flex h-12 min-w-64 flex-1 items-center gap-2.5 rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-4 transition-colors focus-within:border-ts-focus focus-within:bg-ts-surface focus-within:ring-2 focus-within:ring-ts-primary/15">
             <Search size={17} aria-hidden="true" className="shrink-0 text-ts-muted" />
             <input
               id="seeker-jobs-q"
@@ -158,7 +158,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
           <label className="sr-only" htmlFor="seeker-jobs-location">
             City, country, or remote
           </label>
-          <div className="flex h-12 w-64 items-center gap-2.5 rounded-ts-md border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary/15 max-[680px]:w-full">
+          <div className="flex h-12 w-64 items-center gap-2.5 rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-4 transition-colors focus-within:border-ts-focus focus-within:bg-ts-surface focus-within:ring-2 focus-within:ring-ts-primary/15 max-[680px]:w-full">
             <MapPin size={17} aria-hidden="true" className="shrink-0 text-ts-muted" />
             <input
               id="seeker-jobs-location"
@@ -187,7 +187,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
                 </span>
               </span>
               {activeFilterCount > 0 ? (
-                <span className="inline-flex h-7 items-center rounded-full bg-ts-primary px-3 text-[13px] font-bold text-white">{activeFilterCount}</span>
+                <span className="inline-flex h-7 items-center rounded-ts-xs bg-ts-primary px-3 text-[13px] font-semibold text-ts-on-primary">{activeFilterCount}</span>
               ) : null}
               <ChevronDown size={18} aria-hidden="true" className="shrink-0 text-ts-muted transition-transform group-open/filters:rotate-180" />
             </>

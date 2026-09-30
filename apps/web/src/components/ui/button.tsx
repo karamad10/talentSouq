@@ -4,20 +4,20 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
 export const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 rounded-full font-bold transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 disabled:pointer-events-none disabled:translate-y-0 disabled:opacity-60",
+  "relative inline-flex items-center justify-center gap-2 rounded-ts-md font-semibold transition-colors duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ts-focus disabled:pointer-events-none disabled:opacity-60",
   {
     variants: {
       tone: {
-        primary: "bg-teal text-white hover:bg-teal-dark",
-        secondary: "border border-line bg-surface text-ink hover:bg-surface-soft",
+        primary: "bg-ts-primary text-ts-on-primary hover:bg-ts-primary-deep",
+        secondary: "border-[1.5px] border-ts-field bg-ts-surface text-ts-ink hover:bg-ts-surface-2",
         coral: "bg-coral text-[#1d2525] hover:brightness-105",
         ghost: "border border-white/40 bg-white/10 text-white hover:bg-white/20",
         danger: "bg-danger text-white hover:brightness-95"
       },
       size: {
-        sm: "min-h-[42px] px-[18px] text-sm",
-        md: "min-h-[49px] px-[21px] text-sm",
-        lg: "min-h-14 px-7 text-base"
+        sm: "min-h-11 px-4 text-[13px]",
+        md: "min-h-12 px-6 text-[15px]",
+        lg: "min-h-13 px-7 text-base"
       },
       iconOnly: {
         true: "aspect-square px-0"

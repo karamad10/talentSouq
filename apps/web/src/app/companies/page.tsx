@@ -11,6 +11,7 @@ import { cn } from "@/lib/cn";
 import type { Locale } from "@/lib/i18n";
 import { categoryLabel, rolesCount } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
+import { Eyebrow, Stopped } from "@/components/brand-stop";
 
 export const metadata: Metadata = {
   title: "Companies",
@@ -52,9 +53,9 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
 
       <section className="border-b border-ts-line bg-ts-surface py-14 max-[680px]:py-10">
         <Container>
-          <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{arabic ? "ملفات الشركات" : "Company profiles"}</p>
+          <Eyebrow>{arabic ? "ملفات الشركات" : "Company profiles"}</Eyebrow>
           <h1 className="m-0 mt-3 max-w-3xl text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">
-            {arabic ? "تعرّف على الفرق التي توظّف في الخليج وسوريا." : "Meet the teams hiring across the Gulf and Syria."}
+            <Stopped>{arabic ? "تعرّف على الفرق التي توظّف في الخليج وسوريا." : "Meet the teams hiring across the Gulf and Syria."}</Stopped>
           </h1>
           <p className="m-0 mt-4 max-w-2xl text-[17px] leading-relaxed text-ts-muted">
             {arabic ? "تعرّف على طريقة عمل الفريق قبل أن تتقدّم." : "See how a team works before you apply."}
@@ -66,7 +67,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
               role="search"
               className="mt-8 flex flex-col items-stretch gap-3 rounded-ts-lg border border-ts-line bg-ts-surface-2/50 p-3 min-[700px]:flex-row min-[700px]:flex-wrap min-[700px]:items-center"
             >
-              <label className="flex h-14 w-full min-w-0 items-center gap-3 rounded-ts-md border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary min-[700px]:w-auto min-[700px]:flex-1">
+              <label className="flex h-14 w-full min-w-0 items-center gap-3 rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-4 transition-colors focus-within:border-ts-focus focus-within:bg-ts-surface min-[700px]:w-auto min-[700px]:flex-1">
                 <Search size={19} aria-hidden="true" className="shrink-0 text-ts-muted" />
                 <span className="sr-only">{arabic ? "ابحث عن شركة" : "Search companies"}</span>
                 <input
@@ -78,7 +79,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
               </label>
               <button
                 type="submit"
-                className="inline-flex h-14 w-full shrink-0 items-center justify-center rounded-ts-md bg-ts-primary px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 min-[700px]:w-auto"
+                className="inline-flex h-14 w-full shrink-0 items-center justify-center rounded-ts-md bg-ts-primary px-7 text-[15px] font-bold text-ts-on-primary transition-transform hover:-translate-y-0.5 min-[700px]:w-auto"
               >
                 {arabic ? "بحث" : "Search"}
               </button>
@@ -99,9 +100,9 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
                     href={facetHref(value)}
                     aria-pressed={industry === value}
                     className={cn(
-                      "inline-flex h-9 shrink-0 items-center rounded-full border px-3.5 text-[13px] font-semibold whitespace-nowrap transition-colors",
+                      "inline-flex h-9 shrink-0 items-center rounded-ts-chip border px-3.5 text-[13px] font-semibold whitespace-nowrap transition-colors",
                       industry === value
-                        ? "border-ts-primary bg-ts-primary text-white"
+                        ? "border-ts-primary bg-ts-primary text-ts-on-primary"
                         : "border-ts-line bg-ts-surface text-ts-ink hover:border-ts-primary hover:text-ts-primary-deep"
                     )}
                   >
@@ -111,7 +112,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
               </div>
             </div>
             {hasFilters ? (
-              <Link href="/companies" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-full px-3 text-[13px] font-bold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
+              <Link href="/companies" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-ts-chip px-3 text-[13px] font-semibold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
                 <X size={14} aria-hidden="true" /> {arabic ? "مسح الكل" : "Clear all"}
               </Link>
             ) : null}
@@ -129,7 +130,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
             </div>
           ) : (
             <div className="flex flex-col items-center gap-4 rounded-ts-lg border border-dashed border-ts-line px-6 py-16 text-center">
-              <span aria-hidden="true" className="grid size-14 place-items-center rounded-full bg-ts-surface-2 text-ts-muted">
+              <span aria-hidden="true" className="grid size-14 place-items-center rounded-ts-md bg-ts-surface-2 text-ts-muted">
                 <Building2 size={24} />
               </span>
               <h2 className="m-0 text-xl font-bold text-ts-ink">
@@ -146,7 +147,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
               </p>
               <Link
                 href={hasFilters ? "/companies" : "/auth/login?mode=signup"}
-                className="inline-flex h-11 items-center rounded-full border border-ts-line bg-ts-surface px-5 text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
+                className="inline-flex h-11 items-center rounded-ts-md border border-ts-line bg-ts-surface px-5 text-sm font-semibold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
               >
                 {hasFilters ? (arabic ? "مسح عوامل التصفية" : "Clear filters") : arabic ? "ابدأ التوظيف" : "Start hiring"}
               </Link>
@@ -168,7 +169,7 @@ function CompanyCard({ company, locale }: { company: PublicCompany; locale: Loca
         <CompanyAvatar name={company.name} logoUrl={company.logoUrl} />
         <span
           className={cn(
-            "inline-flex h-8 items-center rounded-full px-3 text-[13px] font-bold",
+            "inline-flex h-8 items-center rounded-ts-xs px-3 text-[13px] font-semibold",
             company.openRoles > 0 ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-surface-2 text-ts-muted"
           )}
         >

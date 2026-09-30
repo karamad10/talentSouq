@@ -110,12 +110,12 @@ export function InlineEditText({
           onChange={(event) => setDraft(event.target.value)}
           rows={multiline ? 3 : undefined}
           className={cn(
-            "w-full rounded-ts-md border border-ts-field bg-ts-surface px-3 py-2 text-sm leading-relaxed text-ts-ink outline-none focus:border-ts-primary",
+            "w-full rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3 py-2 text-sm leading-relaxed text-ts-ink outline-none focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring",
             className
           )}
         />
         <div className="flex gap-2">
-          <button type="button" onClick={save} className="inline-flex h-7 items-center rounded-ts-md bg-ts-primary px-2.5 text-xs font-semibold text-white">
+          <button type="button" onClick={save} className="inline-flex h-7 items-center rounded-ts-md bg-ts-primary px-2.5 text-xs font-semibold text-ts-on-primary">
             Save
           </button>
           <button
