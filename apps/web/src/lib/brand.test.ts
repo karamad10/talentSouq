@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { BRAND } from "./brand";
 import { dictionary } from "./i18n";
@@ -17,6 +19,14 @@ describe("brand constants (report RPT-2026-014)", () => {
     expect(dictionary.en.sections.finalBody).toMatch(/Syria/);
     expect(dictionary.ar.sections.finalBody).toMatch(/سوريا/);
     expect(BRAND.cities).toBe("Dubai · Riyadh · Doha · Damascus");
+  });
+
+  it("renders the preview image with the same tagline and signature", () => {
+    // scripts/render-og.mjs runs as plain node and keeps its own copy.
+    const script = readFileSync(join(__dirname, "../../scripts/render-og.mjs"), "utf8");
+    expect(script).toContain(`"${BRAND.tagline.en}"`);
+    expect(script).toContain(`"${BRAND.tagline.ar}"`);
+    expect(script).toContain(`"${BRAND.signature}"`);
   });
 
   it("uses one tagline, and the Triovate signature", () => {

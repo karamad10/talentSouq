@@ -34,6 +34,13 @@ function bannerHref() {
   return "";
 }
 
+/** The root layout sets <html lang> from the language cookie. */
+const readLang = () => (document.documentElement.lang === "ar" ? "ar" : "en");
+const COPY = {
+  en: { pitch: "Faster applying in the app", open: "Open", dismiss: "Dismiss" },
+  ar: { pitch: "التقديم أسرع في التطبيق", open: "فتح", dismiss: "إغلاق" }
+} as const;
+
 function subscribe(onChange: () => void) {
   const media = window.matchMedia(NARROW);
   media.addEventListener("change", onChange);
@@ -55,6 +62,7 @@ function subscribe(onChange: () => void) {
 export function AppBanner() {
   const pathname = usePathname();
   const href = useSyncExternalStore(subscribe, bannerHref, () => "");
+  const copy = COPY[useSyncExternalStore(subscribe, readLang, () => "en" as const)];
 
   function dismiss() {
     try {
@@ -75,7 +83,7 @@ export function AppBanner() {
         </span>
         <span className="min-w-0 flex-1">
           <strong className="block truncate text-sm font-bold text-ts-ink">TalentSouq</strong>
-          <span className="block truncate text-[13px] text-ts-muted">Faster applying in the app</span>
+          <span className="block truncate text-[13px] text-ts-muted">{copy.pitch}</span>
         </span>
         <a
           href={href}
@@ -83,12 +91,12 @@ export function AppBanner() {
           rel="noreferrer"
           className="inline-flex h-10 shrink-0 items-center rounded-full bg-ts-primary px-4 text-sm font-bold whitespace-nowrap text-white"
         >
-          Open
+          {copy.open}
         </a>
         <button
           type="button"
           onClick={dismiss}
-          aria-label="Dismiss"
+          aria-label={copy.dismiss}
           className="grid size-9 shrink-0 place-items-center rounded-full text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
         >
           <X size={18} aria-hidden="true" />

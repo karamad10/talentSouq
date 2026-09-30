@@ -123,3 +123,26 @@ test("shares with a preview image and has an icon", async ({ page, request }) =>
   await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute("content", /\/twitter-image/);
   expect((await request.get("/icon.svg")).status()).toBe(200);
 });
+
+async function inArabic(page: Page) {
+  await page.context().addCookies([{ name: "ts-locale", value: "ar", url: page.url() === "about:blank" ? "http://localhost:3011" : page.url() }]);
+}
+
+test("auth and 404 pages speak Arabic", async ({ page }) => {
+  await inArabic(page);
+  await page.goto("/auth/login");
+  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  // The brand panel holding the <h1> is hidden on phones; the form heading is not.
+  await expect(page.locator("h1")).toContainText("مرحباً");
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText("تسجيل الدخول");
+  await expect(page.getByText("Log in", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "نسيت كلمة المرور؟" })).toBeVisible();
+
+  await page.goto("/auth/forgot-password");
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText("نسيت كلمة المرور؟");
+
+  const missing = await page.goto("/does-not-exist");
+  expect(missing?.status()).toBe(404);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("هذه الفرصة لم تعد هنا.");
+  await expect(page.getByRole("link", { name: "تصفّح الوظائف المفتوحة" })).toBeVisible();
+});
