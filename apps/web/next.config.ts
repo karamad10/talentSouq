@@ -3,6 +3,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   typedRoutes: true,
+  async redirects() {
+    return [
+      // Company pages moved to the live career pages (report RPT-2026-014 §6:
+      // /companies/<slug> showed demo companies). Temporary, so the slug space
+      // stays free if company profiles return.
+      { source: "/companies/:slug", destination: "/careers/:slug", permanent: false }
+    ];
+  },
   async headers() {
     return [
       {

@@ -127,6 +127,30 @@ export function postedLabel(iso: string, locale: Locale, now: Date = new Date())
   return ar ? arabicCount(n, AR.years) : `${n}y ago`;
 }
 
+/** "31 Dec 2026" / «31 ديسمبر 2026» — Western digits in both, as across the site. */
+export function formatDate(iso: string | null | undefined, locale: Locale): string {
+  if (!iso) return "";
+  const date = new Date(iso.length === 10 ? `${iso}T12:00:00Z` : iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat(locale === "ar" ? "ar-u-nu-latn" : "en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(date);
+}
+
+/** "3–5 years" / «3–5 سنوات». Null when the employer set no range. */
+export function experienceLabel(min: number | null | undefined, max: number | null | undefined, locale: Locale): string | null {
+  const ar = locale === "ar";
+  const lo = min ?? null;
+  const hi = max ?? null;
+  if (lo === null && hi === null) return null;
+  if (lo !== null && hi !== null) return lo === hi ? (ar ? `${lo} سنوات` : `${lo} years`) : ar ? `${lo}–${hi} سنوات` : `${lo}–${hi} years`;
+  if (lo !== null) return ar ? `${lo}+ سنوات` : `${lo}+ years`;
+  return ar ? `حتى ${hi} سنوات` : `Up to ${hi} years`;
+}
+
 // ── Counts ──────────────────────────────────────────────────────────────────
 export function rolesCount(n: number, locale: Locale): string {
   if (locale === "en") return n === 1 ? "1 open role" : `${n} open roles`;

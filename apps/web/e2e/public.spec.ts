@@ -16,15 +16,28 @@ async function openWorkspaceNav(page: Page, section: string) {
   return link;
 }
 
+// Data-agnostic: the board is live (report RPT-2026-014 §6), so these hold
+// whether there are no jobs yet or hundreds.
 test("public landing and job search journey", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Your ambition");
+  const html = await page.content();
+  expect(html).not.toMatch(/\b(500|120)\+/);
+  if ((await page.locator("article").count()) === 0) {
+    await expect(page.getByText("First roles are on their way")).toBeVisible();
+  }
   await page.getByRole("link", { name: "Explore open roles" }).click();
   await expect(page).toHaveURL(/\/jobs$/);
-  await page.getByPlaceholder("Role, skill, or company").fill("Frontend");
+  await page.getByPlaceholder("Role, skill, or company").fill("zzqqxx");
   await page.getByRole("button", { name: "Search jobs" }).click();
-  await expect(page.getByRole("heading", { name: "Frontend Engineer" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Senior Product Designer" })).toHaveCount(0);
+  await expect(page).toHaveURL(/q=zzqqxx/);
+  await expect(page.getByRole("heading", { name: "No roles found" })).toBeVisible();
+});
+
+test("an unknown job id is a 404, not a demo page", async ({ page }) => {
+  const res = await page.goto("/jobs/00000000-0000-4000-8000-000000000000");
+  expect(res?.status()).toBe(404);
+  expect((await page.goto("/jobs/frontend-engineer"))?.status()).toBe(404);
 });
 
 test("language preference produces an RTL document", async ({ page }) => {
@@ -67,11 +80,21 @@ test("employer workspace is separate and route based", async ({ page }) => {
 
 test("company profiles expose public hiring pages", async ({ page }) => {
   await page.goto("/companies");
-  await expect(page.getByRole("heading", { name: "Meet the teams hiring across the Gulf and Syria." })).toBeVisible();
-  // The card uses a stretched link, so its accessible name is the company name.
-  await page.getByRole("link", { name: "Nexa Commerce", exact: true }).click();
-  await expect(page).toHaveURL(/\/companies\/nexa-commerce$/);
-  await expect(page.getByRole("heading", { name: "Open roles" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Meet the teams hiring across the Gulf and Syria.");
+  const card = page.locator("article h3 a").first();
+  if (await card.count()) {
+    await card.click();
+    await expect(page).toHaveURL(/\/(careers\/|jobs\?q=)/);
+  } else {
+    await expect(page.getByText("The first companies are on their way")).toBeVisible();
+  }
+});
+
+test("an unknown or unpublished career page is a 404, and old company links redirect", async ({ page, request }) => {
+  expect((await page.goto("/careers/does-not-exist"))?.status()).toBe(404);
+  const old = await request.get("/companies/nexa-commerce", { maxRedirects: 0 });
+  expect(old.status()).toBe(307);
+  expect(old.headers()["location"]).toContain("/careers/nexa-commerce");
 });
 
 test("organization invite landing is safe before backend validation", async ({ page }) => {

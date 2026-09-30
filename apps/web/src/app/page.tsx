@@ -1,16 +1,20 @@
 import { ArrowRight, ArrowUpRight, BriefcaseBusiness, Check, FileText, MessagesSquare, Search, UsersRound } from "lucide-react";
 import type { Route } from "next";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { PublicHeader } from "@/components/public-header";
-import { PublicJobCard } from "@/components/public/job-card";
+import { CompanyAvatar, PublicJobCard } from "@/components/public/job-card";
 import { JobSearchForm } from "@/components/public/job-search-form";
 import { Container, CtaBand, PublicFooter, SectionHeading } from "@/components/public/public-shell";
-import { companiesByOpenRoles } from "@/data/companies";
-import { jobs } from "@/data/jobs";
+import { listPublicCompanies } from "@/data/public-companies";
+import { listPublicJobs } from "@/data/public-jobs";
 import { getSessionUser } from "@/lib/auth/session";
-import { dictionary, isLocale } from "@/lib/i18n";
+import { dictionary } from "@/lib/i18n";
+import { categoryLabel, companiesCount, rolesCount } from "@/lib/labels";
+import { getPreferences } from "@/lib/locale";
+
+/** Below this the board is too small for a number to be worth showing. */
+const PROOF_THRESHOLD = 20;
 
 /* The public home page runs on a quieter system than the workspace: hairline
    edges, one accent, semibold (never bold) headings, and fluid clamp() rhythm
@@ -23,19 +27,26 @@ const eyebrow = "m-0 text-[11px] font-semibold tracking-[0.18em] text-ts-primary
 const sectionPad = "py-[clamp(3.5rem,8vw,6.5rem)]";
 
 export default async function HomePage() {
-  const [cookieStore, user] = await Promise.all([cookies(), getSessionUser()]);
-  const rawLocale = cookieStore.get("ts-locale")?.value;
-  const locale = isLocale(rawLocale) ? rawLocale : "en";
-  const theme = cookieStore.get("ts-theme")?.value === "dark" ? "dark" : "light";
+  const [{ locale, theme }, user, board, companies] = await Promise.all([
+    getPreferences(),
+    getSessionUser(),
+    listPublicJobs({ sort: "featured", limit: 3 }),
+    listPublicCompanies()
+  ]);
   const copy = dictionary[locale];
   const arabic = locale === "ar";
 
-  const featured = [...jobs].sort((a, b) => a.postedDays - b.postedDays).slice(0, 3);
-  const hiring = companiesByOpenRoles().slice(0, 6);
-  const categories = [...new Set(jobs.map((job) => job.category))].map((category) => ({
-    category,
-    count: jobs.filter((job) => job.category === category).length
-  }));
+  // Everything below is the live board (report RPT-2026-014 §6: the site showed
+  // demo jobs and made-up totals). Each section hides itself when it is empty.
+  const featured = board.items;
+  const hiring = companies.filter((company) => company.openRoles > 0).slice(0, 6);
+  const categories = board.facets.categories;
+  const showCounts = board.total >= PROOF_THRESHOLD;
+  const proof = showCounts
+    ? [rolesCount(board.total, locale), companiesCount(companies.length, locale), copy.proof.response]
+    : arabic
+      ? ["أصحاب عمل موثّقون", "بالعربية والإنجليزية", copy.proof.response]
+      : ["Verified employers", "Arabic and English", copy.proof.response];
 
   const steps = [
     { icon: FileText, title: arabic ? "أنشئ ملفك" : "Build one profile", body: arabic ? "ارفع سيرتك الذاتية مرة واحدة ودعها تتحدث عنك في كل طلب." : "Upload your CV once and let it carry into every application." },
@@ -79,18 +90,20 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-baseline gap-x-5 gap-y-2.5">
-              <span className="text-[13px] text-ts-subtle">{arabic ? "الأكثر بحثاً" : "Popular"}</span>
-              {categories.slice(0, 5).map((item) => (
-                <Link
-                  key={item.category}
-                  href={`/jobs?category=${encodeURIComponent(item.category)}` as Route}
-                  className="text-[14px] font-medium text-ts-ink underline decoration-ts-line underline-offset-[6px] transition-colors hover:text-ts-primary hover:decoration-ts-primary"
-                >
-                  {item.category}
-                </Link>
-              ))}
-            </div>
+            {categories.length > 0 ? (
+              <div className="mt-7 flex flex-wrap items-baseline gap-x-5 gap-y-2.5">
+                <span className="text-[13px] text-ts-subtle">{arabic ? "الأكثر طلباً" : "Popular"}</span>
+                {categories.slice(0, 5).map((item) => (
+                  <Link
+                    key={item.value}
+                    href={`/jobs?category=${encodeURIComponent(item.value)}` as Route}
+                    className="text-[14px] font-medium text-ts-ink underline decoration-ts-line underline-offset-[6px] transition-colors hover:text-ts-primary hover:decoration-ts-primary"
+                  >
+                    {categoryLabel(item.value, locale)}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           {/* Framed photograph with one quiet product detail resting on it. */}
@@ -98,7 +111,7 @@ export default async function HomePage() {
             <Image
               className="object-cover"
               src="/images/talentsouq-hero.webp"
-              alt="Professionals collaborating in a contemporary Gulf workplace"
+              alt={arabic ? "مهنيون يتعاونون في بيئة عمل حديثة" : "Professionals collaborating in a contemporary workplace"}
               fill
               priority
               sizes="(max-width: 1000px) 100vw, 46vw"
@@ -106,13 +119,15 @@ export default async function HomePage() {
             <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,27,35,0)_45%,rgba(11,27,35,0.6)_100%)]" />
             {/* The one product detail in the hero: a caption on the gradient,
                 not a panel — a filled card here reads as a milky slab. */}
-            <div className="absolute inset-x-5 bottom-5 flex items-center gap-3">
+            {/* Illustrative UI, not a claim about a real match: hidden from
+                assistive tech and deliberately without a city or a person. */}
+            <div aria-hidden="true" className="absolute inset-x-5 bottom-5 flex items-center gap-3">
               <span aria-hidden="true" className="inline-flex h-7 shrink-0 items-center rounded-full bg-ts-primary px-2.5 text-[12px] font-semibold text-white">
                 92%
               </span>
               <span className="min-w-0 [text-shadow:0_1px_12px_rgba(11,27,35,0.55)]">
-                <strong className="block truncate text-sm font-semibold text-white">Senior Product Designer</strong>
-                <span className="block truncate text-[13px] text-white/75">{arabic ? "توافق قوي · دبي" : "Strong match · Dubai"}</span>
+                <strong className="block truncate text-sm font-semibold text-white">{arabic ? "مصمم منتجات أول" : "Senior Product Designer"}</strong>
+                <span className="block truncate text-[13px] text-white/75">{arabic ? "توافق قوي" : "Strong match"}</span>
               </span>
             </div>
           </div>
@@ -122,41 +137,37 @@ export default async function HomePage() {
         <Container>
           <div className="flex flex-wrap items-baseline gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-5 border-t border-ts-line-soft py-8">
             <p className={`${eyebrow} w-full min-[900px]:w-auto`}>{copy.proof.label}</p>
-            {[
-              { value: "500+", label: copy.proof.jobs },
-              { value: "120+", label: copy.proof.companies },
-              { value: "01", label: copy.proof.response }
-            ].map((stat) => (
-              <div key={stat.label} className="flex items-baseline gap-2.5">
-                <strong className="text-xl font-semibold tracking-[-0.02em] text-ts-ink">{stat.value}</strong>
-                <span className="text-[13px] text-ts-muted">{stat.label}</span>
+            {proof.map((claim) => (
+              <div key={claim} className="flex items-baseline gap-2.5">
+                <span aria-hidden="true" className="inline-block size-1.5 rounded-full bg-ts-accent" />
+                <strong className="text-[15px] font-semibold tracking-[-0.01em] text-ts-ink">{claim}</strong>
               </div>
             ))}
           </div>
         </Container>
       </section>
 
-      {/* Who is hiring — a quiet marquee row, not a wall of chips. */}
-      <section className="border-y border-ts-line-soft bg-ts-surface py-7">
-        <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-9">
-          <p className={eyebrow}>{arabic ? "يوظفون الآن" : "Hiring right now"}</p>
-          <div className="-mx-5 flex items-center gap-x-7 gap-y-3 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
-            {hiring.map(({ company, openRoles }) => (
-              <Link
-                key={company.slug}
-                href={`/companies/${company.slug}` as Route}
-                className="group inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
-              >
-                <span aria-hidden="true" className="grid size-7 place-items-center rounded-ts-sm text-[11px] font-semibold text-ts-ink/75" style={{ backgroundColor: company.accent }}>
-                  {company.initials}
-                </span>
-                <span className="text-sm font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{company.name}</span>
-                <span className="text-[13px] text-ts-subtle">{openRoles}</span>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {/* Who is hiring — a quiet row of real employers, hidden until there are any. */}
+      {hiring.length > 0 ? (
+        <section className="border-y border-ts-line-soft bg-ts-surface py-7">
+          <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-9">
+            <p className={eyebrow}>{arabic ? "يوظفون الآن" : "Hiring right now"}</p>
+            <div className="-mx-5 flex items-center gap-x-7 gap-y-3 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
+              {hiring.map((company) => (
+                <Link
+                  key={company.name}
+                  href={(company.careerSlug ? `/careers/${company.careerSlug}` : `/jobs?q=${encodeURIComponent(company.name)}`) as Route}
+                  className="group inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
+                >
+                  <CompanyAvatar name={company.name} logoUrl={company.logoUrl} size="sm" />
+                  <span className="text-sm font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{company.name}</span>
+                  <span className="text-[13px] text-ts-subtle">{company.openRoles}</span>
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
 
       {/* Featured roles */}
       <section className={sectionPad}>
@@ -167,41 +178,58 @@ export default async function HomePage() {
             body={copy.sections.jobsBody}
             action={{ href: "/jobs", label: copy.sections.viewAll }}
           />
-          <div className="mt-10 grid grid-cols-1 gap-5 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
-            {featured.map((job) => (
-              <PublicJobCard key={job.id} job={job} locale={locale} />
-            ))}
-          </div>
+          {featured.length > 0 ? (
+            <div className="mt-10 grid grid-cols-1 gap-5 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
+              {featured.map((job) => (
+                <PublicJobCard key={job.id} job={job} locale={locale} />
+              ))}
+            </div>
+          ) : (
+            // Launch day, before the first listing: say so, and give people something to do.
+            <div className="mt-10 flex flex-col items-start gap-3 rounded-ts-xl border border-dashed border-ts-line px-6 py-10 min-[760px]:flex-row min-[760px]:items-center min-[760px]:justify-between">
+              <div className="min-w-0">
+                <h3 className="m-0 text-xl font-semibold tracking-[-0.02em] text-ts-ink">{arabic ? "أولى الوظائف قادمة قريباً" : "First roles are on their way"}</h3>
+                <p className="m-0 mt-1.5 max-w-xl text-[15px] text-ts-muted">
+                  {arabic
+                    ? "ينضم أصحاب العمل في الخليج وسوريا الآن. أنشئ ملفك لتكون أول من يتقدّم."
+                    : "Employers across the Gulf and Syria are joining now. Create your profile to be first in line."}
+                </p>
+              </div>
+              <Link href="/auth/login?mode=signup" className={buttonPrimary}>
+                {copy.sections.start} <ArrowRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
+              </Link>
+            </div>
+          )}
         </Container>
       </section>
 
-      {/* Browse by function — a hairline list, fluid across widths. */}
-      <section className={`border-y border-ts-line-soft bg-ts-surface ${sectionPad}`}>
-        <Container>
-          <SectionHeading
-            eyebrow={arabic ? "تصفح المجالات" : "Browse by function"}
-            title={arabic ? "ابدأ من مجالك." : "Start where you already work."}
-            body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج وسوريا." : "Every function shows what is genuinely open across the Gulf and Syria today."}
-          />
-          <div className="mt-9 grid gap-x-10 border-t border-ts-line [grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))]">
-            {categories.map((item) => (
-              <Link
-                key={item.category}
-                href={`/jobs?category=${encodeURIComponent(item.category)}` as Route}
-                className="group flex items-center justify-between gap-4 border-b border-ts-line py-5 transition-colors hover:border-ts-primary"
-              >
-                <span className="min-w-0">
-                  <span className="block text-[16px] font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{item.category}</span>
-                  <span className="mt-0.5 block text-[13px] text-ts-subtle">
-                    {item.count} {arabic ? "وظيفة" : item.count === 1 ? "open role" : "open roles"}
+      {/* Browse by function — a hairline list, only once there is something to browse. */}
+      {categories.length > 0 ? (
+        <section className={`border-y border-ts-line-soft bg-ts-surface ${sectionPad}`}>
+          <Container>
+            <SectionHeading
+              eyebrow={arabic ? "تصفح المجالات" : "Browse by function"}
+              title={arabic ? "ابدأ من مجالك." : "Start where you already work."}
+              body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج وسوريا." : "Every function shows what is genuinely open across the Gulf and Syria today."}
+            />
+            <div className="mt-9 grid gap-x-10 border-t border-ts-line [grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))]">
+              {categories.map((item) => (
+                <Link
+                  key={item.value}
+                  href={`/jobs?category=${encodeURIComponent(item.value)}` as Route}
+                  className="group flex items-center justify-between gap-4 border-b border-ts-line py-5 transition-colors hover:border-ts-primary"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-[16px] font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{categoryLabel(item.value, locale)}</span>
+                    <span className="mt-0.5 block text-[13px] text-ts-subtle">{rolesCount(item.count, locale)}</span>
                   </span>
-                </span>
-                <ArrowUpRight size={17} aria-hidden="true" className="shrink-0 text-ts-subtle transition-colors group-hover:text-ts-primary rtl:-scale-x-100" />
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
+                  <ArrowUpRight size={17} aria-hidden="true" className="shrink-0 text-ts-subtle transition-colors group-hover:text-ts-primary rtl:-scale-x-100" />
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
 
       {/* For talent */}
       <section className={sectionPad} id="talent">

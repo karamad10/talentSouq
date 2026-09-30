@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   categoryLabel,
   employmentTypeLabel,
+  experienceLabel,
+  formatDate,
   postedLabel,
   rolesCount,
   salaryLabel,
@@ -70,6 +72,22 @@ describe("postedLabel", () => {
     for (const ms of [30_000, 20 * 60_000, 5 * HOUR, 30 * HOUR, 4 * DAY, 20 * DAY, 90 * DAY, 400 * DAY]) {
       expect(postedLabel(ago(ms), "ar", NOW)).not.toMatch(/[A-Za-z]/);
     }
+  });
+});
+
+describe("formatDate and experienceLabel", () => {
+  it("formats dates with Western digits in both languages", () => {
+    expect(formatDate("2026-12-31", "en")).toBe("31 Dec 2026");
+    expect(formatDate("2026-12-31", "ar")).toMatch(/^31 .+ 2026$/);
+    expect(formatDate("2026-12-31", "ar")).not.toMatch(/[A-Za-z]/);
+    expect(formatDate(null, "en")).toBe("");
+    expect(formatDate("nope", "en")).toBe("");
+  });
+
+  it("describes an experience range", () => {
+    expect(experienceLabel(3, 5, "en")).toBe("3–5 years");
+    expect(experienceLabel(3, null, "ar")).toBe("3+ سنوات");
+    expect(experienceLabel(null, null, "en")).toBeNull();
   });
 });
 
