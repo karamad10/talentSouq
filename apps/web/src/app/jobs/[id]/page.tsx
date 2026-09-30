@@ -7,6 +7,7 @@ import { PublicHeader } from "@/components/public-header";
 import { CompanyAvatar, PublicJobCard, companyName, jobTitle } from "@/components/public/job-card";
 import { Container, CtaBand, PublicFooter } from "@/components/public/public-shell";
 import { getPublicJob, listPublicJobs, type PublicJobDetail } from "@/data/public-jobs";
+import { authRedirectPath } from "@/lib/auth/redirects";
 import { getSessionUser } from "@/lib/auth/session";
 import type { Locale } from "@/lib/i18n";
 import { categoryLabel, employmentTypeLabel, experienceLabel, formatDate, postedLabel, salaryLabel, workModeLabel } from "@/lib/labels";
@@ -23,9 +24,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return { title, description, openGraph: { title: `${title} · ${name}`, description, url: `/jobs/${job.id}` } };
 }
 
-/** Where "Apply" goes: the employer's own site, or the app for applying inside TalentSouq. */
-function applyTarget(job: PublicJobDetail): { href: string; external: boolean } {
-  return job.applyUrl ? { href: job.applyUrl, external: true } : { href: "/download", external: false };
+type ApplyTarget = { href: string; kind: "external" | "signup" | "app" };
+
+/**
+ * Where "Apply" goes: the employer's own site; for applying inside TalentSouq,
+ * registration first when signed out (and back to this job afterwards), or the
+ * app once the visitor has an account.
+ */
+function applyTarget(job: PublicJobDetail, signedIn: boolean): ApplyTarget {
+  if (job.applyUrl) return { href: job.applyUrl, kind: "external" };
+  if (!signedIn) return { href: authRedirectPath({ mode: "signup", next: `/jobs/${job.id}` }), kind: "signup" };
+  return { href: "/download", kind: "app" };
 }
 
 export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -41,7 +50,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   const similar = job.category
     ? (await listPublicJobs({ category: job.category, limit: 4 })).items.filter((item) => item.id !== job.id).slice(0, 3)
     : [];
-  const apply = applyTarget(job);
+  const apply = applyTarget(job, Boolean(user));
   const companyHref = (job.company.careerSlug ? `/careers/${job.company.careerSlug}` : `/jobs?q=${encodeURIComponent(job.company.name)}`) as Route;
 
   const facts = [
@@ -139,15 +148,27 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             <div className="rounded-ts-lg border border-ts-line bg-ts-surface p-6">
               <h2 className="m-0 text-xl font-bold tracking-[-0.02em] text-ts-ink">{arabic ? "مهتم بهذه الوظيفة؟" : "Interested in this role?"}</h2>
               <p className="m-0 mt-2 text-[15px] leading-relaxed text-ts-muted">
-                {apply.external
+                {apply.kind === "external"
                   ? arabic
                     ? "يستقبل صاحب العمل الطلبات عبر موقعه."
                     : "This employer takes applications on their own site."
-                  : arabic
-                    ? "قدّم من تطبيق تالنت سوق بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
-                    : "Apply in the TalentSouq app with your profile and CV, and follow your application step by step."}
+                  : apply.kind === "signup"
+                    ? arabic
+                      ? "أنشئ حساباً مجانياً للتقديم بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
+                      : "Create a free account to apply with your profile and CV, and follow your application step by step."
+                    : arabic
+                      ? "قدّم من تطبيق تالنت سوق بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
+                      : "Apply in the TalentSouq app with your profile and CV, and follow your application step by step."}
               </p>
-              <ApplyButton href={apply.href} external={apply.external} locale={locale} />
+              <ApplyButton target={apply} locale={locale} />
+              {apply.kind === "signup" ? (
+                <p className="m-0 mt-3 text-center text-[13px] text-ts-muted">
+                  {arabic ? "لديك حساب؟ " : "Already have an account? "}
+                  <Link href={authRedirectPath({ next: `/jobs/${job.id}` }) as Route} className="font-bold text-ts-primary-deep hover:underline">
+                    {arabic ? "سجّل الدخول" : "Log in"}
+                  </Link>
+                </p>
+              ) : null}
               <Link
                 href="/jobs"
                 className="mt-3 inline-flex h-12 w-full items-center justify-center gap-2 rounded-ts-md border border-ts-line bg-ts-surface px-6 text-sm font-bold text-ts-ink transition-colors hover:border-ts-primary hover:text-ts-primary-deep"
@@ -192,11 +213,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   );
 }
 
-function ApplyButton({ href, external, locale }: { href: string; external: boolean; locale: Locale }) {
+function ApplyButton({ target, locale }: { target: ApplyTarget; locale: Locale }) {
+  const { href, kind } = target;
   const arabic = locale === "ar";
   const className =
     "mt-6 inline-flex h-13 w-full items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-base font-bold text-white transition-opacity hover:opacity-90";
-  if (external) {
+  if (kind === "external") {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer nofollow" className={className}>
         {arabic ? "قدّم على موقع الشركة" : "Apply on company site"} <ArrowUpRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
@@ -205,7 +227,7 @@ function ApplyButton({ href, external, locale }: { href: string; external: boole
   }
   return (
     <Link href={href as Route} className={className}>
-      {arabic ? "قدّم عبر التطبيق" : "Apply in the app"}
+      {kind === "signup" ? (arabic ? "أنشئ حساباً للتقديم" : "Sign up to apply") : arabic ? "قدّم عبر التطبيق" : "Apply in the app"}
     </Link>
   );
 }

@@ -41,7 +41,7 @@ export function CompanyAvatar({ name, logoUrl, size = "md" }: { name: string; lo
     return <img src={logoUrl} alt="" className={`${box} shrink-0 border border-ts-line object-cover`} loading="lazy" />;
   }
   return (
-    <span aria-hidden="true" className={`${box} grid shrink-0 place-items-center font-semibold text-ts-ink/75`} style={{ backgroundColor: accentFor(name) }}>
+    <span aria-hidden="true" className={`${box} grid shrink-0 place-items-center font-semibold text-[#0B1B23]/75`} style={{ backgroundColor: accentFor(name) }}>
       {initialsOf(name)}
     </span>
   );
