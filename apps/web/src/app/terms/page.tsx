@@ -5,7 +5,7 @@ import { LegalPage, type LegalSection } from "@/components/legal-page";
 import { isLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Terms of Service · TalentSouq",
+  title: "Terms of Service",
   description: "Review the rules, responsibilities, paid plan notes, disclaimers, and contact details for using TalentSouq."
 };
 

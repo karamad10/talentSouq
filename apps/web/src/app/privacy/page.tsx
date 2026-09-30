@@ -4,7 +4,7 @@ import { LegalPage, type LegalSection } from "@/components/legal-page";
 import { isLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy · TalentSouq",
+  title: "Privacy Policy",
   description: "Learn what personal data TalentSouq collects, how it is used, and the choices available to job seekers and employers."
 };
 
