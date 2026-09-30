@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 import { appLinks } from "@/lib/app-links";
+import { LOCALE_EVENT } from "@/components/preferences";
 
 const LINKS = appLinks();
 const IOS_URL = LINKS.ios ?? "";
@@ -48,9 +49,11 @@ function subscribe(onChange: () => void) {
   const media = window.matchMedia(NARROW);
   media.addEventListener("change", onChange);
   window.addEventListener(DISMISSED_EVENT, onChange);
+  window.addEventListener(LOCALE_EVENT, onChange);
   return () => {
     media.removeEventListener("change", onChange);
     window.removeEventListener(DISMISSED_EVENT, onChange);
+    window.removeEventListener(LOCALE_EVENT, onChange);
   };
 }
 

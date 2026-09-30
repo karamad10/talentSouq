@@ -40,16 +40,31 @@ test("an unknown job id is a 404, not a demo page", async ({ page }) => {
   expect((await page.goto("/jobs/frontend-engineer"))?.status()).toBe(404);
 });
 
-test("language preference produces an RTL document", async ({ page }) => {
+test("language switch is in place: RTL, no reload, and back again", async ({ page }) => {
   await page.goto("/");
   // Below 560px the header bar has no room for the language control, so it lives
   // in the header menu instead — open that first on a phone-sized viewport.
-  if ((page.viewportSize()?.width ?? 0) < 560) {
-    await page.locator('summary[aria-label="Open menu"]').click();
-  }
+  const phone = (page.viewportSize()?.width ?? 0) < 560;
+  const openMenu = async () => {
+    if (!phone) return;
+    const menu = page.locator('summary[aria-label="Open menu"]');
+    if ((await menu.locator("xpath=..").getAttribute("open")) === null) await menu.click();
+  };
+  // A full reload would wipe this marker.
+  await page.evaluate(() => ((window as unknown as { __noReload: boolean }).__noReload = true));
+
+  await openMenu();
   await page.getByRole("button", { name: "العربية" }).first().click();
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expect(page.locator("html")).toHaveAttribute("lang", "ar");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("طموحك");
+  expect(await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload)).toBe(true);
+
+  await openMenu();
+  await page.getByRole("button", { name: "English" }).first().click();
+  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  await expect(page.getByRole("heading", { level: 1 })).not.toContainText("طموحك");
+  expect(await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload)).toBe(true);
 });
 
 test("seeker workspace navigation opens focused sections", async ({ page }) => {

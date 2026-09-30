@@ -421,6 +421,13 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
   .role-choice { grid-template-columns: 1fr; }
 }
 
+/* Language switch (components/preferences.tsx): one quick cross-fade while text and direction change together. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 240ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
