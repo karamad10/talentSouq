@@ -13,7 +13,7 @@ import { cn } from "@/lib/cn";
 type AssessmentRow = { name: string; provider: string; sent: number; completed: number; draft?: boolean };
 
 const inputClass =
-  "h-11 w-full rounded-ts-md border border-ts-field bg-ts-surface px-3.5 text-sm text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary";
+  "h-11 w-full rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 text-sm text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring";
 
 export function AssessmentLibrary({ initial }: { initial: AssessmentRow[] }) {
   const [rows, setRows] = useState(initial);

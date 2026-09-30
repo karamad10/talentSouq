@@ -142,7 +142,7 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
               </AutoSubmitSelect>
               <button
                 type="submit"
-                className="inline-flex h-11 shrink-0 items-center rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-white transition-colors hover:bg-ts-primary-deep"
+                className="inline-flex h-11 shrink-0 items-center rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-ts-on-primary transition-colors hover:bg-ts-primary-deep"
               >
                 Apply
               </button>
@@ -160,7 +160,7 @@ export default async function EmployerJobsPage({ searchParams }: { searchParams:
                     </span>
                   </span>
                   {activeFilterCount > 0 ? (
-                    <span className="inline-flex h-6 items-center rounded-full bg-ts-primary px-2.5 text-xs font-bold text-white">{activeFilterCount}</span>
+                    <span className="inline-flex h-6 items-center rounded-ts-xs bg-ts-primary px-2.5 text-xs font-semibold text-ts-on-primary">{activeFilterCount}</span>
                   ) : null}
                   <ChevronDown size={17} aria-hidden="true" className="shrink-0 text-ts-muted transition-transform group-open/filters:rotate-180" />
                 </>

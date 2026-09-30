@@ -37,7 +37,7 @@ export function TalentCard({ candidate }: { candidate: TalentProfile }) {
 
       <div className="flex flex-wrap gap-1.5 px-5 pb-4">
         {candidate.skills.map((skill) => (
-          <span key={skill} className="inline-flex h-6.5 items-center rounded-full bg-ts-surface-2 px-2.5 text-xs font-semibold text-ts-muted">
+          <span key={skill} className="inline-flex h-6.5 items-center rounded-ts-xs bg-ts-surface-2 px-2.5 text-xs font-semibold text-ts-muted">
             {skill}
           </span>
         ))}
@@ -52,7 +52,7 @@ export function TalentCard({ candidate }: { candidate: TalentProfile }) {
       <div className="flex items-center gap-2 px-5 py-3.5">
         <PreviewActionButton
           type="button"
-          className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-ts-md bg-ts-primary px-6 text-[13px] font-bold text-white transition-colors hover:bg-ts-primary-deep"
+          className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-ts-md bg-ts-primary px-6 text-[13px] font-bold text-ts-on-primary transition-colors hover:bg-ts-primary-deep"
           storageKey={`employer-invite-${candidate.name}`}
           successLabel="Invited"
         >

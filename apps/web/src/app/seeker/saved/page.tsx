@@ -44,9 +44,9 @@ export default function SavedPage() {
                   <strong className="block truncate text-[15px] font-bold text-ts-ink">{item.name}</strong>
                   <p className="m-0 mt-1 text-[13px] text-ts-muted">{item.count} roles tracked</p>
                 </div>
-                <span className="inline-flex h-8 shrink-0 items-center rounded-full bg-ts-primary-tint px-3 text-[13px] font-bold text-ts-primary-deep">{item.trend}</span>
+                <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">{item.trend}</span>
                 <ToggleActionButton
-                  className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-ts-field bg-ts-surface px-4 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-surface-2 aria-pressed:border-ts-primary aria-pressed:bg-ts-primary-tint aria-pressed:text-ts-primary-deep"
+                  className="inline-flex h-10 shrink-0 items-center gap-2 rounded-ts-chip border border-ts-field bg-ts-surface px-4 text-[13px] font-semibold text-ts-ink transition-colors hover:bg-ts-surface-2 aria-pressed:border-ts-primary aria-pressed:bg-ts-primary-tint aria-pressed:text-ts-primary-deep"
                   label="Weekly alerts on"
                   activeLabel="Alerts paused"
                   storageKey={`seeker-saved-search-alert-${item.name}`}

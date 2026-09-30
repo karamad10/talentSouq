@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { Eyebrow, Stopped } from "@/components/brand-stop";
 
 /**
  * Workspace layout kit.
@@ -22,19 +23,22 @@ export function WorkspaceHeader({
   title,
   description,
   action,
-  actionSlot
+  actionSlot,
+  titleIsName = false
 }: {
   eyebrow: string;
   title: string;
   description: string;
   action?: { href: Route; label: string };
   actionSlot?: ReactNode;
+  /** A person's or company's name gets no brand stop. */
+  titleIsName?: boolean;
 }) {
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 max-[680px]:mb-6">
       <div className="min-w-0">
-        <p className="m-0 text-[11px] font-bold tracking-[0.1em] text-ts-primary uppercase">{eyebrow}</p>
-        <h1 className="m-0 mt-2 text-[30px] leading-[1.12] font-bold tracking-[-0.03em] text-ts-ink max-[680px]:text-[24px]">{title}</h1>
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h1 className="m-0 mt-2 text-[30px] leading-[1.12] font-bold tracking-[-0.03em] text-ts-ink max-[680px]:text-[24px]">{titleIsName ? title : <Stopped>{title}</Stopped>}</h1>
         <p className="m-0 mt-2 max-w-2xl text-sm leading-relaxed text-ts-muted">{description}</p>
       </div>
       {actionSlot ??
@@ -59,7 +63,7 @@ export function HeaderAction({ href, children, tone = "secondary" }: { href: Rou
       className={cn(
         "inline-flex h-11 items-center justify-center gap-2 rounded-ts-md px-5 text-sm font-bold transition-colors",
         tone === "primary"
-          ? "bg-ts-primary text-white hover:bg-ts-primary-deep"
+          ? "bg-ts-primary text-ts-on-primary hover:bg-ts-primary-deep"
           : "border border-ts-line-soft bg-ts-surface text-ts-ink shadow-ts-card hover:border-ts-line hover:bg-ts-surface-2"
       )}
     >
@@ -145,7 +149,7 @@ export function SearchField({
       <label className="sr-only" htmlFor={id}>
         {label}
       </label>
-      <div className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-ts-md border border-ts-line bg-ts-surface px-3.5 transition-colors min-[420px]:min-w-60 focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary/15">
+      <div className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-ts-md border border-ts-line bg-ts-surface px-3.5 transition-colors min-[420px]:min-w-60 focus-within:border-ts-focus focus-within:bg-ts-surface focus-within:ring-2 focus-within:ring-ts-primary/15">
         <Icon size={16} aria-hidden="true" className="shrink-0 text-ts-muted" />
         <input
           id={id}
@@ -203,7 +207,7 @@ export function PersonAvatar({ name, size = "md", className }: { name: string; s
   return (
     <span
       aria-hidden="true"
-      className={cn("grid shrink-0 place-items-center rounded-full bg-ts-primary-tint font-bold text-ts-primary-deep", AVATAR_SIZES[size], className)}
+      className={cn("grid shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint font-semibold text-ts-primary-deep", AVATAR_SIZES[size], className)}
     >
       {initialsOf(name)}
     </span>
@@ -215,8 +219,8 @@ export function ScoreBadge({ value, className }: { value: number; className?: st
   return (
     <span
       className={cn(
-        "inline-flex h-7 shrink-0 items-center rounded-full px-2.5 text-[13px] font-bold whitespace-nowrap",
-        value >= 90 ? "bg-ts-primary text-white" : "bg-ts-primary-tint text-ts-primary-deep",
+        "inline-flex h-7 shrink-0 items-center rounded-ts-xs px-2.5 text-[13px] font-semibold whitespace-nowrap",
+        value >= 90 ? "bg-ts-primary text-ts-on-primary" : "bg-ts-primary-tint text-ts-primary-deep",
         className
       )}
     >

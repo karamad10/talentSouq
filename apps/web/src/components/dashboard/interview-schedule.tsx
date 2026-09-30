@@ -52,7 +52,7 @@ function InterviewCard({ item, past }: { item: Interview; past?: boolean }) {
       </div>
 
       {item.feedbackDue ? (
-        <span className="inline-flex h-7 shrink-0 items-center rounded-full bg-ts-accent-tint px-3 text-xs font-bold text-ts-accent-deep">Feedback due</span>
+        <span className="inline-flex h-7 shrink-0 items-center rounded-ts-xs bg-ts-accent-tint px-3 text-xs font-semibold text-ts-accent-deep">Feedback due</span>
       ) : null}
 
       <div className="flex shrink-0 items-center gap-2">

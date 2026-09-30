@@ -33,13 +33,13 @@ export function Pagination({
         Page {page} of {totalPages}
       </p>
       <div className="flex items-center gap-1" role="list">
-        <PageLink href={page > 1 ? hrefForPage(page - 1) : undefined} label="Previous page">
+        <PageLink href={page > 1 ? hrefForPage(page - 1) : undefined} label="Previous page" wide>
           <ChevronLeft size={16} aria-hidden="true" />
           <span className="max-[460px]:sr-only">Previous</span>
         </PageLink>
         {items.map((item, index) =>
           item === "ellipsis" ? (
-            <span key={`ellipsis-${index}`} aria-hidden="true" className="grid size-10 place-items-center text-ts-muted">
+            <span key={`ellipsis-${index}`} aria-hidden="true" className="grid size-9 place-items-center text-ts-muted">
               <MoreHorizontal size={17} />
             </span>
           ) : (
@@ -48,7 +48,7 @@ export function Pagination({
             </PageLink>
           )
         )}
-        <PageLink href={page < totalPages ? hrefForPage(page + 1) : undefined} label="Next page">
+        <PageLink href={page < totalPages ? hrefForPage(page + 1) : undefined} label="Next page" wide>
           <span className="max-[460px]:sr-only">Next</span>
           <ChevronRight size={16} aria-hidden="true" />
         </PageLink>
@@ -61,16 +61,20 @@ function PageLink({
   href,
   label,
   current,
+  wide,
   children
 }: {
   href?: Route;
   label: string;
   current?: boolean;
+  /** Previous/Next: sized to their words, not squeezed into a number's square. */
+  wide?: boolean;
   children: React.ReactNode;
 }) {
   const className = cn(
-    "inline-flex size-10 items-center justify-center gap-1 rounded-ts-sm px-2 text-[13px] font-bold transition-colors",
-    current ? "bg-ts-primary text-white" : "text-ts-ink hover:bg-ts-surface-2",
+    "inline-flex h-9 items-center justify-center gap-1 rounded-ts-sm text-[13px] font-semibold tabular-nums transition-colors",
+    wide ? "px-3" : "min-w-9 px-1.5",
+    current ? "bg-ts-primary text-ts-on-primary" : "text-ts-ink hover:bg-ts-surface-2",
     !href && !current && "cursor-not-allowed text-ts-muted/50"
   );
 

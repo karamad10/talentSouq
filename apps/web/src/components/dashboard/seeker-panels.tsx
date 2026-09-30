@@ -49,7 +49,7 @@ export function PrioritySpotlight() {
   return (
     <section className="grid grid-cols-[minmax(0,1fr)] gap-6 overflow-hidden rounded-ts-lg border border-ts-primary/25 bg-ts-primary-tint px-8 py-6 min-[1400px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] min-[1400px]:items-center max-[680px]:px-5 max-[680px]:py-5">
       <div className="min-w-0">
-        <p className="m-0 flex items-center gap-2 text-xs font-bold tracking-[0.1em] text-ts-primary-deep uppercase">
+        <p className="m-0 flex items-center gap-2 text-[13px] font-semibold text-ts-primary-deep">
           <span aria-hidden="true" className="inline-block size-2 rounded-full bg-ts-accent" />
           Priority today
         </p>
@@ -122,7 +122,7 @@ export function MatchesPanel({ className }: { className?: string }) {
                   {match.company} · {match.location}
                 </span>
               </span>
-              <span className="inline-flex h-8 shrink-0 items-center rounded-full bg-ts-primary-tint px-3 text-sm font-bold text-ts-primary-deep">{match.score}%</span>
+              <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-sm font-semibold text-ts-primary-deep">{match.score}%</span>
             </Link>
           </li>
         ))}
@@ -148,7 +148,7 @@ export function MessagesPanel({ className }: { className?: string }) {
         {seekerSummary.messages.map((message, index) => (
           <li key={message.subject} className={cn("flex flex-1", index > 0 && "border-t border-ts-line-soft")}>
             <Link href="/seeker/messages" className="group flex w-full items-center gap-3.5 px-6 py-4 transition-colors hover:bg-ts-primary-tint/40 max-[680px]:px-4">
-              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
+              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
                 {monogram(message.from)}
               </span>
               <span className="min-w-0 flex-1">
@@ -191,7 +191,7 @@ export function AlertsPanel({ className }: { className?: string }) {
                 <span className="block truncate text-[15px] font-bold text-ts-ink group-hover:text-ts-primary-deep">{search.name}</span>
                 <span className="block text-[13px] text-ts-muted">{search.count} roles tracked</span>
               </span>
-              <span className="inline-flex h-8 shrink-0 items-center rounded-full bg-ts-primary-tint px-3 text-[13px] font-bold text-ts-primary-deep">{search.trend}</span>
+              <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">{search.trend}</span>
             </Link>
           </li>
         ))}

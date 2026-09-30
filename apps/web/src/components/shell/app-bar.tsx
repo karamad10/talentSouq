@@ -36,7 +36,7 @@ export function AppBar({ active }: { active: WorkspaceRole }) {
           <label className="sr-only" htmlFor="workspace-search">
             {search.label}
           </label>
-          <div className="flex h-11 items-center gap-2.5 rounded-full border border-ts-field bg-ts-surface px-4 transition-colors focus-within:border-ts-primary focus-within:ring-2 focus-within:ring-ts-primary-tint">
+          <div className="flex h-11 items-center gap-2.5 rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-4 transition-colors focus-within:border-ts-focus focus-within:bg-ts-surface focus-within:ring-3 focus-within:ring-ts-focus-ring">
             <Search size={17} aria-hidden="true" className="shrink-0 text-ts-muted" />
             <input
               id="workspace-search"
@@ -56,7 +56,7 @@ export function AppBar({ active }: { active: WorkspaceRole }) {
           <Link
             href={identity.href}
             aria-label={`${identity.name} — ${identity.eyebrow}`}
-            className="ms-1.5 hidden size-10 place-items-center rounded-full bg-ts-primary text-xs font-bold text-white transition-opacity hover:opacity-90 min-[981px]:grid"
+            className="ms-1.5 hidden size-10 place-items-center rounded-ts-md bg-ts-primary text-xs font-semibold text-ts-on-primary transition-opacity hover:opacity-90 min-[981px]:grid"
           >
             <span aria-hidden="true">{identity.initials}</span>
           </Link>

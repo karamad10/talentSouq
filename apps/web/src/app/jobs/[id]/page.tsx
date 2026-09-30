@@ -92,11 +92,11 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 {job.category ? <span>{categoryLabel(job.category, locale)}</span> : null}
               </p>
               <div className="mt-5 flex flex-wrap items-center gap-2">
-                <span className="inline-flex h-9 items-center rounded-full bg-ts-primary-tint px-4 text-[13px] font-bold text-ts-primary-deep">
+                <span className="inline-flex h-9 items-center rounded-ts-chip bg-ts-primary-tint px-4 text-[13px] font-semibold text-ts-primary-deep">
                   {salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale)}
                 </span>
                 {job.easyApply ? (
-                  <span className="inline-flex h-9 items-center gap-1.5 rounded-full bg-ts-accent-tint px-4 text-[13px] font-bold text-ts-accent-deep">
+                  <span className="inline-flex h-9 items-center gap-1.5 rounded-ts-chip bg-ts-accent-tint px-4 text-[13px] font-semibold text-ts-accent-deep">
                     <Zap size={14} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy apply"}
                   </span>
                 ) : null}
@@ -124,7 +124,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "المهارات المطلوبة" : "Skills for this role"}</h2>
                 <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
                   {job.skills.map((skill) => (
-                    <li key={skill} className="[unicode-bidi:plaintext] inline-flex h-10 items-center rounded-full border border-ts-line bg-ts-surface px-4 text-sm font-semibold text-ts-ink">
+                    <li key={skill} className="[unicode-bidi:plaintext] inline-flex h-10 items-center rounded-ts-chip border border-ts-line bg-ts-surface px-4 text-sm font-semibold text-ts-ink">
                       {skill}
                     </li>
                   ))}
@@ -217,7 +217,7 @@ function ApplyButton({ target, locale }: { target: ApplyTarget; locale: Locale }
   const { href, kind } = target;
   const arabic = locale === "ar";
   const className =
-    "mt-6 inline-flex h-13 w-full items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-base font-bold text-white transition-opacity hover:opacity-90";
+    "mt-6 inline-flex h-13 w-full items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-base font-bold text-ts-on-primary transition-opacity hover:opacity-90";
   if (kind === "external") {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer nofollow" className={className}>

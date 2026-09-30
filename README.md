@@ -36,8 +36,8 @@ All commands below run from the repo root — no need to `cd apps/web` first:
 | `pnpm check`      | `typecheck` + `lint` + `test` in one shot — run this before opening a PR                                                                       |
 | `pnpm check:auth` | Verifies the Supabase env vars in `.env.local` are valid and reachable                                                                         |
 
-If `pnpm check:auth` reports `Invalid API key`, see [`TODO.md`](TODO.md) for
-what to fix in the Supabase dashboard and `.env.local`.
+If `pnpm check:auth` reports `Invalid API key`, the key in `.env.local` is wrong or a
+secret key: use the project's **publishable** key (Supabase → Settings → API Keys).
 
 ## Current implementation
 
@@ -74,7 +74,8 @@ buttons/forms are real versus local-preview-only.
 you back in the app until the Supabase project's **Site URL** and **Redirect
 URLs** allow-list (Authentication → URL Configuration in the Supabase
 dashboard) include `http://localhost:3000/auth/callback` and
-`https://talentsouq.it.com/auth/callback` — see `TODO.md` §2.
+`https://talentsouq.it.com/auth/callback`. The owner to-do list lives in the
+karehan repo (`TODO.md`).
 
 ## 1. Objective
 

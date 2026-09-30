@@ -147,7 +147,7 @@ export function MessagesWorkspace({
                   row.id === active.id ? "bg-ts-primary-tint/60" : "hover:bg-ts-surface-2"
                 )}
               >
-                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
+                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
                   {initials(row.name)}
                 </span>
                 <span className="min-w-0 flex-1">
@@ -191,7 +191,7 @@ export function MessagesWorkspace({
               <p
                 className={cn(
                   "m-0 rounded-ts-lg px-4 py-3 text-sm leading-relaxed",
-                  message.from === "me" ? "rounded-ee-ts-sm bg-ts-primary text-white" : "rounded-es-ts-sm bg-ts-surface-2 text-ts-ink"
+                  message.from === "me" ? "rounded-ee-ts-sm bg-ts-primary text-ts-on-primary" : "rounded-es-ts-sm bg-ts-surface-2 text-ts-ink"
                 )}
               >
                 {message.text}
@@ -220,7 +220,7 @@ export function MessagesWorkspace({
             required
             rows={2}
             placeholder={`Reply to ${active.name.split(" ")[0]}… (Enter to send)`}
-            className="min-h-12 w-full min-w-0 flex-1 resize-y rounded-ts-md border border-ts-field bg-ts-surface px-4 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
+            className="min-h-12 w-full min-w-0 flex-1 resize-y rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-4 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring"
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
@@ -234,7 +234,7 @@ export function MessagesWorkspace({
             </span>
             <button
               type="submit"
-              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-ts-md bg-ts-primary px-5 text-sm font-bold text-ts-on-primary transition-opacity hover:opacity-90"
             >
               <SendHorizontal size={16} aria-hidden="true" className="rtl:-scale-x-100" /> Send
             </button>

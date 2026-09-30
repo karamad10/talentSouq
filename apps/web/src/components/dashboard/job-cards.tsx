@@ -55,7 +55,7 @@ export function JobCard({ row }: { row: JobRow }) {
           <div className="flex flex-wrap items-center gap-2">
             <StatusPill status={row.status} className="px-2.5 py-0.5 text-[11px]" />
             {row.fresh > 0 ? (
-              <span className="inline-flex h-6 items-center rounded-full bg-ts-accent-tint px-2.5 text-[11px] font-bold text-ts-accent-deep">{row.fresh} new</span>
+              <span className="inline-flex h-6 items-center rounded-ts-xs bg-ts-accent-tint px-2.5 text-[11px] font-semibold text-ts-accent-deep">{row.fresh} new</span>
             ) : null}
           </div>
           <h3 className="m-0 mt-2 text-[17px] leading-tight font-bold tracking-[-0.015em] text-ts-ink">{row.job}</h3>
@@ -71,7 +71,7 @@ export function JobCard({ row }: { row: JobRow }) {
           <p className="m-0 text-[13px] text-ts-muted">Not published yet — publish it to start collecting responses.</p>
           <Link
             href="/employer/jobs"
-            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-ts-md bg-ts-primary px-4 text-[13px] font-bold text-white transition-colors hover:bg-ts-primary-deep"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-ts-md bg-ts-primary px-4 text-[13px] font-bold text-ts-on-primary transition-colors hover:bg-ts-primary-deep"
           >
             Publish <ArrowUpRight size={14} aria-hidden="true" className="rtl:-scale-x-100" />
           </Link>
@@ -134,7 +134,7 @@ export function JobSummaryRow({ row }: { row: JobRow }) {
             <strong className="text-[17px] leading-none font-bold text-ts-ink">{row.total}</strong>
             <span className="text-xs text-ts-muted">responses</span>
             {row.fresh > 0 ? (
-              <span className="ms-1 inline-flex h-5.5 items-center rounded-full bg-ts-accent-tint px-2 text-[11px] font-bold text-ts-accent-deep">
+              <span className="ms-1 inline-flex h-5.5 items-center rounded-ts-xs bg-ts-accent-tint px-2 text-[11px] font-semibold text-ts-accent-deep">
                 +{row.fresh}
               </span>
             ) : null}

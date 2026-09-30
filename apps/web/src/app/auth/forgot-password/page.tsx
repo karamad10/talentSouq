@@ -6,6 +6,7 @@ import { LoadingSubmit } from "@/components/interaction-ui";
 import { authMessage } from "@/lib/auth-copy";
 import { getLocale } from "@/lib/locale";
 import { getSupabaseEnv } from "@/lib/supabase/env";
+import { Stopped } from "@/components/brand-stop";
 
 const COPY = {
   en: {
@@ -61,7 +62,7 @@ export default async function ForgotPasswordPage({
         <div className="auth-brand-copy">
           <Logo inverted />
           <p className="eyebrow">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
+          <h1><Stopped>{copy.title}</Stopped></h1>
           <ul>
             {copy.points.map((point) => (
               <li key={point}>

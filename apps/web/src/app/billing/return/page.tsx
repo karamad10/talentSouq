@@ -58,7 +58,7 @@ export default async function BillingReturnPage({
           <div className="rounded-ts-lg border border-ts-line bg-ts-surface p-8 max-[680px]:p-6">
             <span
               aria-hidden="true"
-              className="grid size-12 place-items-center rounded-full bg-ts-primary/10 text-ts-primary"
+              className="grid size-12 place-items-center rounded-ts-sm bg-ts-primary/10 text-ts-primary"
             >
               {canceled ? <XCircle size={24} /> : <CheckCircle2 size={24} />}
             </span>
@@ -71,7 +71,7 @@ export default async function BillingReturnPage({
 
             <a
               href={deepLink}
-              className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-ts-primary px-7 text-base font-bold text-white transition-transform hover:-translate-y-0.5"
+              className="mt-7 inline-flex h-12 items-center justify-center rounded-ts-md bg-ts-primary px-7 text-base font-semibold text-ts-on-primary transition-transform hover:-translate-y-0.5"
             >
               {arabic ? "افتح التطبيق" : "Open the app"}
             </a>

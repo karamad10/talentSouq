@@ -21,7 +21,7 @@ export function JobSearchForm({
   // Below 700px the fields stack: side by side they collapse to icon-width stubs
   // long before the placeholder is readable.
   const field =
-    "flex h-12 w-full min-w-0 items-center gap-2.5 rounded-full border border-ts-line bg-ts-paper px-4 transition-colors focus-within:border-ts-primary min-[700px]:w-auto min-[700px]:flex-1 min-[700px]:border-transparent min-[700px]:bg-transparent min-[700px]:focus-within:border-transparent";
+    "flex h-12 w-full min-w-0 items-center gap-2.5 rounded-ts-md border border-ts-line bg-ts-paper px-4 transition-colors focus-within:border-ts-focus focus-within:bg-ts-surface min-[700px]:w-auto min-[700px]:flex-1 min-[700px]:border-transparent min-[700px]:bg-transparent min-[700px]:focus-within:border-transparent";
   const input = "min-w-0 flex-1 border-0 bg-transparent text-[15px] text-ts-ink outline-none placeholder:text-ts-subtle";
 
   return (
@@ -29,7 +29,7 @@ export function JobSearchForm({
       action="/jobs"
       role="search"
       className={cn(
-        "flex max-w-2xl flex-col items-stretch gap-2 rounded-ts-xl border border-ts-line bg-ts-surface p-2 shadow-ts-card transition-shadow focus-within:shadow-ts-lift min-[700px]:flex-row min-[700px]:items-center min-[700px]:rounded-full",
+        "flex max-w-2xl flex-col items-stretch gap-2 rounded-ts-xl border border-ts-line bg-ts-surface p-2 shadow-ts-card transition-shadow focus-within:shadow-ts-lift min-[700px]:flex-row min-[700px]:items-center min-[700px]:rounded-ts-lg",
         className
       )}
     >
@@ -46,7 +46,7 @@ export function JobSearchForm({
       </label>
       <button
         type="submit"
-        className="inline-flex h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-ts-primary px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ts-primary-deep min-[700px]:w-auto"
+        className="inline-flex h-12 w-full shrink-0 items-center justify-center gap-2 rounded-ts-md bg-ts-primary px-6 text-[15px] font-semibold text-ts-on-primary transition-colors hover:bg-ts-primary-deep min-[700px]:w-auto"
       >
         {locale === "ar" ? "بحث" : "Search jobs"}
       </button>

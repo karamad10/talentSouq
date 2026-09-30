@@ -21,6 +21,7 @@ export default function CompanyProfilePage() {
       <WorkspaceHeader
         eyebrow="Company profile"
         title={employerSummary.organization}
+        titleIsName
         description="Your public employer brand: everything here is editable and is what candidates see on your listings."
         actionSlot={
           <HeaderActions>

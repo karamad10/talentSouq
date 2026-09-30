@@ -3,12 +3,12 @@ import type { InputHTMLAttributes, LabelHTMLAttributes, ReactNode } from "react"
 import { cn } from "@/lib/cn";
 
 export const inputVariants = cva(
-  "w-full min-w-0 border border-line bg-surface text-ink outline-none transition-colors focus:border-teal focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--teal)_16%,transparent)]",
+  "w-full min-w-0 border-[1.5px] border-ts-field bg-ts-surface-2 text-ts-ink outline-none transition-colors placeholder:text-ts-subtle focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring",
   {
     variants: {
       size: {
-        sm: "h-9 rounded-[11px] px-2.5 text-xs",
-        md: "h-13 rounded-[var(--radius-sm)] px-4 text-sm"
+        sm: "h-10 rounded-ts-md px-3 text-[13px]",
+        md: "h-12 rounded-ts-md px-4 text-[15px]"
       }
     },
     defaultVariants: { size: "md" }

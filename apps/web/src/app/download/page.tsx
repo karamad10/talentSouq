@@ -5,6 +5,7 @@ import { Container, PublicFooter } from "@/components/public/public-shell";
 import { appLinks } from "@/lib/app-links";
 import { getSessionUser } from "@/lib/auth/session";
 import { getPreferences } from "@/lib/locale";
+import { Eyebrow, Stopped } from "@/components/brand-stop";
 
 export const metadata: Metadata = {
   title: "Get the app",
@@ -29,9 +30,9 @@ export default async function DownloadPage() {
       <PublicHeader locale={locale} theme={theme} user={user} />
       <section className="py-[clamp(3rem,8vw,6rem)]">
         <Container className="max-w-3xl">
-          <p className="m-0 text-xs font-bold tracking-[0.12em] text-ts-primary uppercase">{arabic ? "التطبيق" : "The app"}</p>
+          <Eyebrow>{arabic ? "التطبيق" : "The app"}</Eyebrow>
           <h1 className="m-0 mt-3 text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">
-            {links.any ? (arabic ? "احصل على تطبيق تالنت سوق." : "Get the TalentSouq app.") : arabic ? "التطبيق قادم قريباً" : "The app is coming soon"}
+            <Stopped>{links.any ? (arabic ? "احصل على تطبيق تالنت سوق." : "Get the TalentSouq app.") : arabic ? "التطبيق قادم قريباً" : "The app is coming soon"}</Stopped>
           </h1>
           <p className="m-0 mt-4 text-[17px] leading-relaxed text-ts-muted">
             {links.any
@@ -51,7 +52,7 @@ export default async function DownloadPage() {
                 </a>
               ) : null}
               {links.android ? (
-                <a href={links.android} target="_blank" rel="noopener noreferrer" className={`${button} bg-ts-primary text-white`}>
+                <a href={links.android} target="_blank" rel="noopener noreferrer" className={`${button} bg-ts-primary text-ts-on-primary`}>
                   <Smartphone size={20} aria-hidden="true" /> Google Play
                 </a>
               ) : null}

@@ -101,7 +101,7 @@ export default async function PipelinePage({ searchParams }: { searchParams: Pro
             {activeStage ? (
               <Link
                 href={viewHref(view === "list" ? "list" : "board")}
-                className="inline-flex h-9 items-center gap-2 rounded-full bg-ts-surface-2 px-3.5 text-[13px] font-bold text-ts-ink transition-colors hover:bg-ts-primary-tint"
+                className="inline-flex h-9 items-center gap-2 rounded-ts-chip bg-ts-surface-2 px-3.5 text-[13px] font-semibold text-ts-ink transition-colors hover:bg-ts-primary-tint"
               >
                 <X size={14} aria-hidden="true" />
                 Clear filter: {activeStage}

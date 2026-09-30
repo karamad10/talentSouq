@@ -3,12 +3,12 @@ import Image from "next/image";
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-const avatarVariants = cva("grid shrink-0 place-items-center rounded-full font-extrabold", {
+const avatarVariants = cva("grid shrink-0 place-items-center rounded-ts-md font-semibold", {
   variants: {
     size: {
       sm: "size-9 text-[11px]",
       md: "size-13 text-sm",
-      lg: "size-17 text-lg"
+      lg: "size-17 rounded-ts-lg text-lg"
     },
     tone: {
       teal: "bg-teal-pale text-teal",

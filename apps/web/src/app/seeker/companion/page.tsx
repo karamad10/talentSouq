@@ -121,7 +121,7 @@ export default function CompanionPage() {
                       {job.initials}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <Link href={`/jobs/${job.id}`} className="block text-[15px] font-bold text-ts-ink after:absolute after:inset-0 group-hover:text-ts-primary-deep">
+                      <Link href={`/seeker/jobs/${job.id}`} className="block text-[15px] font-bold text-ts-ink after:absolute after:inset-0 group-hover:text-ts-primary-deep">
                         {job.title}
                       </Link>
                       <span className="mt-1 block truncate text-[13px] text-ts-muted">
@@ -130,7 +130,7 @@ export default function CompanionPage() {
                     </span>
                     <span
                       className={cn(
-                        "inline-flex h-8 shrink-0 items-center rounded-full px-3 text-sm font-bold",
+                        "inline-flex h-8 shrink-0 items-center rounded-ts-xs px-3 text-sm font-semibold",
                         job.matchScore >= 85 ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-slate-tint text-ts-muted"
                       )}
                     >
@@ -139,7 +139,7 @@ export default function CompanionPage() {
                   </div>
                   <ul className="m-0 flex list-none flex-wrap gap-2 p-0 ps-16 max-[680px]:ps-0">
                     {matchReasons(job).map((reason) => (
-                      <li key={reason} className="inline-flex items-center gap-1.5 rounded-full bg-ts-surface-2 px-3 py-1.5 text-xs font-semibold text-ts-muted">
+                      <li key={reason} className="inline-flex items-center gap-1.5 rounded-ts-xs bg-ts-surface-2 px-2.5 py-1 text-xs font-semibold text-ts-muted">
                         <Check size={12} aria-hidden="true" className="text-ts-primary" /> {reason}
                       </li>
                     ))}

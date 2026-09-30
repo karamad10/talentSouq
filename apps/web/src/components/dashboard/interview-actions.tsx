@@ -92,7 +92,7 @@ export function FeedbackDisclosure({ candidate }: { candidate: string }) {
         >
           <label className="flex flex-col gap-2 text-xs font-bold tracking-[0.06em] text-ts-muted uppercase">
             Recommendation
-            <select name="recommendation" defaultValue="Advance" className="h-11 rounded-ts-md border border-ts-field bg-ts-surface px-3 text-sm text-ts-ink outline-none focus:border-ts-primary">
+            <select name="recommendation" defaultValue="Advance" className="h-11 rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3 text-sm text-ts-ink outline-none focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring">
               <option>Strong advance</option>
               <option>Advance</option>
               <option>Hold</option>
@@ -106,7 +106,7 @@ export function FeedbackDisclosure({ candidate }: { candidate: string }) {
               required
               rows={4}
               placeholder="Signals on craft, collaboration, and role fit."
-              className="w-full resize-y rounded-ts-md border border-ts-field bg-ts-surface px-3.5 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-primary"
+              className="w-full resize-y rounded-ts-md border-[1.5px] border-ts-field bg-ts-surface-2 px-3.5 py-3 text-sm leading-relaxed text-ts-ink outline-none transition-colors placeholder:text-ts-muted focus:border-ts-focus focus:bg-ts-surface focus:ring-3 focus:ring-ts-focus-ring"
             />
           </label>
           <button type="submit" className={cn(buttonVariants({ tone: "primary", size: "sm" }), "min-h-11 w-fit rounded-ts-md px-5 text-sm")}>

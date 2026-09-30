@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-export const badgeVariants = cva("inline-flex items-center gap-1 rounded-full font-extrabold", {
+export const badgeVariants = cva("inline-flex h-6 items-center gap-1 rounded-ts-xs font-semibold", {
   variants: {
     tone: {
       neutral: "bg-ts-slate-tint text-ts-muted",
@@ -14,8 +14,8 @@ export const badgeVariants = cva("inline-flex items-center gap-1 rounded-full fo
       premium: "bg-ts-accent-tint text-ts-accent-deep"
     },
     size: {
-      sm: "px-2 py-0.5 text-[11px]",
-      md: "px-2.5 py-1 text-xs"
+      sm: "px-2 text-[11px]",
+      md: "px-2 text-xs"
     }
   },
   defaultVariants: { tone: "teal", size: "md" }

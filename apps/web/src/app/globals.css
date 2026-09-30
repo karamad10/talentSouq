@@ -57,11 +57,20 @@
   --color-ts-danger-tint: var(--ts-danger-tint);
   --color-ts-slate-tint: var(--ts-slate-tint);
   --color-ts-on-strong: var(--on-surface-strong);
+  --color-ts-on-primary: var(--ts-on-primary);
+  --color-ts-focus: var(--ts-focus);
+  --color-ts-focus-ring: var(--ts-focus-ring);
   --color-ts-on-strong-muted: var(--on-surface-strong-muted);
+  /* The app's radius scale (apps/mobile/src/theme/tokens.ts): xs labels/badges,
+     chip filters/tags, sm small tiles, md buttons/inputs, lg cards. There is no
+     larger corner in the app, so xl is the card radius too. Fully round is only
+     for true circles: dots, rings, progress tracks, counters, icon buttons. */
+  --radius-ts-xs: 6px;
+  --radius-ts-chip: 9px;
   --radius-ts-sm: 8px;
   --radius-ts-md: 10px;
   --radius-ts-lg: 14px;
-  --radius-ts-xl: 18px;
+  --radius-ts-xl: 14px;
 
   --shadow-ts-card: var(--ts-shadow-card);
   --shadow-ts-lift: var(--ts-shadow-lift);
@@ -69,57 +78,66 @@
 
 @layer legacy {
 
+::selection { background: var(--ts-accent-tint); color: var(--ts-ink); }
+
 :root {
-  --ink: #102c33;
-  --ink-deep: #061d24;
-  --ink-soft: #486167;
-  --paper: #fbfaf6;
-  --surface: #ffffff;
-  --surface-soft: #f1f4f1;
-  --line: #c2ccc7;
-  --teal: #087f78;
-  --teal-dark: #05645f;
-  --teal-pale: #dcefeb;
-  --coral: #f27d5f;
-  --coral-dark: #d96448;
-  --orange: #e6a053;
-  --success: #2d8a62;
-  --danger: #c94848;
+  /* The older page styles (auth, legal, error) read these names; they now
+     resolve to the one app palette below, in both themes. */
+  --ink: var(--ts-ink);
+  --ink-deep: var(--ts-ink);
+  --ink-soft: var(--ts-muted);
+  --paper: var(--ts-paper);
+  --surface: var(--ts-surface);
+  --surface-soft: var(--ts-surface-2);
+  --line: var(--ts-line);
+  --teal: var(--ts-primary);
+  --teal-dark: var(--ts-primary-deep);
+  --teal-pale: var(--ts-primary-tint);
+  /* One orange, shared with Triovate: the logo dot, "Souq", featured. */
+  --coral: #EA7C20;
+  --coral-dark: #C8661A;
+  --orange: #EA7C20;
+  --success: var(--ts-success);
+  --danger: var(--ts-danger);
   --success-pale: color-mix(in srgb, var(--success) 14%, var(--surface));
   --danger-pale: color-mix(in srgb, var(--danger) 12%, var(--surface));
   --attention: #9a5b19;
   --attention-pale: color-mix(in srgb, var(--orange) 20%, var(--surface));
   --shadow-sm: 0 8px 24px rgba(6, 29, 36, .07);
   --shadow-lg: 0 28px 80px rgba(6, 29, 36, .14);
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
   --container: 1180px;
   /* Mobile parity tokens: use these for new product workspace UI. */
-  --ts-paper: #F6F8FA;
+  /* Mobile parity: every value below is the app's light palette. */
+  --ts-paper: #E7EDF0;
   --ts-surface: #FFFFFF;
-  --ts-surface-2: #F1F4F5;
+  --ts-surface-2: #DCE5E9;
   --ts-ink: #0B1B23;
-  --ts-muted: #4A5A62;
-  --ts-subtle: #56636A;
-  --ts-line: #BAC5CB;
+  --ts-muted: #48575F;
+  --ts-subtle: #526067;
+  --ts-line: #B7C4CA;
   /* Hairline for card edges and list dividers. Deliberately lighter than
      --ts-line: at dashboard density the stronger line reads as clutter. */
-  --ts-line-soft: #DAE1E5;
-  --ts-field-border: #6B7880;
+  --ts-line-soft: #D2DCE0;
+  --ts-field-border: #75838A;
   --ts-shadow-card: 0 1px 2px rgba(11, 27, 35, .05);
   --ts-shadow-lift: 0 6px 20px rgba(11, 27, 35, .08);
   --ts-primary: #0E6E63;
   --ts-primary-deep: #0B5A51;
-  --ts-primary-tint: #E6F2F0;
+  --ts-primary-tint: #D3E8E3;
+  --ts-on-primary: #FFFFFF;
+  --ts-focus: #0B7F72;
+  --ts-focus-ring: #BFE3DD;
   --ts-accent: #EA7C20;
   --ts-accent-deep: #8A4B0A;
-  --ts-accent-tint: #FDF1E6;
+  --ts-accent-tint: #F8E4D2;
   --ts-success: #177344;
-  --ts-success-tint: #E6F2EB;
+  --ts-success-tint: #D6E9DE;
   --ts-danger: #B42318;
-  --ts-danger-tint: #FDECEA;
-  --ts-slate-tint: #EDF0F1;
+  --ts-danger-tint: #F8DED9;
+  --ts-slate-tint: #DDE4E7;
   --ts-radius-sm: 8px;
   --ts-radius-md: 10px;
   --ts-radius-lg: 14px;
@@ -154,43 +172,35 @@
 }
 
 [data-theme="dark"] {
-  --ink: #E8EDEE;
-  --ink-deep: #E8EDEE;
-  --ink-soft: #93A1A6;
-  --paper: #0D1315;
-  --surface: #151D20;
-  --surface-soft: #1B2427;
-  --line: #37444A;
-  --teal: #2FA192;
-  --teal-dark: #45B3A3;
-  --teal-pale: #162B29;
-  --coral: #EA7C20;
-  --coral-dark: #EA7C20;
-  --success: #35A167;
-  --danger: #EA6058;
+  --coral-dark: #EF9748;
   --attention: #F2C68C;
-  --ts-paper: #0D1315;
-  --ts-surface: #151D20;
-  --ts-surface-2: #1B2427;
+  /* The app's dark palette. */
+  --ts-paper: #070C0E;
+  --ts-surface: #141D21;
+  --ts-surface-2: #232E33;
   --ts-ink: #E8EDEE;
-  --ts-muted: #A4B1B6;
-  --ts-subtle: #93A0A5;
-  --ts-line: #37444A;
-  --ts-line-soft: #2D383E;
-  --ts-field-border: #4E5D64;
+  --ts-muted: #9BA9AE;
+  --ts-subtle: #8B989D;
+  --ts-line: #3C4A50;
+  --ts-line-soft: #2F3B40;
+  --ts-field-border: #7A888D;
   --ts-shadow-card: 0 1px 2px rgba(0, 0, 0, .3);
   --ts-shadow-lift: 0 6px 20px rgba(0, 0, 0, .4);
-  --ts-primary: #2FA192;
-  --ts-primary-deep: #45B3A3;
-  --ts-primary-tint: #162B29;
+  --ts-primary: #33AC9C;
+  --ts-primary-deep: #48BCAB;
+  --ts-primary-tint: #1B3532;
+  /* Dark text on the dark-theme green, as in the app: white on #33AC9C is 2.6:1. */
+  --ts-on-primary: #04211E;
+  --ts-focus: #5CD0BE;
+  --ts-focus-ring: #24544E;
   --ts-accent: #EA7C20;
-  --ts-accent-deep: #EA7C20;
-  --ts-accent-tint: #33291F;
-  --ts-success: #35A167;
-  --ts-success-tint: #12281A;
-  --ts-danger: #EA6058;
-  --ts-danger-tint: #2B1210;
-  --ts-slate-tint: #1B2427;
+  --ts-accent-deep: #EF9748;
+  --ts-accent-tint: #3A2E22;
+  --ts-success: #3BAE71;
+  --ts-success-tint: #17321F;
+  --ts-danger: #F0706A;
+  --ts-danger-tint: #351814;
+  --ts-slate-tint: #232E33;
   --surface-strong: #1B2427;
   --on-surface-strong: #E8EDEE;
   --on-surface-strong-muted: #B8C4C8;
@@ -218,37 +228,42 @@ form[data-pending="true"] button[type="submit"] { position: relative; color: tra
 
 .container { width: min(calc(100% - 48px), var(--container)); margin-inline: auto; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 20px; color: var(--teal); font-size: 12px; font-weight: 700; letter-spacing: .14em; line-height: 1.3; text-transform: uppercase; }
+/* Eyebrows as the app writes them: sentence case, muted, led by the orange dot. */
+.eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 20px; color: var(--ts-muted); font-size: 13px; font-weight: 500; letter-spacing: 0; line-height: 1.3; }
+.eyebrow::before { content: ""; width: 6px; height: 6px; flex: none; border-radius: 999px; background: var(--ts-accent); }
 h1, h2, h3, p { margin-top: 0; }
-h1, h2, h3 { color: var(--ink-deep); line-height: 1.08; letter-spacing: 0; }
+h1, h2, h3 { color: var(--ink-deep); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
 h1 { font-size: clamp(2.15rem, 7vw, 6.7rem); }
 h2 { font-size: clamp(1.65rem, 4.5vw, 4.2rem); }
 
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink-deep); font-size: 20px; font-weight: 700; letter-spacing: 0; }
 .logo[data-inverted] { color: #fff; }
-.logo-mark { display: grid; width: 30px; height: 30px; place-items: center; }
-.logo-mark img { width: 28px; height: 28px; }
-.logo-type span { color: var(--coral); }
+.logo-mark { display: grid; width: 27px; height: 35px; place-items: center; }
+.logo-mark img { width: 27px; height: 35px; }
+.logo-type { display: grid; line-height: 1.05; }
+.logo-word span { color: var(--coral); }
+.logo-sig { margin-top: 2px; color: var(--ts-muted); font-size: 11px; font-weight: 500; line-height: 1.2; letter-spacing: 0; }
+.logo[data-inverted] .logo-sig { color: rgba(255, 255, 255, .72); }
 /* Where a bar runs out of room, the mark alone carries the brand and the
    wordmark returns as soon as there is space. The link keeps a 44px tap
    height either way — the mark itself is only 30px. */
 @media (max-width: 639px) { .logo[data-compact="wide"] { gap: 0; min-height: 44px; } .logo[data-compact="wide"] .logo-type { display: none; } }
 @media (max-width: 379px) { .logo[data-compact="narrow"] { gap: 0; min-height: 44px; } .logo[data-compact="narrow"] .logo-type { display: none; } }
 .preferences { display: flex; align-items: center; gap: 10px; }
-.icon-button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 38px; height: 38px; padding: 0 9px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); border-radius: 99px; color: inherit; background: transparent; cursor: pointer; }
-.icon-button span { font-size: 10px; font-weight: 700; }
+.icon-button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 38px; height: 38px; padding: 0 9px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); border-radius: 10px; color: inherit; background: transparent; cursor: pointer; }
+.icon-button span { font-size: 11px; font-weight: 600; }
 .theme-button { width: 38px; }
 
-.button { display: inline-flex; min-height: 49px; align-items: center; justify-content: center; gap: 10px; padding: 0 21px; border: 1px solid transparent; border-radius: 99px; font-size: 14px; font-weight: 700; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+.button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 0 24px; border: 1.5px solid transparent; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
 .button:hover { transform: translateY(-2px); }
 .button:disabled { cursor: not-allowed; opacity: .58; transform: none; }
 .button:disabled:hover { transform: none; }
 .button-spinner { animation: button-spin .7s linear infinite; }
 @keyframes button-spin { to { transform: rotate(360deg); } }
 .route-loading, .route-error { display: grid; min-height: 100vh; place-items: center; padding: 24px; background: var(--paper); text-align: center; }.route-loading { grid-template-columns: auto auto; gap: 14px; align-content: center; }.route-loading-mark { width: 28px; height: 28px; border: 3px solid var(--teal-pale); border-top-color: var(--teal); border-radius: 50%; animation: button-spin .8s linear infinite; }.route-loading strong, .route-error h1 { color: var(--ink-deep); }.route-loading p, .route-error p:not(.eyebrow) { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; }.route-error > div { max-width: 430px; }.route-error .eyebrow { justify-content: center; }.route-error h1 { margin-bottom: 12px; font-size: clamp(2rem, 5vw, 3rem); }.route-error .button { margin-top: 22px; }
-.button-primary { color: #fff; background: var(--teal); }
+.button-primary { color: var(--ts-on-primary); background: var(--teal); }
 .button-primary:hover { background: var(--teal-dark); }
-.button-secondary { border-color: var(--line); background: var(--surface); }
+.button-secondary { border-color: var(--ts-field-border); background: var(--surface); }
 .button-full { width: 100%; }
 
 
@@ -265,7 +280,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .auth-brand::before { position: absolute; content: ""; inset: 0; opacity: .22; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 52px 52px; mask-image: linear-gradient(to bottom, black, transparent 80%); }
 .auth-brand-copy { position: relative; z-index: 1; }
 .auth-brand-copy .logo { margin-bottom: 100px; }
-.auth-brand-copy .eyebrow { color: #96d2ca; }
+.auth-brand-copy .eyebrow { color: rgba(255, 255, 255, .78); }
 .auth-brand-copy h1 { max-width: 600px; margin-bottom: 36px; color: #fff; font-size: clamp(2.2rem, 5.5vw, 5.8rem); }
 .auth-brand-copy ul { display: grid; gap: 13px; padding: 0; list-style: none; color: rgba(255,255,255,.72); font-size: 13px; }
 .auth-brand-copy li { display: flex; gap: 9px; align-items: center; }.auth-brand-copy li svg { color: var(--coral); }
@@ -274,8 +289,9 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .auth-form { width: min(100%, 440px); }
 .auth-form h2 { margin-bottom: 12px; font-size: 40px; }.auth-form > p:not(.eyebrow, .switch-auth, .form-note) { margin-bottom: 30px; color: var(--ink-soft); }
 .field { display: grid; gap: 7px; margin-bottom: 18px; font-size: 13px; font-weight: 600; }
-.field input { height: 52px; padding-inline: 15px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface); outline: 0; }
-.field input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px color-mix(in srgb, var(--teal) 16%, transparent); }
+/* The app's input (src/ui/Input.tsx): filled at rest, white with a focus halo when active. */
+.field input { height: 50px; padding-inline: 15px; border: 1.5px solid var(--ts-field-border); border-radius: 10px; color: var(--ink); background: var(--ts-surface-2); outline: 0; transition: background .15s, border-color .15s, box-shadow .15s; }
+.field input:focus { border-color: var(--ts-focus); background: var(--ts-surface); box-shadow: 0 0 0 3px var(--ts-focus-ring); }
 .role-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 0 0 24px; padding: 0; border: 0; }
 .role-choice legend { grid-column: 1 / -1; margin-bottom: 4px; font-size: 13px; font-weight: 600; }
 .role-choice label { position: relative; }
@@ -286,10 +302,10 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .form-alert { margin-bottom: 18px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; font-weight: 700; }
 .form-alert.error { color: var(--danger); background: color-mix(in srgb, var(--danger) 9%, var(--surface)); }
 .form-alert.success { color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); }
-.minor-form-link { justify-self: end; margin: -6px 0 18px; color: var(--teal); font-size: 12px; font-weight: 800; }
+.minor-form-link { justify-self: end; margin: -6px 0 18px; color: var(--teal); font-size: 12px; font-weight: 700; }
 .form-divider { display: flex; align-items: center; gap: 14px; margin-block: 26px; color: var(--ink-soft); font-size: 11px; }
 .form-divider::before, .form-divider::after { flex: 1; height: 1px; content: ""; background: var(--line); }
-.social-buttons { display: grid; grid-template-columns: 1fr; gap: 10px; }.social-buttons form { display: contents; }.google-g { color: #4285f4; font-weight: 800; }
+.social-buttons { display: grid; grid-template-columns: 1fr; gap: 10px; }.social-buttons form { display: contents; }.google-g { color: #4285f4; font-weight: 700; }
 .switch-auth { margin-top: 26px; text-align: center; font-size: 13px; }.switch-auth a { color: var(--teal); font-weight: 700; }
 .form-note { padding: 12px; border-radius: 9px; color: var(--ink-soft); background: var(--surface-soft); font-size: 10px; line-height: 1.5; }
 
@@ -303,16 +319,16 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .legal-hero h1 { max-width: 760px; margin-block: 10px 18px; font-size: clamp(2.1rem, 7vw, 6.3rem); line-height: .95; letter-spacing: -.05em; }
 .legal-summary { max-width: 760px; color: var(--ink-soft); font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.8; }
 .legal-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; color: var(--ink-soft); font-size: 13px; }
-.legal-meta span, .legal-meta a { display: inline-flex; min-height: 34px; align-items: center; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
-.legal-meta a { color: var(--teal); font-weight: 800; }
+.legal-meta span, .legal-meta a { display: inline-flex; min-height: 34px; align-items: center; padding: 7px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.legal-meta a { color: var(--teal); font-weight: 700; }
 .legal-content { display: grid; gap: 16px; margin-top: 22px; }
-.legal-section { display: grid; grid-template-columns: 54px 1fr; gap: clamp(16px, 4vw, 34px); padding: clamp(22px, 4vw, 34px); border: 1px solid var(--line); border-radius: 24px; background: var(--surface); }
+.legal-section { display: grid; grid-template-columns: 54px 1fr; gap: clamp(16px, 4vw, 34px); padding: clamp(22px, 4vw, 34px); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .legal-section-number { color: var(--teal); font-family: var(--font-display); font-size: 18px; font-weight: 900; }
 .legal-section h2 { margin: 0 0 12px; font-size: clamp(1.3rem, 3vw, 2rem); letter-spacing: -.04em; }
 .legal-section p, .legal-section li { color: var(--ink-soft); line-height: 1.8; }
 .legal-section ul { display: grid; gap: 10px; margin: 0; padding-left: 1.1rem; }
-.legal-section a { color: var(--teal); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
-.legal-footer-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; padding: 22px; border-radius: 22px; color: var(--surface); background: var(--ink); }
+.legal-section a { color: var(--teal); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.legal-footer-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; padding: 22px; border-radius: 14px; color: var(--surface); background: var(--ink); }
 .legal-footer-card p { max-width: 610px; margin: 0; color: color-mix(in srgb, var(--surface) 82%, transparent); }
 .legal-footer-card a { color: var(--surface); font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
 .not-found { display: grid; min-height: 100vh; place-items: center; align-content: center; padding: 30px; text-align: center; }.not-found .logo { margin-bottom: 56px; }.not-found h1 { max-width: 750px; margin-bottom: 18px; }.not-found > p:not(.eyebrow) { max-width: 520px; margin-bottom: 30px; color: var(--ink-soft); }
@@ -324,8 +340,8 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 .invite-panel p:not(.eyebrow) { max-width: 690px; color: var(--ink-soft); font-size: 17px; }
 .invite-panel dl { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-block: 28px; }
 .invite-panel dl div { padding: 14px; border-radius: 8px; background: var(--surface-soft); }
-.invite-panel dt { color: var(--ink-soft); font-size: 11px; font-weight: 800; text-transform: uppercase; }
-.invite-panel dd { margin: 4px 0 0; color: var(--ink); font-weight: 800; }
+.invite-panel dt { color: var(--ink-soft); font-size: 12px; font-weight: 600; }
+.invite-panel dd { margin: 4px 0 0; color: var(--ink); font-weight: 700; }
 .invite-note { display: flex; gap: 9px; align-items: flex-start; margin-top: 18px; color: var(--ink-soft); font-size: 12px; }
 .invite-note svg { flex: 0 0 auto; color: var(--success); }
 .invite-steps h2 { margin-bottom: 20px; font-size: 26px; }
@@ -335,7 +351,7 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
 
 /* Dev-only workspace preview switcher (rendered in the Command Deck nav rail). */
 .dev-workspace-switcher { display: grid; gap: 6px; padding: 10px; border: 1px dashed color-mix(in srgb, var(--ts-primary) 42%, var(--line)); border-radius: var(--ts-radius-md); background: color-mix(in srgb, var(--ts-primary-tint) 55%, var(--surface)); }
-.dev-workspace-switcher > span { color: var(--ts-primary); font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.dev-workspace-switcher > span { color: var(--ts-primary); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .dev-workspace-switcher > div { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
 .dev-workspace-switcher a { min-height: 30px; display: grid; place-items: center; border-radius: 7px; color: var(--ink-soft); font-size: 11px; font-weight: 700; }
 .dev-workspace-switcher a[aria-pressed="true"] { color: var(--ts-primary); background: var(--ts-surface); box-shadow: 0 1px 4px rgba(11,27,35,.08); }
