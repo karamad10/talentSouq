@@ -100,7 +100,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </span>
                 {job.easyApply ? (
                   <span className="inline-flex h-9 items-center gap-1.5 rounded-ts-chip bg-ts-accent-tint px-4 text-[13px] font-semibold text-ts-accent-deep">
-                    <Zap size={14} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy apply"}
+                    <Zap size={14} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy Apply"}
                   </span>
                 ) : null}
               </div>

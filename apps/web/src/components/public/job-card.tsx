@@ -85,7 +85,7 @@ export function PublicJobCard({ job, locale = "en" }: { job: PublicJob; locale?:
         <span>{salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale)}</span>
         {job.easyApply ? (
           <span className="inline-flex items-center gap-1.5 font-medium text-ts-accent-deep">
-            <Zap size={13} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy apply"}
+            <Zap size={13} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy Apply"}
           </span>
         ) : null}
         <span aria-hidden="true" className="ms-auto text-ts-subtle transition-colors group-hover:text-ts-primary">
