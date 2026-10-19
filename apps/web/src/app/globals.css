@@ -62,16 +62,18 @@
   --color-ts-focus: var(--ts-focus);
   --color-ts-focus-ring: var(--ts-focus-ring);
   --color-ts-on-strong-muted: var(--on-surface-strong-muted);
-  /* The app's radius scale (apps/mobile/src/theme/tokens.ts): xs labels/badges,
-     chip filters/tags, sm small tiles, md buttons/inputs, lg cards. There is no
-     larger corner in the app, so xl is the card radius too. Fully round is only
-     for true circles: dots, rings, progress tracks, counters, icon buttons. */
-  --radius-ts-xs: 6px;
-  --radius-ts-chip: 9px;
+  /* The review's scale, shared with the app (apps/mobile/src/theme/tokens.ts):
+     4 · 8 · 12 · 24. xs labels/badges, chip and sm tags and small tiles, md
+     buttons, inputs and cards; lg and xl are kept as card aliases (12) so the
+     existing classes follow the scale; 2xl (24) is for large panels. Fully
+     round is only for true circles: dots, rings, progress tracks, counters. */
+  --radius-ts-xs: 4px;
+  --radius-ts-chip: 8px;
   --radius-ts-sm: 8px;
-  --radius-ts-md: 10px;
-  --radius-ts-lg: 14px;
-  --radius-ts-xl: 14px;
+  --radius-ts-md: 12px;
+  --radius-ts-lg: 12px;
+  --radius-ts-xl: 12px;
+  --radius-ts-2xl: 24px;
 
   --shadow-ts-card: var(--ts-shadow-card);
   --shadow-ts-lift: var(--ts-shadow-lift);
@@ -94,7 +96,7 @@
   --teal: var(--ts-primary);
   --teal-dark: var(--ts-primary-deep);
   --teal-pale: var(--ts-primary-tint);
-  /* One orange, shared with Triovate (#F47B20): the logo dot, "Souq", featured.
+  /* One orange, shared with Triovate (#EA7C20): the logo dot, "Souq", featured.
      Defined once as --ts-accent; everything else points at it. */
   --coral: var(--ts-accent);
   --coral-dark: #C8661A;
@@ -108,12 +110,14 @@
   --shadow-sm: 0 8px 24px rgba(6, 29, 36, .07);
   --shadow-lg: 0 28px 80px rgba(6, 29, 36, .14);
   --radius-sm: 8px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-md: 12px;
+  --radius-lg: 12px;
   --container: 1180px;
   /* Mobile parity tokens: use these for new product workspace UI. */
   /* Mobile parity: every value below is the app's light palette. */
   --ts-paper: #E7EDF0;
+  /* The home hero's ground (review, Oct 2026): a lighter paper under the glow. */
+  --ts-hero: #F5F7F7;
   --ts-surface: #FFFFFF;
   --ts-surface-2: #DCE5E9;
   --ts-ink: #0B1B23;
@@ -132,8 +136,8 @@
   --ts-on-primary: #FFFFFF;
   --ts-focus: #0B7F72;
   --ts-focus-ring: #BFE3DD;
-  --ts-accent: #F47B20;
-  /* Text on the orange: dark in both themes (white on #F47B20 is 2.6:1). */
+  --ts-accent: #EA7C20;
+  /* Text on the orange: dark in both themes (white on #EA7C20 is 2.7:1). */
   --ts-on-accent: #0B1B23;
   --ts-accent-deep: #8A4B0A;
   --ts-accent-tint: #F8E4D2;
@@ -143,8 +147,8 @@
   --ts-danger-tint: #F8DED9;
   --ts-slate-tint: #DDE4E7;
   --ts-radius-sm: 8px;
-  --ts-radius-md: 10px;
-  --ts-radius-lg: 14px;
+  --ts-radius-md: 12px;
+  --ts-radius-lg: 12px;
   /* Workspace sizing system: compact, readable, and based on a 4/8px rhythm. */
   --ts-space-025: 2px;
   --ts-space-050: 4px;
@@ -180,6 +184,7 @@
   --attention: #F2C68C;
   /* The app's dark palette. */
   --ts-paper: #070C0E;
+  --ts-hero: #070C0E;
   --ts-surface: #141D21;
   --ts-surface-2: #232E33;
   --ts-ink: #E8EDEE;
@@ -197,7 +202,7 @@
   --ts-on-primary: #04211E;
   --ts-focus: #5CD0BE;
   --ts-focus-ring: #24544E;
-  --ts-accent: #F47B20;
+  --ts-accent: #EA7C20;
   --ts-accent-deep: #EF9748;
   --ts-accent-tint: #3A2E22;
   --ts-success: #3BAE71;
@@ -240,14 +245,16 @@ h1, h2, h3 { color: var(--ink-deep); font-weight: 700; line-height: 1.08; letter
 h1 { font-size: clamp(2.15rem, 7vw, 6.7rem); }
 h2 { font-size: clamp(1.65rem, 4.5vw, 4.2rem); }
 
-.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink-deep); font-size: 20px; font-weight: 700; letter-spacing: 0; }
-.logo[data-inverted] { color: #fff; }
-.logo-mark { display: grid; width: 27px; height: 35px; place-items: center; }
-.logo-mark img { width: 27px; height: 35px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ts-primary); font-size: 20px; font-weight: 700; letter-spacing: 0; }
+.logo[data-inverted] { color: var(--on-surface-strong); }
+.logo-mark { display: grid; width: 36px; height: 36px; flex: none; place-items: center; }
+.logo-mark img { width: 36px; height: 36px; border-radius: var(--radius-ts-sm); }
 .logo-type { display: grid; line-height: 1.05; }
 .logo-word span { color: var(--coral); }
-.logo-sig { margin-top: 2px; color: var(--ts-muted); font-size: 11px; font-weight: 500; line-height: 1.2; letter-spacing: 0; }
-.logo[data-inverted] .logo-sig { color: rgba(255, 255, 255, .72); }
+.logo-sig { width: fit-content; margin-top: 2px; color: var(--ts-muted); font-size: 11px; font-weight: 500; line-height: 1.2; letter-spacing: 0; }
+.logo[data-inverted] .logo-sig { color: var(--on-surface-strong-muted); }
+.logo-sig:hover { color: var(--ts-accent); }
+.logo[data-inverted] .logo-sig:hover { color: var(--ts-accent); }
 /* Where a bar runs out of room, the mark alone carries the brand and the
    wordmark returns as soon as there is space. The link keeps a 44px tap
    height either way — the mark itself is only 30px. */
@@ -453,4 +460,17 @@ html[dir="rtl"] .back-link svg { transform: scaleX(-1); }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
 
+}
+
+/* Page grounds from the review mockups (Oct 2026). The glow stays faint: the
+   content and the orange stops carry the brand, not the decoration. */
+.ts-bg-light {
+  background-color: var(--ts-hero);
+  background-image: radial-gradient(60% 55% at 50% 0%, color-mix(in srgb, var(--ts-primary) 9%, transparent) 0%, transparent 100%);
+}
+.ts-bg-dark {
+  background-color: var(--surface-strong);
+  background-image:
+    radial-gradient(55% 45% at 50% 0%, color-mix(in srgb, var(--ts-primary) 22%, transparent) 0%, transparent 100%),
+    repeating-radial-gradient(circle at 50% -20%, transparent 0 46px, color-mix(in srgb, var(--on-surface-strong) 3%, transparent) 46px 47px);
 }

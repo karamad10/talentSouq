@@ -26,10 +26,11 @@ function initialsFromEmail(email: string) {
 export function PublicHeader({ locale, theme = "light", overlay = false, user = null }: { locale: Locale; theme?: "light" | "dark"; overlay?: boolean; user?: SessionUser | null }) {
   const copy = dictionary[locale].nav;
   const dashboardHref = !webWorkspaceOpen() ? "/download" : user?.role === "employer" ? "/employer" : "/seeker";
-  // No "For employers" entry: it pointed at a home-page anchor, so from any other
-  // route it just dropped you at the top of the home page with nothing to show.
+  // "/#employers" is a full path, so from any route it lands on the home
+  // page's employer section rather than the top of the page.
   const links = [
     { href: "/jobs" as const, label: copy.jobs },
+    { href: "/#employers" as const, label: copy.forEmployers },
     { href: "/companies" as const, label: copy.companies }
   ];
 
@@ -88,10 +89,10 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                 {copy.login}
               </Link>
               <Link
-                className="inline-flex h-11 shrink-0 items-center rounded-ts-md bg-ts-accent px-3.5 text-sm font-semibold whitespace-nowrap text-ts-on-accent transition-transform hover:-translate-y-0.5 min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
+                className="inline-flex h-11 shrink-0 items-center rounded-ts-sm bg-ts-primary px-3.5 text-sm font-semibold whitespace-nowrap text-ts-on-primary transition-colors hover:bg-ts-primary-deep min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
                 href="/auth/login?mode=signup"
               >
-                {locale === "ar" ? "انضم الآن" : "Join now"}
+                {locale === "ar" ? "ابدأ الآن" : "Get started"}
               </Link>
             </>
           )}

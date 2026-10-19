@@ -3,7 +3,9 @@ import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PublicHeader } from "@/components/public-header";
-import { CompanyAvatar, PublicJobCard } from "@/components/public/job-card";
+import { CompanyAvatar, PublicJobCard, companyName, jobTitle } from "@/components/public/job-card";
+import type { PublicJob } from "@/data/public-jobs";
+import type { Locale } from "@/lib/i18n";
 import { JobSearchForm } from "@/components/public/job-search-form";
 import { Container, CtaBand, PublicFooter, SectionHeading } from "@/components/public/public-shell";
 import { StoreBadges } from "@/components/public/store-badges";
@@ -11,7 +13,7 @@ import { listPublicCompanies } from "@/data/public-companies";
 import { listPublicJobs } from "@/data/public-jobs";
 import { getSessionUser } from "@/lib/auth/session";
 import { dictionary } from "@/lib/i18n";
-import { categoryLabel, companiesCount, rolesCount, showVolume } from "@/lib/labels";
+import { categoryLabel, companiesCount, rolesCount, salaryLabel, showVolume } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { Eyebrow, Stopped } from "@/components/brand-stop";
 
@@ -59,15 +61,11 @@ export default async function HomePage() {
 
       {/* Hero: light ground, the photograph framed rather than flooded, and the
           search bar as the single loudest element on the page. */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(70%_100%_at_50%_0%,var(--ts-primary-tint)_0%,transparent_72%)] opacity-70"
-        />
+      <section className="ts-bg-light relative overflow-hidden">
         <Container className="relative grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,5vw,4rem)] min-[1000px]:grid-cols-[1.05fr_0.95fr]">
           <div className="min-w-0">
             <Eyebrow>{copy.hero.eyebrow}</Eyebrow>
-            <h1 className="m-0 mt-5 text-[clamp(2.3rem,5.6vw,4.1rem)] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-ts-ink">
+            <h1 className="m-0 mt-5 text-[clamp(2.3rem,5.6vw,4.1rem)] leading-[1.05] font-bold tracking-[-0.04em] text-balance text-ts-ink">
               <Stopped>{copy.hero.titleStart}</Stopped>
               <br />
               <span className="text-ts-primary">
@@ -106,16 +104,21 @@ export default async function HomePage() {
             ) : null}
           </div>
 
-          {/* Framed photograph. */}
-          <div className="relative aspect-[5/4] w-full min-w-0 overflow-hidden rounded-ts-xl border border-ts-line-soft bg-ts-surface-2 max-[1000px]:order-first min-[1000px]:aspect-[7/8]">
-            <Image
-              className="object-cover"
-              src="/images/talentsouq-hero.webp"
-              alt={arabic ? "مهنيون يتعاونون في بيئة عمل حديثة" : "Professionals collaborating in a contemporary workplace"}
-              fill
-              priority
-              sizes="(max-width: 1000px) 100vw, 46vw"
-            />
+          {/* Framed photograph, with the newest featured role floating on it.
+              The card is a real listing or nothing: no invented job, company,
+              badge or match score. */}
+          <div className="relative w-full min-w-0 max-[1000px]:order-first">
+            <div className="relative aspect-[5/4] w-full overflow-hidden rounded-ts-xl border border-ts-line-soft bg-ts-surface-2 min-[1000px]:aspect-[7/8]">
+              <Image
+                className="object-cover"
+                src="/images/talentsouq-hero.webp"
+                alt={arabic ? "مهنيون يتعاونون في بيئة عمل حديثة" : "Professionals collaborating in a contemporary workplace"}
+                fill
+                priority
+                sizes="(max-width: 1000px) 100vw, 46vw"
+              />
+            </div>
+            {featured[0] ? <HeroJobCard job={featured[0]} locale={locale} /> : null}
           </div>
         </Container>
 
@@ -376,5 +379,31 @@ export default async function HomePage() {
       <CtaBand locale={locale} />
       <PublicFooter locale={locale} />
     </main>
+  );
+}
+
+/** The hero's floating card: one live featured role, linked to its page. */
+function HeroJobCard({ job, locale }: { job: PublicJob; locale: Locale }) {
+  const arabic = locale === "ar";
+  const salary = job.salaryMin || job.salaryMax ? salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale) : null;
+  return (
+    <Link
+      href={`/jobs/${job.id}`}
+      className="absolute inset-x-4 bottom-4 flex flex-col gap-1.5 rounded-ts-md max-[559px]:hidden bg-ts-surface p-4 shadow-ts-lift transition-transform hover:-translate-y-0.5 min-[560px]:inset-x-auto min-[560px]:end-5 min-[560px]:bottom-5 min-[560px]:w-80 min-[1000px]:-start-10 min-[1000px]:end-auto min-[1000px]:bottom-10"
+    >
+      <span className="flex items-center gap-3">
+        <CompanyAvatar name={companyName(job, locale)} logoUrl={job.company.logoUrl} size="sm" />
+        <span className="min-w-0 flex-1">
+          <strong className="block truncate text-[15px] font-semibold text-ts-ink [unicode-bidi:plaintext]">{jobTitle(job, locale)}</strong>
+          <span className="block truncate text-[13px] text-ts-muted">{companyName(job, locale)}</span>
+        </span>
+      </span>
+      {salary ? <span className="text-sm font-semibold text-ts-accent-deep">{salary}</span> : null}
+      {job.easyApply ? (
+        <span className="mt-1 inline-flex h-7 w-fit items-center rounded-ts-chip bg-ts-primary-tint px-2.5 text-[12px] font-semibold text-ts-primary-deep">
+          {arabic ? "تقديم سريع" : "Easy Apply"}
+        </span>
+      ) : null}
+    </Link>
   );
 }
