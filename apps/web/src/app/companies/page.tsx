@@ -4,12 +4,13 @@ import type { Route } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/public-header";
 import { CompanyAvatar } from "@/components/public/job-card";
+import { VerifiedBadge } from "@/components/public/verified-badge";
 import { Container, CtaBand, PublicFooter } from "@/components/public/public-shell";
 import { listPublicCompanies, type PublicCompany } from "@/data/public-companies";
 import { getSessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/cn";
 import type { Locale } from "@/lib/i18n";
-import { categoryLabel, rolesCount } from "@/lib/labels";
+import { categoryLabel, rolesCount, showVolume } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { Eyebrow, Stopped } from "@/components/brand-stop";
 
@@ -38,6 +39,8 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
     .filter((c) => !industry || c.industry === industry);
   const industries = [...new Set(all.map((c) => c.industry).filter((v): v is string => Boolean(v)))];
   const hasFilters = Boolean(q || industry);
+  // Role counts and industry chips wait until the board is big enough not to read as empty.
+  const showCounts = showVolume(all.reduce((sum, c) => sum + c.openRoles, 0));
 
   const facetHref = (value: string) => {
     const search = new URLSearchParams();
@@ -88,7 +91,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
         </Container>
       </section>
 
-      {industries.length > 1 ? (
+      {showCounts && industries.length > 1 ? (
         <section className="z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur min-[900px]:sticky min-[900px]:top-20">
           <Container className="flex flex-col gap-3 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-6">
             <div className="flex min-w-0 items-center gap-2 min-[900px]:flex-wrap">
@@ -124,8 +127,8 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
         <Container>
           {results.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 min-[760px]:grid-cols-2 min-[1100px]:grid-cols-3">
-              {results.map((company) => (
-                <CompanyCard key={company.name} company={company} locale={locale} />
+              {results.map((company, index) => (
+                <CompanyCard key={`${company.name}-${index}`} company={company} locale={locale} showCount={showCounts} />
               ))}
             </div>
           ) : (
@@ -162,7 +165,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
   );
 }
 
-function CompanyCard({ company, locale }: { company: PublicCompany; locale: Locale }) {
+function CompanyCard({ company, locale, showCount }: { company: PublicCompany; locale: Locale; showCount: boolean }) {
   return (
     <article className="group relative flex h-full min-w-0 flex-col gap-5 rounded-ts-lg border border-ts-line bg-ts-surface p-6 transition-all hover:-translate-y-1 hover:border-ts-primary hover:shadow-sm">
       <div className="flex items-start justify-between gap-3">
@@ -170,10 +173,10 @@ function CompanyCard({ company, locale }: { company: PublicCompany; locale: Loca
         <span
           className={cn(
             "inline-flex h-8 items-center rounded-ts-xs px-3 text-[13px] font-semibold",
-            company.openRoles > 0 ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-surface-2 text-ts-muted"
+            company.openRoles > 0 ? "bg-ts-primary-tint text-ts-on-primary-tint" : "bg-ts-surface-2 text-ts-muted"
           )}
         >
-          {rolesCount(company.openRoles, locale)}
+          {showCount ? rolesCount(company.openRoles, locale) : company.openRoles > 0 ? (locale === "ar" ? "يوظّف الآن" : "Hiring") : locale === "ar" ? "لا وظائف مفتوحة" : "No open roles"}
         </span>
       </div>
       <div className="min-w-0">
@@ -186,6 +189,7 @@ function CompanyCard({ company, locale }: { company: PublicCompany; locale: Loca
           <Link href={companyHref(company)} className="after:absolute after:inset-0 group-hover:text-ts-primary-deep">
             {company.name}
           </Link>
+          {company.verified ? <span className="ms-1.5 inline-flex align-middle"><VerifiedBadge locale={locale} size={17} /></span> : null}
         </h3>
         {company.hqLocation ? (
           <p className="m-0 mt-1.5 flex items-center gap-1.5 text-sm text-ts-muted">

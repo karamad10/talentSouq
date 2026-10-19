@@ -9,7 +9,8 @@ const KEYS = [
   "SUPABASE_ANON_KEY",
   "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
   "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-  "TALENTSOUQ_DISABLE_AUTH_GUARDS"
+  "TALENTSOUQ_DISABLE_AUTH_GUARDS",
+  "TALENTSOUQ_WEB_WORKSPACE"
 ];
 
 describe("proxy without a Supabase environment", () => {
@@ -18,7 +19,16 @@ describe("proxy without a Supabase environment", () => {
   });
   afterEach(() => vi.unstubAllEnvs());
 
-  it("keeps the workspace closed and sends the visitor to log in", async () => {
+  it("sends every workspace route to the app page while the web workspace is closed", async () => {
+    for (const path of ["/seeker", "/seeker/profile", "/employer/jobs?tab=open"]) {
+      const res = await proxy(new NextRequest(`https://talentsouq.it.com${path}`));
+      expect(res.status).toBe(307);
+      expect(new URL(res.headers.get("location")!).pathname).toBe("/download");
+    }
+  });
+
+  it("keeps an opened workspace behind log-in", async () => {
+    vi.stubEnv("TALENTSOUQ_WEB_WORKSPACE", "1");
     for (const path of ["/seeker", "/seeker/profile", "/employer/jobs?tab=open"]) {
       const res = await proxy(new NextRequest(`https://talentsouq.it.com${path}`));
       expect(res.status).toBe(307);

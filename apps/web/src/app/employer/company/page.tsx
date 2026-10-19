@@ -36,7 +36,7 @@ export default function CompanyProfilePage() {
       <PageBody>
         {/* Identity card: what a candidate reads first, all editable in place. */}
         <section className="flex flex-wrap items-center gap-6 rounded-ts-xl border border-ts-line-soft bg-ts-surface p-6 shadow-ts-card max-[680px]:p-5">
-          <span aria-hidden="true" className="grid size-18 shrink-0 place-items-center rounded-ts-lg bg-ts-primary-tint text-xl font-bold text-ts-primary-deep">
+          <span aria-hidden="true" className="grid size-18 shrink-0 place-items-center rounded-ts-lg bg-ts-primary-tint text-xl font-bold text-ts-on-primary-tint">
             NC
           </span>
           {/* No company name here: the page title directly above already is it. */}

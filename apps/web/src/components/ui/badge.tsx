@@ -7,7 +7,7 @@ export const badgeVariants = cva("inline-flex h-6 items-center gap-1 rounded-ts-
     tone: {
       neutral: "bg-ts-slate-tint text-ts-muted",
       teal: "bg-teal-pale text-teal",
-      brand: "bg-ts-primary-tint text-ts-primary-deep",
+      brand: "bg-ts-primary-tint text-ts-on-primary-tint",
       success: "bg-ts-success-tint text-ts-success",
       attention: "bg-attention-pale text-attention",
       danger: "bg-ts-danger-tint text-ts-danger",

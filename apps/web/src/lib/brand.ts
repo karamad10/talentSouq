@@ -11,8 +11,11 @@ export const BRAND = {
   name: "TalentSouq",
   nameAr: "تالنت سوق",
   signature: "by Triovate",
+  parentUrl: "https://triovate.ae",
   origin: "https://talentsouq.it.com",
   tagline: { en: "Opportunity meets ambition.", ar: "الفرصة تلتقي بالطموح." },
-  email: { privacy: "privacy@talentsouq.it.com", hello: "hello@talentsouq.it.com" },
+  email: { support: "support@talentsouq.it.com", privacy: "privacy@talentsouq.it.com", hello: "hello@talentsouq.it.com" },
+  /** Confirm both handles once the LinkedIn vanity URL and Instagram account exist. */
+  social: { linkedin: "https://www.linkedin.com/company/talentsouq", instagram: "https://www.instagram.com/talentsouq" },
   cities: "Dubai · Riyadh · Doha · Damascus"
 } as const;

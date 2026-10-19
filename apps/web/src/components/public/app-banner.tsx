@@ -7,9 +7,8 @@ import { appLinks } from "@/lib/app-links";
 import { LOCALE_EVENT } from "@/components/preferences";
 
 const LINKS = appLinks();
-const IOS_URL = LINKS.ios ?? "";
-// Where Play is unavailable (report RPT-2026-014 §9) the direct download page stands in.
-const ANDROID_URL = LINKS.android ?? (LINKS.apk ? "/download" : "");
+const IOS_URL = LINKS.ios;
+const ANDROID_URL = LINKS.android;
 const DISMISSED_KEY = "ts-app-banner-dismissed";
 const DISMISSED_EVENT = "ts-app-banner-dismissed";
 const NARROW = "(max-width: 900px)";
@@ -61,9 +60,7 @@ function subscribe(onChange: () => void) {
  * Offers the native app to phone visitors without taking the web experience away
  * from them: the site stays fully usable, and a dismissal sticks.
  *
- * Renders nothing on the server or on desktop, and nothing at all until
- * NEXT_PUBLIC_IOS_APP_URL / NEXT_PUBLIC_ANDROID_APP_URL are configured — so it
- * stays invisible until the apps actually ship.
+ * Renders nothing on the server or on desktop.
  */
 export function AppBanner() {
   const pathname = usePathname();

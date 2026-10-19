@@ -152,6 +152,24 @@ export function experienceLabel(min: number | null | undefined, max: number | nu
 }
 
 // ── Counts ──────────────────────────────────────────────────────────────────
+/**
+ * Below this many open roles the board is too small for counts or category
+ * chips to help anyone: "3 open roles" reads as an empty market. Every public
+ * surface that shows a number or a function chip checks this first.
+ */
+export const VOLUME_THRESHOLD = 20;
+
+export function showVolume(totalRoles: number): boolean {
+  return totalRoles >= VOLUME_THRESHOLD;
+}
+
+/** A category earns a chip at 3+ roles (never "1 role"), and "Other" is never a chip. */
+export const CHIP_MIN_ROLES = 3;
+
+export function chipCategories<T extends { value: string; count: number }>(facets: T[]): T[] {
+  return facets.filter((f) => f.count >= CHIP_MIN_ROLES && f.value.trim().toLowerCase() !== "other");
+}
+
 export function rolesCount(n: number, locale: Locale): string {
   if (locale === "en") return n === 1 ? "1 open role" : `${n} open roles`;
   if (n === 0) return "لا وظائف مفتوحة";

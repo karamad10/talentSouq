@@ -102,7 +102,7 @@ export default function OffersPage() {
           {interviews.map((interview, index) => (
             <li key={interview.company} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
               <div className="flex flex-wrap items-center gap-4 px-6 py-5 max-[680px]:px-4">
-                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
+                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-on-primary-tint">
                   <Video size={19} />
                 </span>
                 <div className="min-w-0 flex-1">

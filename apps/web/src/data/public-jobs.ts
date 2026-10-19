@@ -29,6 +29,8 @@ type JobCardRow = {
   company_logo_url: string | null;
   company_industry: string | null;
   company_career_slug: string | null;
+  /** Vetted by a TRIOVATE admin (karehan migration 20261019120000_verified_employers). */
+  company_verified?: boolean | null;
 };
 
 /** `public_job` returns the same card plus the detail fields. */
@@ -70,7 +72,7 @@ export type PublicJob = {
   createdAt: string;
   deadline: string | null;
   summary: string;
-  company: { name: string; logoUrl: string | null; industry: string | null; careerSlug: string | null };
+  company: { name: string; logoUrl: string | null; industry: string | null; careerSlug: string | null; verified: boolean };
 };
 
 export type PublicJobDetail = PublicJob & {
@@ -127,7 +129,8 @@ export function toPublicJob(row: JobCardRow): PublicJob {
       name: row.company_name?.trim() || "",
       logoUrl: row.company_logo_url,
       industry: row.company_industry,
-      careerSlug: row.company_career_slug
+      careerSlug: row.company_career_slug,
+      verified: row.company_verified === true
     }
   };
 }

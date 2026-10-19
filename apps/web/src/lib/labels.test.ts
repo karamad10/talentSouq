@@ -9,6 +9,7 @@ import {
   salaryLabel,
   workModeLabel
 } from "./labels";
+import { chipCategories } from "./labels";
 
 // Report RPT-2026-014 §6: the Arabic site showed "Design · Product ·
 // Engineering", the employment type, the work mode and "2h ago" in English.
@@ -116,5 +117,17 @@ describe("salaryLabel", () => {
     expect(salaryLabel(12500, null, "SAR", "ar")).toBe("من SAR 12.5k");
     expect(salaryLabel(null, 900, "USD", "en")).toBe("Up to USD 900");
     expect(salaryLabel(null, 900, "USD", "ar")).toBe("حتى USD 900");
+  });
+});
+
+describe("chipCategories", () => {
+  it("keeps categories with 3+ roles and never shows Other", () => {
+    const facets = [
+      { value: "Design", count: 5 },
+      { value: "Finance", count: 2 },
+      { value: "Other", count: 9 },
+      { value: "Construction", count: 3 }
+    ];
+    expect(chipCategories(facets).map((f) => f.value)).toEqual(["Design", "Construction"]);
   });
 });

@@ -3,19 +3,20 @@ import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PublicHeader } from "@/components/public-header";
-import { CompanyAvatar, PublicJobCard } from "@/components/public/job-card";
+import { CompanyAvatar, PublicJobCard, companyName, jobTitle } from "@/components/public/job-card";
+import type { PublicJob } from "@/data/public-jobs";
+import type { Locale } from "@/lib/i18n";
 import { JobSearchForm } from "@/components/public/job-search-form";
 import { Container, CtaBand, PublicFooter, SectionHeading } from "@/components/public/public-shell";
+import { StoreBadges } from "@/components/public/store-badges";
+import { VerifiedBadge } from "@/components/public/verified-badge";
 import { listPublicCompanies } from "@/data/public-companies";
 import { listPublicJobs } from "@/data/public-jobs";
 import { getSessionUser } from "@/lib/auth/session";
 import { dictionary } from "@/lib/i18n";
-import { categoryLabel, companiesCount, rolesCount } from "@/lib/labels";
+import { categoryLabel, chipCategories, companiesCount, rolesCount, salaryLabel, showVolume } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { Eyebrow, Stopped } from "@/components/brand-stop";
-
-/** Below this the board is too small for a number to be worth showing. */
-const PROOF_THRESHOLD = 20;
 
 /* The public home page runs on a quieter system than the workspace: hairline
    edges, one accent, semibold (never bold) headings, and fluid clamp() rhythm
@@ -40,8 +41,9 @@ export default async function HomePage() {
   // demo jobs and made-up totals). Each section hides itself when it is empty.
   const featured = board.items;
   const hiring = companies.filter((company) => company.openRoles > 0).slice(0, 6);
-  const categories = board.facets.categories;
-  const showCounts = board.total >= PROOF_THRESHOLD;
+  // Counts and function chips only once the board is big enough not to read as empty.
+  const showCounts = showVolume(board.total);
+  const categories = showCounts ? chipCategories(board.facets.categories) : [];
   const proof = showCounts
     ? [rolesCount(board.total, locale), companiesCount(companies.length, locale), copy.proof.response]
     : arabic
@@ -60,15 +62,11 @@ export default async function HomePage() {
 
       {/* Hero: light ground, the photograph framed rather than flooded, and the
           search bar as the single loudest element on the page. */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(70%_100%_at_50%_0%,var(--ts-primary-tint)_0%,transparent_72%)] opacity-70"
-        />
+      <section className="ts-bg-light relative overflow-hidden">
         <Container className="relative grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,5vw,4rem)] min-[1000px]:grid-cols-[1.05fr_0.95fr]">
           <div className="min-w-0">
             <Eyebrow>{copy.hero.eyebrow}</Eyebrow>
-            <h1 className="m-0 mt-5 text-[clamp(2.3rem,5.6vw,4.1rem)] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-ts-ink">
+            <h1 className="m-0 mt-5 text-[clamp(2.3rem,5.6vw,4.1rem)] leading-[1.05] font-bold tracking-[-0.04em] text-balance text-ts-ink">
               <Stopped>{copy.hero.titleStart}</Stopped>
               <br />
               <span className="text-ts-primary">
@@ -89,6 +87,8 @@ export default async function HomePage() {
               </Link>
             </div>
 
+            <StoreBadges locale={locale} className="mt-5" />
+
             {categories.length > 0 ? (
               <div className="mt-7 flex flex-wrap items-baseline gap-x-5 gap-y-2.5">
                 <span className="text-[13px] text-ts-subtle">{arabic ? "الأكثر طلباً" : "Popular"}</span>
@@ -105,30 +105,21 @@ export default async function HomePage() {
             ) : null}
           </div>
 
-          {/* Framed photograph with one quiet product detail resting on it. */}
-          <div className="relative aspect-[5/4] w-full min-w-0 overflow-hidden rounded-ts-xl border border-ts-line-soft bg-ts-surface-2 max-[1000px]:order-first min-[1000px]:aspect-[7/8]">
-            <Image
-              className="object-cover"
-              src="/images/talentsouq-hero.webp"
-              alt={arabic ? "مهنيون يتعاونون في بيئة عمل حديثة" : "Professionals collaborating in a contemporary workplace"}
-              fill
-              priority
-              sizes="(max-width: 1000px) 100vw, 46vw"
-            />
-            <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,27,35,0)_45%,rgba(11,27,35,0.6)_100%)]" />
-            {/* The one product detail in the hero: a caption on the gradient,
-                not a panel — a filled card here reads as a milky slab. */}
-            {/* Illustrative UI, not a claim about a real match: hidden from
-                assistive tech and deliberately without a city or a person. */}
-            <div aria-hidden="true" className="absolute inset-x-5 bottom-5 flex items-center gap-3">
-              <span aria-hidden="true" className="inline-flex h-7 shrink-0 items-center rounded-ts-xs bg-ts-primary px-2.5 text-[12px] font-semibold text-ts-on-primary">
-                92%
-              </span>
-              <span className="min-w-0 [text-shadow:0_1px_12px_rgba(11,27,35,0.55)]">
-                <strong className="block truncate text-sm font-semibold text-white">{arabic ? "مصمم منتجات أول" : "Senior Product Designer"}</strong>
-                <span className="block truncate text-[13px] text-white/75">{arabic ? "توافق قوي" : "Strong match"}</span>
-              </span>
+          {/* Framed photograph, with the newest featured role floating on it.
+              The card is a real listing or nothing: no invented job, company,
+              badge or match score. */}
+          <div className="relative w-full min-w-0 max-[1000px]:order-first">
+            <div className="relative aspect-[5/4] w-full overflow-hidden rounded-ts-xl border border-ts-line-soft bg-ts-surface-2 min-[1000px]:aspect-[7/8]">
+              <Image
+                className="object-cover"
+                src="/images/talentsouq-hero.webp"
+                alt={arabic ? "مهنيون يتعاونون في بيئة عمل حديثة" : "Professionals collaborating in a contemporary workplace"}
+                fill
+                priority
+                sizes="(max-width: 1000px) 100vw, 46vw"
+              />
             </div>
+            {featured[0] ? <HeroJobCard job={featured[0]} locale={locale} /> : null}
           </div>
         </Container>
 
@@ -152,15 +143,15 @@ export default async function HomePage() {
           <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-9">
             <Eyebrow>{arabic ? "يوظفون الآن" : "Hiring right now"}</Eyebrow>
             <div className="-mx-5 flex items-center gap-x-7 gap-y-3 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
-              {hiring.map((company) => (
+              {hiring.map((company, index) => (
                 <Link
-                  key={company.name}
+                  key={`${company.name}-${index}`}
                   href={(company.careerSlug ? `/careers/${company.careerSlug}` : `/jobs?q=${encodeURIComponent(company.name)}`) as Route}
                   className="group inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap"
                 >
                   <CompanyAvatar name={company.name} logoUrl={company.logoUrl} size="sm" />
                   <span className="text-sm font-medium text-ts-ink transition-colors group-hover:text-ts-primary">{company.name}</span>
-                  <span className="text-[13px] text-ts-subtle">{company.openRoles}</span>
+                  {showCounts ? <span className="text-[13px] text-ts-subtle">{company.openRoles}</span> : null}
                 </Link>
               ))}
             </div>
@@ -234,7 +225,7 @@ export default async function HomePage() {
       <section className={sectionPad} id="talent">
         <Container className="grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4.5rem)] min-[1000px]:grid-cols-2">
           <div className="order-2 min-w-0 min-[1000px]:order-1">
-            <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-primary-tint text-ts-primary-deep">
+            <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-primary-tint text-ts-on-primary-tint">
               <UsersRound size={20} aria-hidden="true" />
             </span>
             <Eyebrow className="mt-5">{arabic ? "للباحثين عن عمل" : "For talent"}</Eyebrow>
@@ -247,7 +238,7 @@ export default async function HomePage() {
                 arabic ? "تتبع واضح للطلبات" : "Clear application tracking"
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-[15px] text-ts-ink">
-                  <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-ts-primary-deep">
+                  <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-ts-on-primary-tint">
                     <Check size={12} strokeWidth={2.5} />
                   </span>
                   {item}
@@ -259,46 +250,42 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Profile mock */}
-          <div className="order-1 min-w-0 min-[1000px]:order-2">
+          {/* What the profile looks like, drawn as an empty frame: no invented
+              person, company or match score (only a real profile produces those). */}
+          <div aria-hidden="true" className="order-1 min-w-0 min-[1000px]:order-2">
             <div className="rounded-ts-xl border border-ts-line bg-ts-surface p-6 shadow-ts-card">
               <div className="flex items-center gap-4">
-                <span aria-hidden="true" className="grid size-12 place-items-center rounded-ts-sm bg-[#e8d6d2] text-sm font-semibold text-[#7b453b]">
-                  SA
+                <span className="grid size-12 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
+                  <UsersRound size={20} />
                 </span>
-                <div className="min-w-0 flex-1">
-                  <strong className="block text-[15px] font-semibold text-ts-ink">Sarah Ahmed</strong>
-                  <span className="block text-[13px] text-ts-muted">Senior Product Designer</span>
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                  <span className="block h-3 w-2/5 rounded-ts-xs bg-ts-surface-2" />
+                  <span className="block h-2.5 w-3/5 rounded-ts-xs bg-ts-surface-2" />
                 </div>
-                <span className="inline-flex h-8 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">92%</span>
               </div>
-              <div className="mt-6 flex flex-col gap-2" aria-hidden="true">
+              <div className="mt-6 flex flex-col gap-2">
                 <span className="block h-2 w-full rounded-ts-xs bg-ts-surface-2" />
                 <span className="block h-2 w-3/5 rounded-ts-xs bg-ts-surface-2" />
               </div>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {["Product strategy", "Research", "Design systems"].map((skill) => (
-                  <span key={skill} className="inline-flex h-7 items-center rounded-ts-xs border border-ts-line px-3 text-[13px] text-ts-muted">
-                    {skill}
-                  </span>
+              <ul className="m-0 mt-6 flex list-none flex-col gap-3 border-t border-ts-line-soft p-0 pt-5">
+                {[
+                  { icon: FileText, label: arabic ? "السيرة الذاتية" : "CV" },
+                  { icon: BriefcaseBusiness, label: arabic ? "الخبرة" : "Experience" },
+                  { icon: Search, label: arabic ? "الوظائف المفضلة" : "Roles you want" }
+                ].map(({ icon: Icon, label }) => (
+                  <li key={label} className="flex items-center gap-3 text-[13px] text-ts-muted">
+                    <Icon size={15} className="shrink-0 text-ts-primary" />
+                    <span className="flex-1">{label}</span>
+                    <span className="block h-2 w-16 rounded-ts-xs bg-ts-surface-2" />
+                  </li>
                 ))}
-              </div>
-              <div className="mt-6 flex items-center gap-3 border-t border-ts-line-soft pt-5">
-                <span className="flex-1 text-[13px] text-ts-muted">{arabic ? "قوة الملف" : "Profile strength"}</span>
-                <span aria-hidden="true" className="h-1.5 w-24 overflow-hidden rounded-full bg-ts-surface-2">
-                  <span className="block h-full w-[86%] rounded-full bg-ts-primary" />
-                </span>
-                <strong className="text-[13px] font-semibold text-ts-primary-deep">{arabic ? "ممتاز" : "Excellent"}</strong>
-              </div>
+              </ul>
             </div>
             <div className="mt-4 flex items-center gap-3 rounded-ts-lg border border-ts-line bg-ts-surface px-4 py-3 shadow-ts-card">
-              <span aria-hidden="true" className="grid size-7 place-items-center rounded-ts-sm bg-ts-success-tint text-ts-success">
+              <span className="grid size-7 place-items-center rounded-ts-sm bg-ts-success-tint text-ts-success">
                 <Check size={14} strokeWidth={2.5} />
               </span>
-              <span className="min-w-0">
-                <span className="block text-[13px] text-ts-muted">{arabic ? "تم إرسال الطلب" : "Application sent"}</span>
-                <strong className="block text-sm font-semibold text-ts-ink">Nexa Commerce</strong>
-              </span>
+              <span className="text-sm font-semibold text-ts-ink">{arabic ? "تم إرسال الطلب" : "Application sent"}</span>
             </div>
           </div>
         </Container>
@@ -307,28 +294,26 @@ export default async function HomePage() {
       {/* For employers */}
       <section className={`border-y border-ts-line-soft bg-ts-surface ${sectionPad}`} id="employers">
         <Container className="grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4.5rem)] min-[1000px]:grid-cols-2">
-          {/* Pipeline mock */}
-          <div className="min-w-0">
+          {/* The pipeline's stages, drawn as an empty frame: no invented candidates or scores. */}
+          <div aria-hidden="true" className="min-w-0">
             <div className="rounded-ts-xl border border-ts-line bg-ts-paper p-6 shadow-ts-card">
-              <div className="flex items-center justify-between gap-3 border-b border-ts-line-soft pb-4">
-                <strong className="text-[15px] font-semibold text-ts-ink">Product Designer</strong>
-                <span className="text-[13px] text-ts-muted">24 {arabic ? "متقدم" : "applicants"}</span>
+              <div className="flex items-center gap-3 border-b border-ts-line-soft pb-4">
+                <BriefcaseBusiness size={17} className="shrink-0 text-ts-accent-deep" />
+                <span className="block h-3 w-2/5 rounded-ts-xs bg-ts-surface-2" />
               </div>
               <ul className="m-0 flex list-none flex-col p-0">
                 {[
-                  { initials: "MA", name: "Maya Alami", stage: arabic ? "طلب جديد" : "New applicant", score: "95%", tone: "bg-[#e6f4f1] text-[#0B5A51]" },
-                  { initials: "LK", name: "Liam Khan", stage: arabic ? "قائمة مختصرة" : "Shortlisted", score: "91%", tone: "bg-[#fdf0e4] text-[#8A4B0A]" },
-                  { initials: "NO", name: "Noor Omar", stage: arabic ? "مقابلة" : "Interview", score: "88%", tone: "bg-[#ecebf7] text-[#464396]" }
-                ].map((row) => (
-                  <li key={row.name} className="flex items-center gap-3.5 border-b border-ts-line-soft py-4 last:border-b-0">
-                    <span aria-hidden="true" className={`grid size-9 shrink-0 place-items-center rounded-ts-sm text-[12px] font-semibold ${row.tone}`}>
-                      {row.initials}
+                  arabic ? "طلب جديد" : "New applicant",
+                  arabic ? "قائمة مختصرة" : "Shortlisted",
+                  arabic ? "مقابلة" : "Interview",
+                  arabic ? "عرض" : "Offer"
+                ].map((stage) => (
+                  <li key={stage} className="flex items-center gap-3.5 border-b border-ts-line-soft py-4 last:border-b-0">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
+                      <UsersRound size={16} />
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <strong className="block truncate text-sm font-semibold text-ts-ink">{row.name}</strong>
-                      <span className="block text-[13px] text-ts-muted">{row.stage}</span>
-                    </span>
-                    <span className="text-[13px] font-semibold text-ts-primary-deep">{row.score}</span>
+                    <span className="block h-2.5 min-w-0 flex-1 rounded-ts-xs bg-ts-surface-2" />
+                    <span className="shrink-0 text-[13px] font-medium text-ts-muted">{stage}</span>
                   </li>
                 ))}
               </ul>
@@ -395,5 +380,34 @@ export default async function HomePage() {
       <CtaBand locale={locale} />
       <PublicFooter locale={locale} />
     </main>
+  );
+}
+
+/** The hero's floating card: one live featured role, linked to its page. */
+function HeroJobCard({ job, locale }: { job: PublicJob; locale: Locale }) {
+  const arabic = locale === "ar";
+  const salary = job.salaryMin || job.salaryMax ? salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale) : null;
+  return (
+    <Link
+      href={`/jobs/${job.id}`}
+      className="absolute inset-x-4 bottom-4 flex flex-col gap-1.5 rounded-ts-md max-[559px]:hidden bg-ts-surface p-4 shadow-ts-lift transition-transform hover:-translate-y-0.5 min-[560px]:inset-x-auto min-[560px]:end-5 min-[560px]:bottom-5 min-[560px]:w-80 min-[1000px]:-start-10 min-[1000px]:end-auto min-[1000px]:bottom-10"
+    >
+      <span className="flex items-center gap-3">
+        <CompanyAvatar name={companyName(job, locale)} logoUrl={job.company.logoUrl} size="sm" />
+        <span className="min-w-0 flex-1">
+          <strong className="block truncate text-[15px] font-semibold text-ts-ink [unicode-bidi:plaintext]">{jobTitle(job, locale)}</strong>
+          <span className="flex items-center gap-1 text-[13px] text-ts-muted">
+            <span className="min-w-0 truncate">{companyName(job, locale)}</span>
+            {job.company.verified ? <VerifiedBadge locale={locale} size={13} /> : null}
+          </span>
+        </span>
+      </span>
+      {salary ? <span className="text-sm font-semibold text-ts-accent-deep">{salary}</span> : null}
+      {job.easyApply ? (
+        <span className="mt-1 inline-flex h-7 w-fit items-center rounded-ts-chip bg-ts-primary-tint px-2.5 text-[12px] font-semibold text-ts-on-primary-tint">
+          {arabic ? "تقديم سريع" : "Easy Apply"}
+        </span>
+      ) : null}
+    </Link>
   );
 }

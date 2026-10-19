@@ -41,8 +41,8 @@ const KIND_LABEL: Record<NotificationKind, string> = {
 
 const KIND_TONE: Record<NotificationKind, string> = {
   application: "bg-ts-slate-tint text-ts-muted",
-  message: "bg-ts-primary-tint text-ts-primary",
-  alert: "bg-ts-primary-tint text-ts-primary",
+  message: "bg-ts-primary-tint text-ts-on-primary-tint",
+  alert: "bg-ts-primary-tint text-ts-on-primary-tint",
   profile: "bg-ts-slate-tint text-ts-muted",
   interview: "bg-ts-accent-tint text-ts-accent-deep",
   offer: "bg-ts-success-tint text-ts-success",
@@ -168,7 +168,7 @@ function FilterChip({ active, onClick, label, count }: { active: boolean; onClic
       aria-pressed={active}
       className={cn(
         "inline-flex h-10 items-center gap-2 rounded-ts-chip px-4 text-sm font-semibold transition-colors",
-        active ? "bg-ts-primary-tint text-ts-primary-deep" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
+        active ? "bg-ts-primary-tint text-ts-on-primary-tint" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
       )}
     >
       {label}

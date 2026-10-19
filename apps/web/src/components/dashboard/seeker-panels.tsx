@@ -78,7 +78,7 @@ export function PrioritySpotlight() {
                 aria-hidden="true"
                 className={cn(
                   "mt-0.5 grid size-9 shrink-0 place-items-center rounded-ts-sm",
-                  item.tone === "success" ? "bg-ts-success-tint text-ts-success" : "bg-ts-primary-tint text-ts-primary"
+                  item.tone === "success" ? "bg-ts-success-tint text-ts-success" : "bg-ts-primary-tint text-ts-on-primary-tint"
                 )}
               >
                 {item.tone === "success" ? <CircleCheck size={18} /> : <Bell size={18} />}
@@ -122,7 +122,7 @@ export function MatchesPanel({ className }: { className?: string }) {
                   {match.company} · {match.location}
                 </span>
               </span>
-              <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-sm font-semibold text-ts-primary-deep">{match.score}%</span>
+              <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-sm font-semibold text-ts-on-primary-tint">{match.score}%</span>
             </Link>
           </li>
         ))}
@@ -148,7 +148,7 @@ export function MessagesPanel({ className }: { className?: string }) {
         {seekerSummary.messages.map((message, index) => (
           <li key={message.subject} className={cn("flex flex-1", index > 0 && "border-t border-ts-line-soft")}>
             <Link href="/seeker/messages" className="group flex w-full items-center gap-3.5 px-6 py-4 transition-colors hover:bg-ts-primary-tint/40 max-[680px]:px-4">
-              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
+              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-sm font-bold text-ts-on-primary-tint">
                 {monogram(message.from)}
               </span>
               <span className="min-w-0 flex-1">
@@ -191,7 +191,7 @@ export function AlertsPanel({ className }: { className?: string }) {
                 <span className="block truncate text-[15px] font-bold text-ts-ink group-hover:text-ts-primary-deep">{search.name}</span>
                 <span className="block text-[13px] text-ts-muted">{search.count} roles tracked</span>
               </span>
-              <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-primary-deep">{search.trend}</span>
+              <span className="inline-flex h-8 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-3 text-[13px] font-semibold text-ts-on-primary-tint">{search.trend}</span>
             </Link>
           </li>
         ))}
@@ -321,7 +321,7 @@ export function QuickActionsPanel({ className }: { className?: string }) {
             href={href}
             className="group flex items-center gap-4 rounded-ts-md border border-ts-line-soft p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/40 max-[520px]:flex-col max-[520px]:items-start max-[520px]:gap-3 min-[1560px]:flex-col min-[1560px]:items-start min-[1560px]:gap-3.5"
           >
-            <span className="grid size-12 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
+            <span className="grid size-12 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-on-primary-tint">
               <Icon size={22} aria-hidden="true" />
             </span>
             <span className="min-w-0">

@@ -36,6 +36,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  // Browser chrome colour can't read CSS variables: these mirror --ts-paper (light / dark).
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#E7EDF0" },
     { media: "(prefers-color-scheme: dark)", color: "#070C0E" }

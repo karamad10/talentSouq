@@ -16,7 +16,7 @@ function MatchPill({ score }: { score: number }) {
     <span
       className={cn(
         "inline-flex h-7 shrink-0 items-center rounded-ts-xs px-2.5 text-[13px] font-semibold",
-        strong ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-slate-tint text-ts-muted"
+        strong ? "bg-ts-primary-tint text-ts-on-primary-tint" : "bg-ts-slate-tint text-ts-muted"
       )}
       title={`${score}% match with your profile`}
     >
@@ -35,8 +35,7 @@ export function JobRow({ job }: { job: Job }) {
       <div className="group relative flex items-center gap-4 px-6 py-4 transition-colors hover:bg-ts-primary-tint/30 max-[680px]:flex-wrap max-[680px]:px-4">
         <span
           aria-hidden="true"
-          className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-[#0B1B23]/80"
-          style={{ backgroundColor: job.accent }}
+          className="grid size-12 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-sm font-bold text-ts-on-primary-tint"
         >
           {job.initials}
         </span>
@@ -114,7 +113,7 @@ export function JobStrip({ jobs: rows }: { jobs: Job[] }) {
         <li key={job.id} className="min-w-70 flex-1 snap-start">
           <article className="group relative flex h-full flex-col gap-3 rounded-ts-md border border-ts-line-soft bg-ts-surface p-4 transition-colors hover:border-ts-primary hover:bg-ts-primary-tint/30">
             <div className="flex items-start justify-between gap-3">
-              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md text-sm font-bold text-[#0B1B23]/80" style={{ backgroundColor: job.accent }}>
+              <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-md text-sm font-bold bg-ts-primary-tint text-ts-on-primary-tint">
                 {job.initials}
               </span>
               <MatchPill score={job.matchScore} />

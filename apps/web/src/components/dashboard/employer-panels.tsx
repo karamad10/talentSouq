@@ -48,7 +48,7 @@ export function EmployerSpotlight() {
               href={task.href}
               className="group flex items-center gap-3 rounded-ts-md bg-ts-surface px-4 py-3.5 transition-colors hover:bg-ts-surface-2 max-[560px]:flex-wrap"
             >
-              <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-primary">
+              <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-ts-on-primary-tint">
                 <Sparkles size={16} />
               </span>
               <span className="min-w-0 flex-1">
@@ -165,7 +165,7 @@ export function SavedSearchesPanel({ className }: { className?: string }) {
                 <Search size={14} />
               </span>
               <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ts-ink group-hover:text-ts-primary-deep">{saved.name}</span>
-              <span className="inline-flex h-6 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-2.5 text-xs font-semibold text-ts-primary-deep">
+              <span className="inline-flex h-6 shrink-0 items-center rounded-ts-xs bg-ts-primary-tint px-2.5 text-xs font-semibold text-ts-on-primary-tint">
                 +{saved.fresh}
               </span>
             </Link>

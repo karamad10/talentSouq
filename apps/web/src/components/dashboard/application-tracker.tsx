@@ -123,7 +123,7 @@ export function ApplicationsTable({ rows }: { rows: ApplicationRow[] }) {
                       <span className="flex items-center gap-3.5">
                         <span
                           aria-hidden="true"
-                          className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-sm font-bold text-ts-primary-deep"
+                          className="grid size-11 shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint text-sm font-bold text-ts-on-primary-tint"
                         >
                           {monogram(row.company)}
                         </span>

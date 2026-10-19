@@ -147,7 +147,7 @@ export function MessagesWorkspace({
                   row.id === active.id ? "bg-ts-primary-tint/60" : "hover:bg-ts-surface-2"
                 )}
               >
-                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-sm font-bold text-ts-primary-deep">
+                <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-sm font-bold text-ts-on-primary-tint">
                   {initials(row.name)}
                 </span>
                 <span className="min-w-0 flex-1">
