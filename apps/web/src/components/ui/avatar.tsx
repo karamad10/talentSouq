@@ -11,7 +11,7 @@ const avatarVariants = cva("grid shrink-0 place-items-center rounded-ts-md font-
       lg: "size-17 rounded-ts-lg text-lg"
     },
     tone: {
-      teal: "bg-ts-primary-tint text-ts-primary-deep",
+      teal: "bg-ts-primary-tint text-ts-on-primary-tint",
       coral: "bg-ts-accent-tint text-ts-accent-deep",
       blue: "bg-ts-slate-tint text-ts-ink",
       purple: "bg-ts-surface-2 text-ts-muted",

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { PublicJob } from "@/data/public-jobs";
 import type { Locale } from "@/lib/i18n";
 import { employmentTypeLabel, postedLabel, salaryLabel, workModeLabel } from "@/lib/labels";
+import { VerifiedBadge } from "@/components/public/verified-badge";
 
 const ACCENTS = ["#e6f4f1", "#fdf1e6", "#eceff5", "#e6f2eb", "#f1f4f6"];
 
@@ -60,7 +61,10 @@ export function PublicJobCard({ job, locale = "en" }: { job: PublicJob; locale?:
       </div>
 
       <div className="min-w-0">
-        <p className="m-0 text-[13px] font-semibold text-ts-primary-deep">{name}</p>
+        <p className="m-0 flex items-center gap-1.5 text-[13px] font-semibold text-ts-primary-deep">
+          <span className="min-w-0 truncate">{name}</span>
+          {job.company.verified ? <VerifiedBadge locale={locale} size={14} /> : null}
+        </p>
         <h3 className="m-0 mt-1.5 text-[17px] leading-snug [unicode-bidi:plaintext] font-semibold tracking-[-0.02em] text-ts-ink min-[560px]:text-[19px]">
           <Link href={`/jobs/${job.id}`} className="after:absolute after:inset-0 group-hover:text-ts-primary-deep">
             {jobTitle(job, locale)}
@@ -82,7 +86,8 @@ export function PublicJobCard({ job, locale = "en" }: { job: PublicJob; locale?:
             <span aria-hidden="true" className="h-3 w-px bg-ts-line-soft" />
           </>
         ) : null}
-        <span>{salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale)}</span>
+        {/* A data callout: accent-deep, the text-safe orange. */}
+        <span className="font-semibold text-ts-accent-deep">{salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale)}</span>
         {job.easyApply ? (
           <span className="inline-flex items-center gap-1.5 font-medium text-ts-accent-deep">
             <Zap size={13} aria-hidden="true" /> {arabic ? "تقديم سريع" : "Easy Apply"}

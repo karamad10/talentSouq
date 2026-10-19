@@ -117,7 +117,7 @@ export default function CompanionPage() {
               <li key={job.id} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
                 <div className="group relative flex flex-col gap-3 px-6 py-5 transition-colors hover:bg-ts-primary-tint/30 max-[680px]:px-4">
                   <div className="flex items-center gap-4">
-                    <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold bg-ts-primary-tint text-ts-primary-deep">
+                    <span aria-hidden="true" className="grid size-12 shrink-0 place-items-center rounded-ts-md text-sm font-bold bg-ts-primary-tint text-ts-on-primary-tint">
                       {job.initials}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -131,7 +131,7 @@ export default function CompanionPage() {
                     <span
                       className={cn(
                         "inline-flex h-8 shrink-0 items-center rounded-ts-xs px-3 text-sm font-semibold",
-                        job.matchScore >= 85 ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-slate-tint text-ts-muted"
+                        job.matchScore >= 85 ? "bg-ts-primary-tint text-ts-on-primary-tint" : "bg-ts-slate-tint text-ts-muted"
                       )}
                     >
                       {job.matchScore}%
@@ -208,7 +208,7 @@ export default function CompanionPage() {
             {activity.map((entry, index) => (
               <li key={entry.title} className={index > 0 ? "border-t border-ts-line-soft" : undefined}>
                 <div className="flex items-start gap-3.5 px-6 py-4 max-[680px]:px-4">
-                  <span aria-hidden="true" className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary">
+                  <span aria-hidden="true" className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
                     <Sparkles size={15} />
                   </span>
                   <span className="min-w-0 flex-1">

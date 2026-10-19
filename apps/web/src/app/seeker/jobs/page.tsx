@@ -177,7 +177,7 @@ export default async function SeekerJobsPage({ searchParams }: { searchParams: P
           open={activeFilterCount > 0}
           summary={
             <>
-              <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary">
+              <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
                 <SlidersHorizontal size={17} aria-hidden="true" />
               </span>
               <span className="min-w-0 flex-1">

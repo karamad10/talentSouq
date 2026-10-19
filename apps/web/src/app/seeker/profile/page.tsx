@@ -45,7 +45,7 @@ export default function SeekerProfilePage() {
         <div className="flex flex-wrap items-center gap-5 p-6 max-[680px]:p-4">
           <span
             aria-hidden="true"
-            className="grid size-18 shrink-0 place-items-center rounded-ts-lg bg-ts-primary-tint text-xl font-bold tracking-[-0.02em] text-ts-primary-deep ring-4 ring-ts-surface outline outline-1 outline-ts-line-soft"
+            className="grid size-18 shrink-0 place-items-center rounded-ts-lg bg-ts-primary-tint text-xl font-bold tracking-[-0.02em] text-ts-on-primary-tint ring-4 ring-ts-surface outline outline-1 outline-ts-line-soft"
           >
             {initialsOf(seekerSummary.name)}
           </span>

@@ -297,7 +297,7 @@ export function EditableChips({ storageKey, defaultItems, addLabel }: { storageK
   return (
     <div className="flex flex-wrap items-center gap-2">
       {items.map((item) => (
-        <span key={item} className="inline-flex h-9 items-center gap-1.5 rounded-ts-chip bg-ts-primary-tint ps-3.5 pe-1.5 text-[13px] font-semibold text-ts-primary-deep">
+        <span key={item} className="inline-flex h-9 items-center gap-1.5 rounded-ts-chip bg-ts-primary-tint ps-3.5 pe-1.5 text-[13px] font-semibold text-ts-on-primary-tint">
           {item}
           <button
             type="button"

@@ -14,7 +14,7 @@ export function Tabs({ items, ariaLabel, className }: { items: TabItem[]; ariaLa
           aria-current={item.current ? "page" : undefined}
           className={cn(
             "inline-flex h-10 items-center gap-2 rounded-ts-chip px-4 text-sm font-semibold transition-colors",
-            item.current ? "bg-ts-primary-tint text-ts-primary-deep" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
+            item.current ? "bg-ts-primary-tint text-ts-on-primary-tint" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
           )}
         >
           {item.label}

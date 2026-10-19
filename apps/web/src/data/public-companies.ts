@@ -10,6 +10,7 @@ type CompanyRow = {
   summary: string | null;
   career_page_slug: string | null;
   is_featured_employer: boolean;
+  verified?: boolean | null;
   open_roles: number;
 };
 
@@ -22,6 +23,8 @@ export type PublicCompany = {
   summary: string | null;
   careerSlug: string | null;
   featured: boolean;
+  /** Vetted by a TRIOVATE admin; the badge shows only when true. */
+  verified: boolean;
   openRoles: number;
 };
 
@@ -37,6 +40,7 @@ export async function listPublicCompanies(): Promise<PublicCompany[]> {
     summary: r.summary,
     careerSlug: r.career_page_slug,
     featured: r.is_featured_employer,
+    verified: r.verified === true,
     openRoles: r.open_roles ?? 0
   }));
 }

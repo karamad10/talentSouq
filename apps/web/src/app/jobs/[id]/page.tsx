@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { PublicHeader } from "@/components/public-header";
 import { CompanyAvatar, PublicJobCard, companyName, jobTitle } from "@/components/public/job-card";
 import { Container, CtaBand, PublicFooter } from "@/components/public/public-shell";
+import { VerifiedBadge } from "@/components/public/verified-badge";
 import { getPublicJob, listPublicJobs, type PublicJobDetail } from "@/data/public-jobs";
 import { authRedirectPath } from "@/lib/auth/redirects";
 import { getSessionUser } from "@/lib/auth/session";
@@ -78,9 +79,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           <div className="mt-8 flex flex-wrap items-start gap-6">
             <CompanyAvatar name={name} logoUrl={job.company.logoUrl} size="lg" />
             <div className="min-w-0 flex-1 min-[560px]:min-w-70">
-              <Link href={companyHref} className="text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
-                {name}
-              </Link>
+              <span className="inline-flex items-center gap-1.5">
+                <Link href={companyHref} className="text-[13px] font-bold text-ts-primary hover:text-ts-primary-deep">
+                  {name}
+                </Link>
+                {job.company.verified ? <VerifiedBadge locale={locale} /> : null}
+              </span>
               <h1 className="m-0 mt-2 text-[clamp(2rem,3.8vw,3rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">{title}</h1>
               <p className="m-0 mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[15px] text-ts-muted">
                 {job.location ? (
@@ -95,7 +99,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 {job.category ? <span>{categoryLabel(job.category, locale)}</span> : null}
               </p>
               <div className="mt-5 flex flex-wrap items-center gap-2">
-                <span className="inline-flex h-9 items-center rounded-ts-chip bg-ts-primary-tint px-4 text-[13px] font-semibold text-ts-primary-deep">
+                <span className="inline-flex h-9 items-center rounded-ts-chip bg-ts-accent-tint px-4 text-[13px] font-semibold text-ts-accent-deep">
                   {salaryLabel(job.salaryMin, job.salaryMax, job.currency, locale)}
                 </span>
                 {job.easyApply ? (

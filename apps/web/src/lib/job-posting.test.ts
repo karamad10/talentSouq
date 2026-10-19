@@ -19,7 +19,7 @@ const job: PublicJobDetail = {
   createdAt: "2026-10-01T09:00:00Z",
   deadline: "2026-11-30",
   summary: "Own the monthly close.",
-  company: { name: "Acme Trading", logoUrl: null, industry: null, careerSlug: "acme" },
+  company: { name: "Acme Trading", logoUrl: null, industry: null, careerSlug: "acme", verified: false },
   description: "Lead a team of four.\n<b>No HTML</b>",
   descriptionAr: null,
   skills: ["IFRS", "SAP"],

@@ -9,11 +9,12 @@ import type { Locale } from "@/lib/i18n";
 import { JobSearchForm } from "@/components/public/job-search-form";
 import { Container, CtaBand, PublicFooter, SectionHeading } from "@/components/public/public-shell";
 import { StoreBadges } from "@/components/public/store-badges";
+import { VerifiedBadge } from "@/components/public/verified-badge";
 import { listPublicCompanies } from "@/data/public-companies";
 import { listPublicJobs } from "@/data/public-jobs";
 import { getSessionUser } from "@/lib/auth/session";
 import { dictionary } from "@/lib/i18n";
-import { categoryLabel, companiesCount, rolesCount, salaryLabel, showVolume } from "@/lib/labels";
+import { categoryLabel, chipCategories, companiesCount, rolesCount, salaryLabel, showVolume } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { Eyebrow, Stopped } from "@/components/brand-stop";
 
@@ -42,7 +43,7 @@ export default async function HomePage() {
   const hiring = companies.filter((company) => company.openRoles > 0).slice(0, 6);
   // Counts and function chips only once the board is big enough not to read as empty.
   const showCounts = showVolume(board.total);
-  const categories = showCounts ? board.facets.categories : [];
+  const categories = showCounts ? chipCategories(board.facets.categories) : [];
   const proof = showCounts
     ? [rolesCount(board.total, locale), companiesCount(companies.length, locale), copy.proof.response]
     : arabic
@@ -224,7 +225,7 @@ export default async function HomePage() {
       <section className={sectionPad} id="talent">
         <Container className="grid grid-cols-1 items-center gap-[clamp(2.5rem,5vw,4.5rem)] min-[1000px]:grid-cols-2">
           <div className="order-2 min-w-0 min-[1000px]:order-1">
-            <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-primary-tint text-ts-primary-deep">
+            <span className="grid size-11 place-items-center rounded-ts-md border border-ts-line-soft bg-ts-primary-tint text-ts-on-primary-tint">
               <UsersRound size={20} aria-hidden="true" />
             </span>
             <Eyebrow className="mt-5">{arabic ? "للباحثين عن عمل" : "For talent"}</Eyebrow>
@@ -237,7 +238,7 @@ export default async function HomePage() {
                 arabic ? "تتبع واضح للطلبات" : "Clear application tracking"
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-[15px] text-ts-ink">
-                  <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-ts-primary-deep">
+                  <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-ts-on-primary-tint">
                     <Check size={12} strokeWidth={2.5} />
                   </span>
                   {item}
@@ -254,7 +255,7 @@ export default async function HomePage() {
           <div aria-hidden="true" className="order-1 min-w-0 min-[1000px]:order-2">
             <div className="rounded-ts-xl border border-ts-line bg-ts-surface p-6 shadow-ts-card">
               <div className="flex items-center gap-4">
-                <span className="grid size-12 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary-deep">
+                <span className="grid size-12 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
                   <UsersRound size={20} />
                 </span>
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -308,7 +309,7 @@ export default async function HomePage() {
                   arabic ? "عرض" : "Offer"
                 ].map((stage) => (
                   <li key={stage} className="flex items-center gap-3.5 border-b border-ts-line-soft py-4 last:border-b-0">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-primary-deep">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
                       <UsersRound size={16} />
                     </span>
                     <span className="block h-2.5 min-w-0 flex-1 rounded-ts-xs bg-ts-surface-2" />
@@ -395,12 +396,15 @@ function HeroJobCard({ job, locale }: { job: PublicJob; locale: Locale }) {
         <CompanyAvatar name={companyName(job, locale)} logoUrl={job.company.logoUrl} size="sm" />
         <span className="min-w-0 flex-1">
           <strong className="block truncate text-[15px] font-semibold text-ts-ink [unicode-bidi:plaintext]">{jobTitle(job, locale)}</strong>
-          <span className="block truncate text-[13px] text-ts-muted">{companyName(job, locale)}</span>
+          <span className="flex items-center gap-1 text-[13px] text-ts-muted">
+            <span className="min-w-0 truncate">{companyName(job, locale)}</span>
+            {job.company.verified ? <VerifiedBadge locale={locale} size={13} /> : null}
+          </span>
         </span>
       </span>
       {salary ? <span className="text-sm font-semibold text-ts-accent-deep">{salary}</span> : null}
       {job.easyApply ? (
-        <span className="mt-1 inline-flex h-7 w-fit items-center rounded-ts-chip bg-ts-primary-tint px-2.5 text-[12px] font-semibold text-ts-primary-deep">
+        <span className="mt-1 inline-flex h-7 w-fit items-center rounded-ts-chip bg-ts-primary-tint px-2.5 text-[12px] font-semibold text-ts-on-primary-tint">
           {arabic ? "تقديم سريع" : "Easy Apply"}
         </span>
       ) : null}

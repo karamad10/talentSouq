@@ -48,6 +48,7 @@
   --color-ts-primary: var(--ts-primary);
   --color-ts-primary-deep: var(--ts-primary-deep);
   --color-ts-primary-tint: var(--ts-primary-tint);
+  --color-ts-on-primary-tint: var(--ts-on-primary-tint);
   --color-ts-accent: var(--ts-accent);
   --color-ts-accent-deep: var(--ts-accent-deep);
   --color-ts-accent-tint: var(--ts-accent-tint);
@@ -133,6 +134,7 @@
   --ts-primary: #0E6E63;
   --ts-primary-deep: #0B5A51;
   --ts-primary-tint: #D3E8E3;
+  --ts-on-primary-tint: #0B5A51;
   --ts-on-primary: #FFFFFF;
   --ts-focus: #0B7F72;
   --ts-focus-ring: #BFE3DD;
@@ -184,7 +186,7 @@
   --attention: #F2C68C;
   /* The app's dark palette. */
   --ts-paper: #070C0E;
-  --ts-hero: #070C0E;
+  --ts-hero: #0B1B23;
   --ts-surface: #141D21;
   --ts-surface-2: #232E33;
   --ts-ink: #E8EDEE;
@@ -197,7 +199,9 @@
   --ts-shadow-lift: 0 6px 20px rgba(0, 0, 0, .4);
   --ts-primary: #33AC9C;
   --ts-primary-deep: #48BCAB;
-  --ts-primary-tint: #1B3532;
+  /* Tints are surfaces, never text: text on this one is ink (--ts-on-primary-tint). */
+  --ts-primary-tint: #3A4A46;
+  --ts-on-primary-tint: #E8EDEE;
   /* Dark text on the dark-theme green, as in the app: white on #33AC9C is 2.6:1. */
   --ts-on-primary: #04211E;
   --ts-focus: #5CD0BE;

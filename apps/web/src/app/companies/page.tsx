@@ -4,6 +4,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/public-header";
 import { CompanyAvatar } from "@/components/public/job-card";
+import { VerifiedBadge } from "@/components/public/verified-badge";
 import { Container, CtaBand, PublicFooter } from "@/components/public/public-shell";
 import { listPublicCompanies, type PublicCompany } from "@/data/public-companies";
 import { getSessionUser } from "@/lib/auth/session";
@@ -172,7 +173,7 @@ function CompanyCard({ company, locale, showCount }: { company: PublicCompany; l
         <span
           className={cn(
             "inline-flex h-8 items-center rounded-ts-xs px-3 text-[13px] font-semibold",
-            company.openRoles > 0 ? "bg-ts-primary-tint text-ts-primary-deep" : "bg-ts-surface-2 text-ts-muted"
+            company.openRoles > 0 ? "bg-ts-primary-tint text-ts-on-primary-tint" : "bg-ts-surface-2 text-ts-muted"
           )}
         >
           {showCount ? rolesCount(company.openRoles, locale) : company.openRoles > 0 ? (locale === "ar" ? "يوظّف الآن" : "Hiring") : locale === "ar" ? "لا وظائف مفتوحة" : "No open roles"}
@@ -188,6 +189,7 @@ function CompanyCard({ company, locale, showCount }: { company: PublicCompany; l
           <Link href={companyHref(company)} className="after:absolute after:inset-0 group-hover:text-ts-primary-deep">
             {company.name}
           </Link>
+          {company.verified ? <span className="ms-1.5 inline-flex align-middle"><VerifiedBadge locale={locale} size={17} /></span> : null}
         </h3>
         {company.hqLocation ? (
           <p className="m-0 mt-1.5 flex items-center gap-1.5 text-sm text-ts-muted">

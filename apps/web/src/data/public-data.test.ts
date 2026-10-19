@@ -65,7 +65,7 @@ describe("listPublicJobs", () => {
       workMode: "on_site",
       employmentType: "full_time",
       easyApply: true,
-      company: { name: "Acme", careerSlug: "acme" }
+      company: { name: "Acme", careerSlug: "acme", verified: false }
     });
     expect(board.facets.categories).toEqual([{ value: "Finance", count: 1 }]);
     const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
@@ -117,9 +117,9 @@ describe("getPublicJob", () => {
 
 describe("listPublicCompanies and getCareerPage", () => {
   it("maps companies, and is empty on failure", async () => {
-    vi.stubGlobal("fetch", vi.fn(() => ok([{ name: "Acme", logo_url: null, industry: "Finance", size: null, hq_location: "Dubai", summary: null, career_page_slug: "acme", is_featured_employer: false, open_roles: 3 }])));
+    vi.stubGlobal("fetch", vi.fn(() => ok([{ name: "Acme", logo_url: null, industry: "Finance", size: null, hq_location: "Dubai", summary: null, career_page_slug: "acme", is_featured_employer: false, verified: true, open_roles: 3 }])));
     expect(await listPublicCompanies()).toEqual([
-      { name: "Acme", logoUrl: null, industry: "Finance", size: null, hqLocation: "Dubai", summary: null, careerSlug: "acme", featured: false, openRoles: 3 }
+      { name: "Acme", logoUrl: null, industry: "Finance", size: null, hqLocation: "Dubai", summary: null, careerSlug: "acme", featured: false, verified: true, openRoles: 3 }
     ]);
     vi.stubGlobal("fetch", vi.fn(() => Promise.reject(new Error("offline"))));
     expect(await listPublicCompanies()).toEqual([]);

@@ -9,7 +9,7 @@ import { Container, CtaBand, PublicFooter } from "@/components/public/public-she
 import { listPublicJobs, type Facet } from "@/data/public-jobs";
 import { getSessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/cn";
-import { categoryLabel, employmentTypeLabel, rolesCount, showVolume, workModeLabel } from "@/lib/labels";
+import { categoryLabel, chipCategories, employmentTypeLabel, rolesCount, showVolume, workModeLabel } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { Eyebrow, Stopped } from "@/components/brand-stop";
 
@@ -89,7 +89,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
       {showFacets && (board.facets.categories.length || board.facets.workModes.length || board.facets.employmentTypes.length) ? (
         <section className="z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur min-[900px]:sticky min-[900px]:top-20">
           <Container className="flex flex-col gap-3 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-6">
-            <FacetRow showCounts={showVolume(board.total)} label={arabic ? "المجال" : "Function"} facets={board.facets.categories} active={category} name={(v) => categoryLabel(v, locale)} href={(v) => facetHref("category", v)} />
+            <FacetRow showCounts={showVolume(board.total)} label={arabic ? "المجال" : "Function"} facets={board.facets.categories.filter((f) => f.value === category || chipCategories([f]).length > 0)} active={category} name={(v) => categoryLabel(v, locale)} href={(v) => facetHref("category", v)} />
             <FacetRow showCounts={showVolume(board.total)} label={arabic ? "نمط العمل" : "Work mode"} facets={board.facets.workModes} active={mode} name={(v) => workModeLabel(v, locale)} href={(v) => facetHref("mode", v)} />
             <FacetRow showCounts={showVolume(board.total)} label={arabic ? "نوع العقد" : "Contract"} facets={board.facets.employmentTypes} active={type} name={(v) => employmentTypeLabel(v, locale)} href={(v) => facetHref("type", v)} />
             {hasFilters ? (
@@ -123,7 +123,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
                     aria-current={sort === option.value ? "page" : undefined}
                     className={cn(
                       "inline-flex h-10 items-center rounded-ts-chip px-4 text-[13px] font-semibold transition-colors",
-                      sort === option.value ? "bg-ts-primary-tint text-ts-primary-deep" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
+                      sort === option.value ? "bg-ts-primary-tint text-ts-on-primary-tint" : "text-ts-muted hover:bg-ts-surface-2 hover:text-ts-ink"
                     )}
                   >
                     {option.label}

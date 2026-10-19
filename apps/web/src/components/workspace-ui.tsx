@@ -207,7 +207,7 @@ export function PersonAvatar({ name, size = "md", className }: { name: string; s
   return (
     <span
       aria-hidden="true"
-      className={cn("grid shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint font-semibold text-ts-primary-deep", AVATAR_SIZES[size], className)}
+      className={cn("grid shrink-0 place-items-center rounded-ts-md bg-ts-primary-tint font-semibold text-ts-on-primary-tint", AVATAR_SIZES[size], className)}
     >
       {initialsOf(name)}
     </span>
@@ -220,7 +220,7 @@ export function ScoreBadge({ value, className }: { value: number; className?: st
     <span
       className={cn(
         "inline-flex h-7 shrink-0 items-center rounded-ts-xs px-2.5 text-[13px] font-semibold whitespace-nowrap",
-        value >= 90 ? "bg-ts-primary text-ts-on-primary" : "bg-ts-primary-tint text-ts-primary-deep",
+        value >= 90 ? "bg-ts-primary text-ts-on-primary" : "bg-ts-primary-tint text-ts-on-primary-tint",
         className
       )}
     >
@@ -332,7 +332,7 @@ export function IconTile({
       className={cn(
         "grid shrink-0 place-items-center rounded-ts-md",
         size === "sm" ? "size-8" : "size-10",
-        tone === "brand" ? "bg-ts-primary-tint text-ts-primary" : tone === "accent" ? "bg-ts-accent-tint text-ts-accent-deep" : "bg-ts-surface-2 text-ts-muted",
+        tone === "brand" ? "bg-ts-primary-tint text-ts-on-primary-tint" : tone === "accent" ? "bg-ts-accent-tint text-ts-accent-deep" : "bg-ts-surface-2 text-ts-muted",
         className
       )}
     >

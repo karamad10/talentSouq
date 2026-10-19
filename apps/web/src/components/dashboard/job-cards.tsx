@@ -45,7 +45,7 @@ export function JobCard({ row }: { row: JobRow }) {
       <div className="flex items-start gap-3.5 px-5 pt-5 pb-4">
         <span
           aria-hidden="true"
-          className={cn("grid size-10 shrink-0 place-items-center rounded-ts-md", draft ? "bg-ts-surface-2 text-ts-muted" : "bg-ts-primary-tint text-ts-primary")}
+          className={cn("grid size-10 shrink-0 place-items-center rounded-ts-md", draft ? "bg-ts-surface-2 text-ts-muted" : "bg-ts-primary-tint text-ts-on-primary-tint")}
         >
           <BriefcaseBusiness size={18} />
         </span>
