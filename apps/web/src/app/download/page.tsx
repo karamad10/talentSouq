@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Apple, Download, ShieldCheck, Smartphone } from "lucide-react";
+import { Download, ShieldCheck } from "lucide-react";
 import { PublicHeader } from "@/components/public-header";
 import { Container, PublicFooter } from "@/components/public/public-shell";
+import { StoreBadges } from "@/components/public/store-badges";
 import { appLinks } from "@/lib/app-links";
 import { getSessionUser } from "@/lib/auth/session";
 import { getPreferences } from "@/lib/locale";
@@ -14,8 +15,9 @@ export const metadata: Metadata = {
 
 /**
  * The app on every route a visitor might have (report RPT-2026-014 §9: store
- * access varies in Syria). Store buttons and the APK appear only once their
- * links are configured; until then the page says the app is coming.
+ * access varies in Syria): both store badges always, the direct APK once its
+ * link is configured. Signed-in visitors land here from the workspace routes,
+ * which are app-only for now, so they are told to carry on in the app.
  */
 export default async function DownloadPage() {
   const [{ locale, theme }, user] = await Promise.all([getPreferences(), getSessionUser()]);
@@ -32,32 +34,27 @@ export default async function DownloadPage() {
         <Container className="max-w-3xl">
           <Eyebrow>{arabic ? "التطبيق" : "The app"}</Eyebrow>
           <h1 className="m-0 mt-3 text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">
-            <Stopped>{links.any ? (arabic ? "احصل على تطبيق تالنت سوق." : "Get the TalentSouq app.") : arabic ? "التطبيق قادم قريباً" : "The app is coming soon"}</Stopped>
+            <Stopped>
+              {user
+                ? arabic
+                  ? "تابع من تطبيق تالنت سوق."
+                  : "Carry on in the TalentSouq app."
+                : arabic
+                  ? "احصل على تطبيق تالنت سوق."
+                  : "Get the TalentSouq app."}
+            </Stopped>
           </h1>
           <p className="m-0 mt-4 text-[17px] leading-relaxed text-ts-muted">
-            {links.any
+            {user
               ? arabic
-                ? "قدّم على الوظائف، وتابع طلباتك، وتلقَّ إشعاراً عند رد صاحب العمل."
-                : "Apply for roles, follow your applications, and get a notification when an employer replies."
+                ? "أنت مسجّل الدخول. ملفك وطلباتك ورسائلك ووظائفك المنشورة في التطبيق: سجّل الدخول بالحساب نفسه."
+                : "You are signed in. Your profile, applications, messages and job posts live in the app: sign in there with the same account."
               : arabic
-                ? "سيكون التطبيق متاحاً قريباً لهواتف iPhone وAndroid. يمكنك الآن تصفّح الوظائف وإنشاء حسابك على الموقع."
-                : "The app will be available for iPhone and Android shortly. Until then you can browse roles and create your account on this site."}
+                ? "قدّم على الوظائف، وتابع طلباتك، وتلقَّ إشعاراً عند رد صاحب العمل."
+                : "Apply for roles, follow your applications, and get a notification when an employer replies."}
           </p>
 
-          {links.ios || links.android ? (
-            <div className="mt-9 flex flex-col gap-3 min-[560px]:flex-row min-[560px]:flex-wrap">
-              {links.ios ? (
-                <a href={links.ios} target="_blank" rel="noopener noreferrer" className={`${button} bg-ts-ink text-ts-paper`}>
-                  <Apple size={20} aria-hidden="true" /> App Store
-                </a>
-              ) : null}
-              {links.android ? (
-                <a href={links.android} target="_blank" rel="noopener noreferrer" className={`${button} bg-ts-primary text-ts-on-primary`}>
-                  <Smartphone size={20} aria-hidden="true" /> Google Play
-                </a>
-              ) : null}
-            </div>
-          ) : null}
+          <StoreBadges locale={locale} size={52} className="mt-9" />
 
           {links.apk ? (
             <div className="mt-10 rounded-ts-lg border border-ts-line bg-ts-surface p-6">

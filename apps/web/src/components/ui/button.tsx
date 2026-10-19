@@ -10,7 +10,7 @@ export const buttonVariants = cva(
       tone: {
         primary: "bg-ts-primary text-ts-on-primary hover:bg-ts-primary-deep",
         secondary: "border-[1.5px] border-ts-field bg-ts-surface text-ts-ink hover:bg-ts-surface-2",
-        coral: "bg-coral text-[#1d2525] hover:brightness-105",
+        coral: "bg-ts-accent text-ts-on-accent hover:brightness-105",
         ghost: "border border-white/40 bg-white/10 text-white hover:bg-white/20",
         danger: "bg-danger text-white hover:brightness-95"
       },

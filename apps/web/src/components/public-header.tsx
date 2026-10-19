@@ -7,6 +7,7 @@ import type { SessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/cn";
 import { Logo } from "./logo";
 import { Preferences } from "./preferences";
+import { webWorkspaceOpen } from "@/lib/workspace-flag";
 
 function initialsFromEmail(email: string) {
   const name = email.split("@")[0] ?? email;
@@ -24,7 +25,7 @@ function initialsFromEmail(email: string) {
  */
 export function PublicHeader({ locale, theme = "light", overlay = false, user = null }: { locale: Locale; theme?: "light" | "dark"; overlay?: boolean; user?: SessionUser | null }) {
   const copy = dictionary[locale].nav;
-  const dashboardHref = user?.role === "employer" ? "/employer" : "/seeker";
+  const dashboardHref = !webWorkspaceOpen() ? "/download" : user?.role === "employer" ? "/employer" : "/seeker";
   // No "For employers" entry: it pointed at a home-page anchor, so from any other
   // route it just dropped you at the top of the home page with nothing to show.
   const links = [
@@ -66,7 +67,11 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                 overlay ? "bg-white/15 text-ts-on-primary" : "bg-ts-primary text-ts-on-primary"
               )}
               href={dashboardHref}
-              aria-label={locale === "ar" ? "الذهاب إلى لوحة التحكم" : "Go to your dashboard"}
+              aria-label={
+                webWorkspaceOpen()
+                  ? locale === "ar" ? "الذهاب إلى لوحة التحكم" : "Go to your dashboard"
+                  : locale === "ar" ? "افتح تطبيق تالنت سوق" : "Open the TalentSouq app"
+              }
               title={user.email}
             >
               {initialsFromEmail(user.email)}
@@ -83,7 +88,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
                 {copy.login}
               </Link>
               <Link
-                className="inline-flex h-11 shrink-0 items-center rounded-ts-md bg-ts-accent px-3.5 text-sm font-semibold whitespace-nowrap text-[#1d2525] transition-transform hover:-translate-y-0.5 min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
+                className="inline-flex h-11 shrink-0 items-center rounded-ts-md bg-ts-accent px-3.5 text-sm font-semibold whitespace-nowrap text-ts-on-accent transition-transform hover:-translate-y-0.5 min-[400px]:px-4 min-[560px]:px-5 min-[560px]:text-[15px]"
                 href="/auth/login?mode=signup"
               >
                 {locale === "ar" ? "انضم الآن" : "Join now"}

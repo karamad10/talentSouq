@@ -11,6 +11,7 @@ import { authRedirectPath } from "@/lib/auth/redirects";
 import { getSessionUser } from "@/lib/auth/session";
 import type { Locale } from "@/lib/i18n";
 import { categoryLabel, employmentTypeLabel, experienceLabel, formatDate, postedLabel, salaryLabel, workModeLabel } from "@/lib/labels";
+import { jobPostingJsonLd, serializeJsonLd } from "@/lib/job-posting";
 import { getLocale, getPreferences } from "@/lib/locale";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -64,6 +65,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
   return (
     <main className="bg-ts-paper">
+      {/* Structured data for Google's job search; the posting's own words, in the language the employer wrote. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jobPostingJsonLd(job)) }} />
       <PublicHeader locale={locale} theme={theme} user={user} />
 
       <section className="border-b border-ts-line bg-ts-surface py-14 max-[680px]:py-10">

@@ -9,7 +9,7 @@ import { Container, CtaBand, PublicFooter } from "@/components/public/public-she
 import { listPublicJobs, type Facet } from "@/data/public-jobs";
 import { getSessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/cn";
-import { categoryLabel, employmentTypeLabel, rolesCount, workModeLabel } from "@/lib/labels";
+import { categoryLabel, employmentTypeLabel, rolesCount, showVolume, workModeLabel } from "@/lib/labels";
 import { getPreferences } from "@/lib/locale";
 import { Eyebrow, Stopped } from "@/components/brand-stop";
 
@@ -44,6 +44,9 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   });
   const pages = Math.max(1, Math.ceil(board.total / PAGE_SIZE));
   const hasFilters = Boolean(q || location || category || mode || type);
+  // On a small board the facet chips and their counts only advertise how few
+  // roles there are: they appear once the unfiltered board passes the threshold.
+  const showFacets = showVolume(board.total) || hasFilters;
 
   /** The current search as a URL, with one value changed. Every view is shareable. */
   const hrefWith = (change: Partial<Record<FacetKey | "sort" | "page", string>>) => {
@@ -83,12 +86,12 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
       {/* Facets: plain links, so every filtered view has its own shareable URL.
           They describe the search, not the facet selection, so choosing one
           does not hide the others. Sticky only from 900px up. */}
-      {board.facets.categories.length || board.facets.workModes.length || board.facets.employmentTypes.length ? (
+      {showFacets && (board.facets.categories.length || board.facets.workModes.length || board.facets.employmentTypes.length) ? (
         <section className="z-20 border-b border-ts-line bg-ts-paper/95 py-4 backdrop-blur min-[900px]:sticky min-[900px]:top-20">
           <Container className="flex flex-col gap-3 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-6">
-            <FacetRow label={arabic ? "المجال" : "Function"} facets={board.facets.categories} active={category} name={(v) => categoryLabel(v, locale)} href={(v) => facetHref("category", v)} />
-            <FacetRow label={arabic ? "نمط العمل" : "Work mode"} facets={board.facets.workModes} active={mode} name={(v) => workModeLabel(v, locale)} href={(v) => facetHref("mode", v)} />
-            <FacetRow label={arabic ? "نوع العقد" : "Contract"} facets={board.facets.employmentTypes} active={type} name={(v) => employmentTypeLabel(v, locale)} href={(v) => facetHref("type", v)} />
+            <FacetRow showCounts={showVolume(board.total)} label={arabic ? "المجال" : "Function"} facets={board.facets.categories} active={category} name={(v) => categoryLabel(v, locale)} href={(v) => facetHref("category", v)} />
+            <FacetRow showCounts={showVolume(board.total)} label={arabic ? "نمط العمل" : "Work mode"} facets={board.facets.workModes} active={mode} name={(v) => workModeLabel(v, locale)} href={(v) => facetHref("mode", v)} />
+            <FacetRow showCounts={showVolume(board.total)} label={arabic ? "نوع العقد" : "Contract"} facets={board.facets.employmentTypes} active={type} name={(v) => employmentTypeLabel(v, locale)} href={(v) => facetHref("type", v)} />
             {hasFilters ? (
               <Link href="/jobs" className="inline-flex h-9 shrink-0 items-center gap-1.5 self-start rounded-ts-chip px-3 text-[13px] font-semibold text-ts-muted transition-colors hover:bg-ts-surface-2 hover:text-ts-ink">
                 <X size={14} aria-hidden="true" /> {arabic ? "مسح الكل" : "Clear all"}
@@ -102,7 +105,9 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="min-w-0">
-              <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{rolesCount(board.total, locale)}</h2>
+              <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">
+                {showVolume(board.total) || hasFilters ? rolesCount(board.total, locale) : arabic ? "الوظائف المفتوحة" : "Open roles"}
+              </h2>
               <p className="m-0 mt-1.5 text-[15px] text-ts-muted">{subtitle}</p>
             </div>
             {board.total > 1 ? (
@@ -190,12 +195,14 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
  * scroll sideways in their own strip instead of wrapping.
  */
 function FacetRow({
+  showCounts,
   label,
   facets,
   active,
   name,
   href
 }: {
+  showCounts: boolean;
   label: string;
   facets: Facet[];
   active: string;
@@ -220,7 +227,7 @@ function FacetRow({
             )}
           >
             {name(facet.value)}
-            <span className={active === facet.value ? "text-white/75" : "text-ts-subtle"}>{facet.count}</span>
+            {showCounts ? <span className={active === facet.value ? "opacity-75" : "text-ts-subtle"}>{facet.count}</span> : null}
           </Link>
         ))}
       </div>

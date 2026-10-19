@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { authRedirectPath } from "@/lib/auth/redirects";
 import { getSupabaseEnv } from "@/lib/supabase/env";
+import { webWorkspaceOpen } from "@/lib/workspace-flag";
 
 const protectedPrefixes = ["/seeker", "/employer"];
 
@@ -11,6 +12,11 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const needsAuth = protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   const guardsDisabledForTests = process.env.TALENTSOUQ_DISABLE_AUTH_GUARDS === "1";
+
+  // The workspace is app-only at launch (it still shows demo data): everyone goes to the app page.
+  if (needsAuth && !webWorkspaceOpen()) {
+    return NextResponse.redirect(new URL("/download", request.url));
+  }
 
   if (!env) {
     // No auth backend means nobody can be signed in: the workspace stays closed

@@ -58,6 +58,7 @@
   --color-ts-slate-tint: var(--ts-slate-tint);
   --color-ts-on-strong: var(--on-surface-strong);
   --color-ts-on-primary: var(--ts-on-primary);
+  --color-ts-on-accent: var(--ts-on-accent);
   --color-ts-focus: var(--ts-focus);
   --color-ts-focus-ring: var(--ts-focus-ring);
   --color-ts-on-strong-muted: var(--on-surface-strong-muted);
@@ -93,10 +94,11 @@
   --teal: var(--ts-primary);
   --teal-dark: var(--ts-primary-deep);
   --teal-pale: var(--ts-primary-tint);
-  /* One orange, shared with Triovate: the logo dot, "Souq", featured. */
-  --coral: #EA7C20;
+  /* One orange, shared with Triovate (#F47B20): the logo dot, "Souq", featured.
+     Defined once as --ts-accent; everything else points at it. */
+  --coral: var(--ts-accent);
   --coral-dark: #C8661A;
-  --orange: #EA7C20;
+  --orange: var(--ts-accent);
   --success: var(--ts-success);
   --danger: var(--ts-danger);
   --success-pale: color-mix(in srgb, var(--success) 14%, var(--surface));
@@ -130,7 +132,9 @@
   --ts-on-primary: #FFFFFF;
   --ts-focus: #0B7F72;
   --ts-focus-ring: #BFE3DD;
-  --ts-accent: #EA7C20;
+  --ts-accent: #F47B20;
+  /* Text on the orange: dark in both themes (white on #F47B20 is 2.6:1). */
+  --ts-on-accent: #0B1B23;
   --ts-accent-deep: #8A4B0A;
   --ts-accent-tint: #F8E4D2;
   --ts-success: #177344;
@@ -193,7 +197,7 @@
   --ts-on-primary: #04211E;
   --ts-focus: #5CD0BE;
   --ts-focus-ring: #24544E;
-  --ts-accent: #EA7C20;
+  --ts-accent: #F47B20;
   --ts-accent-deep: #EF9748;
   --ts-accent-tint: #3A2E22;
   --ts-success: #3BAE71;

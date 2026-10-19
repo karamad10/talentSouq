@@ -11,11 +11,11 @@ const avatarVariants = cva("grid shrink-0 place-items-center rounded-ts-md font-
       lg: "size-17 rounded-ts-lg text-lg"
     },
     tone: {
-      teal: "bg-teal-pale text-teal",
-      coral: "bg-[#fbe4df] text-[#b23c1f]",
-      blue: "bg-[#e3eeff] text-[#2952a3]",
-      purple: "bg-[#e8e4fb] text-[#5c4aa8]",
-      photo: "bg-[#bb7568] text-white"
+      teal: "bg-ts-primary-tint text-ts-primary-deep",
+      coral: "bg-ts-accent-tint text-ts-accent-deep",
+      blue: "bg-ts-slate-tint text-ts-ink",
+      purple: "bg-ts-surface-2 text-ts-muted",
+      photo: "bg-ts-primary text-ts-on-primary"
     }
   },
   defaultVariants: { size: "md", tone: "teal" }

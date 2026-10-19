@@ -1,26 +1,25 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { appLinks } from "./app-links";
+import { APP_STORE_URL, PLAY_STORE_URL, appLinks } from "./app-links";
 
 afterEach(() => vi.unstubAllEnvs());
 
 describe("appLinks", () => {
-  it("offers nothing until the store and APK URLs are set", () => {
+  it("falls back to the real store listings and offers no APK until it is set", () => {
     vi.stubEnv("NEXT_PUBLIC_IOS_APP_URL", "");
     vi.stubEnv("NEXT_PUBLIC_ANDROID_APP_URL", "");
     vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_URL", "");
-    expect(appLinks()).toEqual({ ios: null, android: null, apk: null, any: false });
+    expect(appLinks()).toEqual({ ios: APP_STORE_URL, android: PLAY_STORE_URL, apk: null });
   });
 
-  it("returns only the links that are configured", () => {
-    vi.stubEnv("NEXT_PUBLIC_IOS_APP_URL", "");
-    vi.stubEnv("NEXT_PUBLIC_ANDROID_APP_URL", "https://play.google.com/store/apps/details?id=com.karehan.app");
+  it("lets an env var override a store link and adds the APK", () => {
+    vi.stubEnv("NEXT_PUBLIC_IOS_APP_URL", "https://apps.apple.com/ae/app/talentsouq/id6778230487");
+    vi.stubEnv("NEXT_PUBLIC_ANDROID_APP_URL", "");
     vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_URL", "https://talentsouq.it.com/downloads/talentsouq.apk");
     vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_SIZE_MB", "38");
     expect(appLinks()).toEqual({
-      ios: null,
-      android: "https://play.google.com/store/apps/details?id=com.karehan.app",
-      apk: { url: "https://talentsouq.it.com/downloads/talentsouq.apk", sizeMb: 38 },
-      any: true
+      ios: "https://apps.apple.com/ae/app/talentsouq/id6778230487",
+      android: PLAY_STORE_URL,
+      apk: { url: "https://talentsouq.it.com/downloads/talentsouq.apk", sizeMb: 38 }
     });
   });
 
@@ -28,7 +27,7 @@ describe("appLinks", () => {
     vi.stubEnv("NEXT_PUBLIC_IOS_APP_URL", "javascript:alert(1)");
     vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_URL", "http://insecure.example/app.apk");
     const links = appLinks();
-    expect(links.ios).toBeNull();
+    expect(links.ios).toBe(APP_STORE_URL);
     expect(links.apk).toBeNull();
   });
 });
