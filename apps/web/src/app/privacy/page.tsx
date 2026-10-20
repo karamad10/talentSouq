@@ -68,7 +68,7 @@ export default async function PrivacyPage() {
         label: { en: "Read the Terms of Service", ar: "اقرأ شروط الخدمة" },
         text: {
           en: "The Privacy Policy explains how data is handled. The Terms explain the rules for using TalentSouq.",
-          ar: "توضّح سياسة الخصوصية كيف نتعامل مع البيانات، وتوضّح الشروط قواعد استخدام تالنت سوق."
+          ar: "توضّح سياسة الخصوصية كيف نتعامل مع البيانات، وتوضّح الشروط قواعد استخدام TalentSouq."
         }
       }}
     />

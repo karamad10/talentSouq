@@ -58,7 +58,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
   const { company, jobs, stories } = page;
   const videos = page.videos.map((v) => ({ ...v, embed: v.videoUrl ? toEmbedUrl(v.videoUrl) : null })).filter((v) => v.embed);
   const website = safeWebsite(company.website);
-  const name = company.name || (arabic ? "صاحب عمل على تالنت سوق" : "TalentSouq employer");
+  const name = company.name || (arabic ? "صاحب عمل على TalentSouq" : "TalentSouq employer");
 
   return (
     <main className="bg-ts-paper">
@@ -117,7 +117,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
               </div>
             ) : (
               <p className="m-0 mt-4 text-[15px] text-ts-muted">
-                {arabic ? "لا توجد وظائف مفتوحة حالياً. عُد قريباً." : "No open roles right now. Check back soon."}
+                {arabic ? "لا توجد وظائف متاحة حالياً. تابعنا قريباً." : "No open roles right now. Check back soon."}
               </p>
             )}
           </div>
@@ -148,7 +148,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
 
           {videos.length > 0 ? (
             <div>
-              <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "فيديوهات" : "Videos"}</h2>
+              <h2 className="m-0 text-2xl font-bold tracking-[-0.025em] text-ts-ink">{arabic ? "مقاطع فيديو" : "Videos"}</h2>
               <div className="mt-6 grid grid-cols-1 gap-6 min-[900px]:grid-cols-2">
                 {videos.map((video) => (
                   <figure key={video.id} className="m-0 min-w-0">
@@ -180,7 +180,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
               <span />
             )}
             <p className="m-0">
-              {arabic ? "مدعوم من " : "Powered by "}
+              {arabic ? "بدعم من " : "Powered by "}
               <Link href="/" className="font-semibold text-ts-ink hover:text-ts-primary">
                 TalentSouq
               </Link>{" "}

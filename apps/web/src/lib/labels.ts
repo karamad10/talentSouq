@@ -12,22 +12,22 @@ type Pair = { en: string; ar: string };
 const EMPLOYMENT: Record<string, Pair> = {
   full_time: { en: "Full-time", ar: "دوام كامل" },
   part_time: { en: "Part-time", ar: "دوام جزئي" },
-  contract: { en: "Contract", ar: "عقد" },
+  contract: { en: "Contract", ar: "عقد مؤقت" },
   freelance: { en: "Freelance", ar: "عمل حر" }
 };
 
 const WORK_MODE: Record<string, Pair> = {
-  on_site: { en: "On-site", ar: "في الموقع" },
-  onsite: { en: "On-site", ar: "في الموقع" },
+  on_site: { en: "On-site", ar: "حضوري" },
+  onsite: { en: "On-site", ar: "حضوري" },
   remote: { en: "Remote", ar: "عن بُعد" },
-  hybrid: { en: "Hybrid", ar: "هجين" }
+  hybrid: { en: "Hybrid", ar: "مختلط" }
 };
 
 /** The categories seeded in the database (`job_categories`). */
 const CATEGORY_AR: Record<string, string> = {
   Engineering: "الهندسة",
   Design: "التصميم",
-  Product: "المنتج",
+  Product: "إدارة المنتجات",
   Sales: "المبيعات",
   Marketing: "التسويق",
   Finance: "المالية",
@@ -39,11 +39,11 @@ const CATEGORY_AR: Record<string, string> = {
   Legal: "الشؤون القانونية",
   Logistics: "الخدمات اللوجستية",
   Hospitality: "الضيافة",
-  Construction: "البناء",
+  Construction: "البناء والتشييد",
   Administration: "الإدارة",
   "Data & Analytics": "البيانات والتحليلات",
   Security: "الأمن",
-  Retail: "التجزئة",
+  Retail: "البيع بالتجزئة",
   Other: "أخرى",
   // Company industries that are not job categories.
   Energy: "الطاقة",

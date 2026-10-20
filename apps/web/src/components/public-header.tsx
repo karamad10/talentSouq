@@ -71,7 +71,7 @@ export function PublicHeader({ locale, theme = "light", overlay = false, user = 
               aria-label={
                 webWorkspaceOpen()
                   ? locale === "ar" ? "الذهاب إلى لوحة التحكم" : "Go to your dashboard"
-                  : locale === "ar" ? "افتح تطبيق تالنت سوق" : "Open the TalentSouq app"
+                  : locale === "ar" ? "افتح تطبيق TalentSouq" : "Open the TalentSouq app"
               }
               title={user.email}
             >

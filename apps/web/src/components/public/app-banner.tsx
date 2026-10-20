@@ -24,6 +24,8 @@ function isPublicRoute(pathname: string) {
  * Read synchronously so `useSyncExternalStore` can compare snapshots by value.
  */
 function bannerHref() {
+  // Nothing to open until the store listings are public.
+  if (!LINKS.live) return "";
   if (!window.matchMedia(NARROW).matches) return "";
   try {
     if (window.localStorage.getItem(DISMISSED_KEY) === "1") return "";

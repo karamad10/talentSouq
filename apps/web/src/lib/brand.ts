@@ -15,7 +15,12 @@ export const BRAND = {
   origin: "https://talentsouq.it.com",
   tagline: { en: "Opportunity meets ambition.", ar: "الفرصة تلتقي بالطموح." },
   email: { support: "support@talentsouq.it.com", privacy: "privacy@talentsouq.it.com", hello: "hello@talentsouq.it.com" },
-  /** Confirm both handles once the LinkedIn vanity URL and Instagram account exist. */
-  social: { linkedin: "https://www.linkedin.com/company/talentsouq", instagram: "https://www.instagram.com/talentsouq" },
+  /**
+   * Social profiles, shown in the footer only when set. Both stay null until the
+   * accounts exist and have content (review, 20 Oct: a dead-end trust link is
+   * worse than none). Due by 15 Nov; then e.g.
+   * "https://www.linkedin.com/company/talentsouq" / "https://www.instagram.com/talentsouq".
+   */
+  social: { linkedin: null as string | null, instagram: null as string | null },
   cities: "Dubai · Riyadh · Doha · Damascus"
 } as const;

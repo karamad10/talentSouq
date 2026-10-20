@@ -58,7 +58,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
         <Container>
           <Eyebrow>{arabic ? "ملفات الشركات" : "Company profiles"}</Eyebrow>
           <h1 className="m-0 mt-3 max-w-3xl text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.05] font-bold tracking-[-0.035em] text-ts-ink">
-            <Stopped>{arabic ? "تعرّف على الفرق التي توظّف في الخليج وسوريا." : "Meet the teams hiring across the Gulf and Syria."}</Stopped>
+            <Stopped>{arabic ? "تعرّف على الشركات التي توظّف في الخليج وسوريا." : "Meet the teams hiring across the Gulf and Syria."}</Stopped>
           </h1>
           <p className="m-0 mt-4 max-w-2xl text-[17px] leading-relaxed text-ts-muted">
             {arabic ? "تعرّف على طريقة عمل الفريق قبل أن تتقدّم." : "See how a team works before you apply."}
@@ -137,7 +137,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
                 <Building2 size={24} />
               </span>
               <h2 className="m-0 text-xl font-bold text-ts-ink">
-                {hasFilters ? (arabic ? "لا توجد شركات مطابقة" : "No companies found") : arabic ? "أولى الشركات قادمة قريباً" : "The first companies are on their way"}
+                {hasFilters ? (arabic ? "لا توجد شركات مطابقة" : "No companies found") : arabic ? "أولى الشركات في الطريق" : "The first companies are on their way"}
               </h2>
               <p className="m-0 max-w-md text-[15px] text-ts-muted">
                 {hasFilters
@@ -145,7 +145,7 @@ export default async function CompaniesPage({ searchParams }: { searchParams: Pr
                     ? "جرّب اسماً أو قطاعاً آخر، أو امسح عوامل التصفية."
                     : "Try another name or industry, or clear the filters."
                   : arabic
-                    ? "ينضم أصحاب العمل الآن. هل توظّف؟ أنشئ حساب شركة وانشر أول وظيفة."
+                    ? "أصحاب العمل ينضمّون الآن. هل تبحث عن موظفين؟ أنشئ حساب شركة وانشر وظيفتك الأولى."
                     : "Employers are joining now. Hiring? Create a company account and post your first role."}
               </p>
               <Link

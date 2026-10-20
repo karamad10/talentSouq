@@ -63,7 +63,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   const subtitle = q || location
     ? `${arabic ? "نتائج البحث عن" : "Results for"} ${[q, location].filter(Boolean).join(" · ")}`
     : arabic
-      ? "وظائف منشورة الآن من أصحاب عمل في الخليج وسوريا"
+      ? "وظائف متاحة الآن لدى أصحاب عمل في الخليج وسوريا"
       : "Roles open right now with employers across the Gulf and Syria";
 
   return (
@@ -77,7 +77,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
             <Stopped>{arabic ? "اعثر على عمل يناسب طموحك." : "Find work that fits your ambition."}</Stopped>
           </h1>
           <p className="m-0 mt-4 max-w-2xl text-[17px] leading-relaxed text-ts-muted">
-            {arabic ? "ابحث في الوظائف المنشورة في الخليج وسوريا، وقدّم بملف واحد." : "Search roles open across the Gulf and Syria, and apply with one profile."}
+            {arabic ? "ابحث في الوظائف المتاحة في الخليج وسوريا، وقدّم بملف مهني واحد." : "Search roles open across the Gulf and Syria, and apply with one profile."}
           </p>
           <JobSearchForm locale={locale} q={q} location={location} className="mt-8" />
         </Container>
@@ -162,15 +162,15 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
                 <Search size={24} />
               </span>
               <h3 className="m-0 text-xl font-bold text-ts-ink">
-                {hasFilters ? (arabic ? "لا توجد نتائج" : "No roles found") : arabic ? "أولى الوظائف قادمة قريباً" : "First roles are on their way"}
+                {hasFilters ? (arabic ? "لا توجد نتائج" : "No roles found") : arabic ? "أولى الوظائف في الطريق" : "First roles are on their way"}
               </h3>
               <p className="m-0 max-w-md text-[15px] text-ts-muted">
                 {hasFilters
                   ? arabic
-                    ? "جرّب مسمى وظيفياً أو موقعاً أوسع، أو امسح عوامل التصفية."
+                    ? "جرّب مسمّى وظيفياً أو موقعاً أعمّ، أو امسح عوامل التصفية."
                     : "Try a broader title, company, or location — or clear the filters."
                   : arabic
-                    ? "ينضم أصحاب العمل الآن. أنشئ ملفك لتكون جاهزاً عند نشر الوظائف."
+                    ? "أصحاب العمل ينضمّون الآن. أنشئ ملفك لتكون جاهزاً حين تُنشر الوظائف."
                     : "Employers are joining now. Create your profile so you are ready when roles go live."}
               </p>
               <Link
