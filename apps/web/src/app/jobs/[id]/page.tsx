@@ -61,7 +61,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     { icon: MapPin, label: arabic ? "الموقع" : "Location", value: [job.location, workModeLabel(job.workMode, locale)].filter(Boolean).join(" · ") },
     { icon: GraduationCap, label: arabic ? "الخبرة" : "Experience", value: experienceLabel(job.experienceMin, job.experienceMax, locale) },
     { icon: CalendarClock, label: arabic ? "آخر موعد للتقديم" : "Apply by", value: formatDate(job.deadline, locale) },
-    { icon: Clock3, label: arabic ? "نُشرت" : "Posted", value: postedLabel(job.createdAt, locale) }
+    { icon: Clock3, label: arabic ? "تاريخ النشر" : "Posted", value: postedLabel(job.createdAt, locale) }
   ].filter((fact) => fact.value);
 
   return (
@@ -157,14 +157,14 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               <p className="m-0 mt-2 text-[15px] leading-relaxed text-ts-muted">
                 {apply.kind === "external"
                   ? arabic
-                    ? "يستقبل صاحب العمل الطلبات عبر موقعه."
+                    ? "يستقبل صاحب العمل الطلبات عبر موقعه الإلكتروني."
                     : "This employer takes applications on their own site."
                   : apply.kind === "signup"
                     ? arabic
                       ? "أنشئ حساباً مجانياً للتقديم بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
                       : "Create a free account to apply with your profile and CV, and follow your application step by step."
                     : arabic
-                      ? "قدّم من تطبيق تالنت سوق بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
+                      ? "قدّم عبر تطبيق TalentSouq بملفك وسيرتك الذاتية، وتابع طلبك خطوة بخطوة."
                       : "Apply in the TalentSouq app with your profile and CV, and follow your application step by step."}
               </p>
               <ApplyButton target={apply} locale={locale} />
@@ -228,7 +228,7 @@ function ApplyButton({ target, locale }: { target: ApplyTarget; locale: Locale }
   if (kind === "external") {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer nofollow" className={className}>
-        {arabic ? "قدّم على موقع الشركة" : "Apply on company site"} <ArrowUpRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
+        {arabic ? "قدّم عبر موقع الشركة" : "Apply on company site"} <ArrowUpRight size={17} aria-hidden="true" className="rtl:-scale-x-100" />
       </a>
     );
   }

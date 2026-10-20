@@ -73,9 +73,10 @@ export function Preferences({ initialLocale, initialTheme, className }: { initia
 
   return (
     <div className={cn("preferences", className)} aria-label="Display preferences">
-      <button className="icon-button" type="button" onClick={toggleLocale} aria-busy={switching} aria-label={locale === "en" ? "العربية" : "English"}>
+      {/* The other language, named in itself (review: "العربية" in the nav). */}
+      <button className="icon-button" type="button" onClick={toggleLocale} aria-busy={switching} lang={locale === "en" ? "ar" : "en"}>
         <Languages size={18} strokeWidth={1.8} aria-hidden="true" />
-        <span>{locale === "en" ? "AR" : "EN"}</span>
+        <span>{locale === "en" ? "العربية" : "English"}</span>
       </button>
       <button className="icon-button theme-button" type="button" onClick={toggleTheme} aria-label={theme === "light" ? "Use dark theme" : "Use light theme"}>
         {theme === "light" ? <Moon size={18} aria-hidden="true" /> : <Sun size={18} aria-hidden="true" />}

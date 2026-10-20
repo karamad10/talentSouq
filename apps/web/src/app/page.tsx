@@ -51,9 +51,9 @@ export default async function HomePage() {
       : ["Verified employers", "Arabic and English", copy.proof.response];
 
   const steps = [
-    { icon: FileText, title: arabic ? "أنشئ ملفك" : "Build one profile", body: arabic ? "ارفع سيرتك الذاتية مرة واحدة ودعها تتحدث عنك في كل طلب." : "Upload your CV once and let it carry into every application." },
-    { icon: Search, title: arabic ? "اكتشف الفرص" : "See roles that fit", body: arabic ? "نرتب الوظائف حسب توافقها مع خبرتك وتفضيلاتك." : "Roles are ranked against your experience and preferences, not the noise." },
-    { icon: MessagesSquare, title: arabic ? "تابع كل شيء" : "Track every reply", body: arabic ? "تابع المقابلات والرسائل والعروض في مكان واحد." : "Interviews, messages, and offers stay in one place you can follow." }
+    { icon: FileText, title: arabic ? "أنشئ ملفك" : "Build one profile", body: arabic ? "ارفع سيرتك الذاتية مرة واحدة، واستخدمها في كل طلب تقديم." : "Upload your CV once and let it carry into every application." },
+    { icon: Search, title: arabic ? "اكتشف الوظائف المناسبة" : "See roles that fit", body: arabic ? "نرتّب الوظائف حسب ملاءمتها لخبرتك وتفضيلاتك." : "Roles are ranked against your experience and preferences, not the noise." },
+    { icon: MessagesSquare, title: arabic ? "تابع كل ردّ" : "Track every reply", body: arabic ? "تابع المقابلات والرسائل والعروض في مكان واحد." : "Interviews, messages, and offers stay in one place you can follow." }
   ];
 
   return (
@@ -141,7 +141,7 @@ export default async function HomePage() {
       {hiring.length > 0 ? (
         <section className="border-y border-ts-line-soft bg-ts-surface py-7">
           <Container className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-x-9">
-            <Eyebrow>{arabic ? "يوظفون الآن" : "Hiring right now"}</Eyebrow>
+            <Eyebrow>{arabic ? "يوظّفون الآن" : "Hiring right now"}</Eyebrow>
             <div className="-mx-5 flex items-center gap-x-7 gap-y-3 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[900px]:mx-0 min-[900px]:flex-wrap min-[900px]:overflow-visible min-[900px]:px-0">
               {hiring.map((company, index) => (
                 <Link
@@ -178,10 +178,10 @@ export default async function HomePage() {
             // Launch day, before the first listing: say so, and give people something to do.
             <div className="mt-10 flex flex-col items-start gap-3 rounded-ts-xl border border-dashed border-ts-line px-6 py-10 min-[760px]:flex-row min-[760px]:items-center min-[760px]:justify-between">
               <div className="min-w-0">
-                <h3 className="m-0 text-xl font-semibold tracking-[-0.02em] text-ts-ink">{arabic ? "أولى الوظائف قادمة قريباً" : "First roles are on their way"}</h3>
+                <h3 className="m-0 text-xl font-semibold tracking-[-0.02em] text-ts-ink">{arabic ? "أولى الوظائف في الطريق" : "First roles are on their way"}</h3>
                 <p className="m-0 mt-1.5 max-w-xl text-[15px] text-ts-muted">
                   {arabic
-                    ? "ينضم أصحاب العمل في الخليج وسوريا الآن. أنشئ ملفك لتكون أول من يتقدّم."
+                    ? "أصحاب العمل في الخليج وسوريا ينضمّون الآن. أنشئ ملفك لتكون من أوائل المتقدّمين."
                     : "Employers across the Gulf and Syria are joining now. Create your profile to be first in line."}
                 </p>
               </div>
@@ -198,9 +198,9 @@ export default async function HomePage() {
         <section className={`border-y border-ts-line-soft bg-ts-surface ${sectionPad}`}>
           <Container>
             <SectionHeading
-              eyebrow={arabic ? "تصفح المجالات" : "Browse by function"}
+              eyebrow={arabic ? "تصفّح حسب المجال" : "Browse by function"}
               title={arabic ? "ابدأ من مجالك." : "Start where you already work."}
-              body={arabic ? "كل مجال يعرض الوظائف المفتوحة اليوم في الخليج وسوريا." : "Every function shows what is genuinely open across the Gulf and Syria today."}
+              body={arabic ? "في كل مجال، الوظائف المتاحة اليوم في الخليج وسوريا." : "Every function shows what is genuinely open across the Gulf and Syria today."}
             />
             <div className="mt-9 grid gap-x-10 border-t border-ts-line [grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))]">
               {categories.map((item) => (
@@ -234,8 +234,8 @@ export default async function HomePage() {
             <ul className="m-0 mt-6 flex list-none flex-col gap-3 p-0">
               {[
                 arabic ? "ملف مهني متكامل" : "One complete professional profile",
-                arabic ? "توصيات وظائف أذكى" : "Smarter role recommendations",
-                arabic ? "تتبع واضح للطلبات" : "Clear application tracking"
+                arabic ? "اقتراحات وظائف أذكى" : "Smarter role recommendations",
+                arabic ? "متابعة واضحة لطلباتك" : "Clear application tracking"
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-[15px] text-ts-ink">
                   <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-primary-tint text-ts-on-primary-tint">
@@ -271,7 +271,7 @@ export default async function HomePage() {
                 {[
                   { icon: FileText, label: arabic ? "السيرة الذاتية" : "CV" },
                   { icon: BriefcaseBusiness, label: arabic ? "الخبرة" : "Experience" },
-                  { icon: Search, label: arabic ? "الوظائف المفضلة" : "Roles you want" }
+                  { icon: Search, label: arabic ? "الوظائف التي تريدها" : "Roles you want" }
                 ].map(({ icon: Icon, label }) => (
                   <li key={label} className="flex items-center gap-3 text-[13px] text-ts-muted">
                     <Icon size={15} className="shrink-0 text-ts-primary" />
@@ -304,9 +304,9 @@ export default async function HomePage() {
               <ul className="m-0 flex list-none flex-col p-0">
                 {[
                   arabic ? "طلب جديد" : "New applicant",
-                  arabic ? "قائمة مختصرة" : "Shortlisted",
+                  arabic ? "القائمة المختصرة" : "Shortlisted",
                   arabic ? "مقابلة" : "Interview",
-                  arabic ? "عرض" : "Offer"
+                  arabic ? "عرض وظيفي" : "Offer"
                 ].map((stage) => (
                   <li key={stage} className="flex items-center gap-3.5 border-b border-ts-line-soft py-4 last:border-b-0">
                     <span className="grid size-9 shrink-0 place-items-center rounded-ts-sm bg-ts-primary-tint text-ts-on-primary-tint">
@@ -329,9 +329,9 @@ export default async function HomePage() {
             <p className="m-0 mt-4 max-w-xl text-[16px] leading-relaxed text-pretty text-ts-muted">{copy.sections.employerBody}</p>
             <ul className="m-0 mt-6 flex list-none flex-col gap-3 p-0">
               {[
-                arabic ? "إدارة الوظائف والمتقدمين" : "Jobs and applicants in one view",
-                arabic ? "مراحل توظيف واضحة" : "A clear, collaborative pipeline",
-                arabic ? "توافق مدعوم بالذكاء الاصطناعي" : "AI-assisted talent matching"
+                arabic ? "الوظائف والمتقدمون في شاشة واحدة" : "Jobs and applicants in one view",
+                arabic ? "مراحل توظيف واضحة يتشاركها فريقك" : "A clear, collaborative pipeline",
+                arabic ? "مطابقة المواهب بالذكاء الاصطناعي" : "AI-assisted talent matching"
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-[15px] text-ts-ink">
                   <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center rounded-full bg-ts-accent-tint text-ts-accent-deep">
@@ -352,9 +352,9 @@ export default async function HomePage() {
       <section className={sectionPad}>
         <Container>
           <SectionHeading
-            eyebrow={arabic ? "كيف يعمل" : "How it works"}
+            eyebrow={arabic ? "كيف تعمل المنصة" : "How it works"}
             title={arabic ? "ثلاث خطوات، لا أكثر." : "Three steps, nothing more."}
-            body={arabic ? "من الملف الشخصي إلى العرض، بمسار واضح." : "From profile to offer, on a path you can actually follow."}
+            body={arabic ? "من ملفك المهني حتى العرض الوظيفي، بمسار واضح." : "From profile to offer, on a path you can actually follow."}
             align="center"
           />
           <ol className="m-0 mt-11 grid list-none grid-cols-1 gap-x-10 gap-y-9 p-0 [grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))]">

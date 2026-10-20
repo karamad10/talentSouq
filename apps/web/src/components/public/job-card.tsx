@@ -21,7 +21,7 @@ export function accentFor(key: string): string {
 }
 
 export function companyName(job: Pick<PublicJob, "company">, locale: Locale): string {
-  return job.company.name || (locale === "ar" ? "صاحب عمل على تالنت سوق" : "TalentSouq employer");
+  return job.company.name || (locale === "ar" ? "صاحب عمل على TalentSouq" : "TalentSouq employer");
 }
 
 /** The Arabic title when the visitor reads Arabic and the employer wrote one. */

@@ -8,11 +8,11 @@ export default async function NotFound() {
   return (
     <main className="not-found">
       <Logo />
-      <p className="eyebrow">{arabic ? "404 · خارج الخريطة" : "404 · Off the map"}</p>
-      <h1><Stopped>{arabic ? "هذه الفرصة لم تعد هنا." : "This opportunity moved on."}</Stopped></h1>
+      <p className="eyebrow">{arabic ? "404 · الصفحة غير موجودة" : "404 · Off the map"}</p>
+      <h1><Stopped>{arabic ? "هذه الصفحة لم تعد متاحة." : "This opportunity moved on."}</Stopped></h1>
       <p>
         {arabic
-          ? "ربما تغيّرت الصفحة، لكن أمامك الكثير من الوجهات الجيدة."
+          ? "ربما نُقلت أو حُذفت، لكن الفرص الجديدة بانتظارك."
           : "The page may have changed, but there are plenty of good places to go next."}
       </p>
       <Link className="button button-primary" href="/jobs">

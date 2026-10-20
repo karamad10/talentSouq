@@ -8,7 +8,8 @@ describe("authMessage", () => {
     const actions = readFileSync(join(__dirname, "../app/auth/actions.ts"), "utf8");
     const sent = [...actions.matchAll(/(?:failurePath\([^,]+,\s*formData,\s*|(?:error|message):\s*)"([^"]+)"/g)].map((m) => m[1]);
     expect(sent.length).toBeGreaterThan(5);
-    for (const text of sent) expect(authMessage(text, "ar"), text).not.toMatch(/[A-Za-z]{3,}/);
+    // The brand name stays in Latin letters in Arabic; anything else in Latin is untranslated.
+    for (const text of sent) expect(authMessage(text, "ar").replace(/TalentSouq/g, ""), text).not.toMatch(/[A-Za-z]{3,}/);
   });
 
   it("keeps English as sent and passes an unknown server message through", () => {

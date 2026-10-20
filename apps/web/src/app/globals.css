@@ -249,7 +249,7 @@ h1, h2, h3 { color: var(--ink-deep); font-weight: 700; line-height: 1.08; letter
 h1 { font-size: clamp(2.15rem, 7vw, 6.7rem); }
 h2 { font-size: clamp(1.65rem, 4.5vw, 4.2rem); }
 
-.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ts-primary); font-size: 20px; font-weight: 700; letter-spacing: 0; }
+.logo { direction: ltr; display: inline-flex; align-items: center; gap: 10px; color: var(--ts-primary); font-size: 20px; font-weight: 700; letter-spacing: 0; }
 .logo[data-inverted] { color: var(--on-surface-strong); }
 .logo-mark { display: grid; width: 36px; height: 36px; flex: none; place-items: center; }
 .logo-mark img { width: 36px; height: 36px; border-radius: var(--radius-ts-sm); }

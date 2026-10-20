@@ -21,7 +21,7 @@ const DAY = 24 * HOUR;
 
 describe("enum labels", () => {
   it("labels work mode and employment type in both languages", () => {
-    expect(workModeLabel("on_site", "ar")).toBe("في الموقع");
+    expect(workModeLabel("on_site", "ar")).toBe("حضوري");
     expect(workModeLabel("on_site", "en")).toBe("On-site");
     expect(workModeLabel("remote", "ar")).toBe("عن بُعد");
     expect(employmentTypeLabel("full_time", "ar")).toBe("دوام كامل");

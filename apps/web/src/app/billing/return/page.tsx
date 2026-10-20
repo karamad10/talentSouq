@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { CheckCircle2, XCircle } from "lucide-react";
-import { cookies } from "next/headers";
 import { PublicHeader } from "@/components/public-header";
 import { Container, PublicFooter } from "@/components/public/public-shell";
 import { getSessionUser } from "@/lib/auth/session";
-import { isLocale } from "@/lib/i18n";
 import { BillingReturnRedirect } from "./billing-return-redirect";
+import { getPreferences } from "@/lib/locale";
 
 // Where Stripe sends a customer back to after checkout or the billing portal.
 //
@@ -32,9 +31,7 @@ export default async function BillingReturnPage({
 }: {
   searchParams: Promise<{ status?: string }>;
 }) {
-  const [resolved, cookieStore, user] = await Promise.all([searchParams, cookies(), getSessionUser()]);
-  const rawLocale = cookieStore.get("ts-locale")?.value;
-  const locale = isLocale(rawLocale) ? rawLocale : "en";
+  const [resolved, { locale }, user] = await Promise.all([searchParams, getPreferences(), getSessionUser()]);
   const arabic = locale === "ar";
   const canceled = resolved.status === "cancel";
   const deepLink = `talentsouq://billing${resolved.status ? `?status=${encodeURIComponent(resolved.status)}` : ""}`;
