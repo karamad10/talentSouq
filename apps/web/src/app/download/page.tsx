@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Download, ShieldCheck } from "lucide-react";
 import { PublicHeader } from "@/components/public-header";
 import { existsSync } from "node:fs";
@@ -134,7 +135,7 @@ export default async function DownloadPage() {
                 {arabic ? "تحميل ملف APK" : "Download the APK"}
                 {links.apk.sizeMb ? (
                   <span className="font-semibold text-ts-muted">
-                    · {links.apk.sizeMb} MB
+                    · <bdi dir="ltr">{links.apk.sizeMb} MB</bdi>
                   </span>
                 ) : null}
               </a>
@@ -144,9 +145,14 @@ export default async function DownloadPage() {
                   aria-hidden="true"
                   className="mt-0.5 shrink-0"
                 />
-                {arabic
-                  ? "قد يطلب Android السماح بالتثبيت من هذا المصدر. حمّل الملف من هذه الصفحة فقط."
-                  : "Android may ask you to allow installs from this source. Only download the file from this page."}
+                <span>
+                  {arabic
+                    ? "قد يطلب Android السماح بالتثبيت من هذا المصدر. "
+                    : "Android may ask you to allow installs from this source. "}
+                  <Link href="/android" className="font-semibold text-ts-ink underline underline-offset-2">
+                    {arabic ? "خطوات التثبيت" : "Step-by-step install guide"}
+                  </Link>
+                </span>
               </p>
             </div>
           </Container>
