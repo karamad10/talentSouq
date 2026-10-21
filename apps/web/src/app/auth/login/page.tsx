@@ -6,6 +6,7 @@ import { Logo } from "@/components/logo";
 import { authMessage } from "@/lib/auth-copy";
 import { getLocale } from "@/lib/locale";
 import { getSupabaseEnv } from "@/lib/supabase/env";
+import { appleWebSignInEnabled } from "@/lib/auth/providers";
 import { Stopped } from "@/components/brand-stop";
 
 const COPY = {
@@ -157,10 +158,24 @@ export default async function LoginPage({
           <div className="social-buttons">
             <form action={signInWithOAuth}>
               <input type="hidden" name="next" value={next} />
+              <input type="hidden" name="provider" value="google" />
               <button className="button button-secondary" type="submit" disabled={!authEnabled}>
                 <span className="google-g">G</span>Google
               </button>
             </form>
+            {appleWebSignInEnabled() ? (
+              <form action={signInWithOAuth}>
+                <input type="hidden" name="next" value={next} />
+                <input type="hidden" name="provider" value="apple" />
+                <button className="button button-secondary" type="submit" disabled={!authEnabled}>
+                  {/* Apple's mark (Lucide dropped brand icons). */}
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.15.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.33-3.55ZM14.17 6.13c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23Z" />
+                  </svg>
+                  Apple
+                </button>
+              </form>
+            ) : null}
           </div>
           <p className="switch-auth">
             {signup ? copy.haveAccount : copy.newHere}{" "}

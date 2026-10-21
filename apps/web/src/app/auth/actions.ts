@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { authRedirectPath, safeRelativePath } from "@/lib/auth/redirects";
 import { configuredWebOrigin, resolveWebOrigin } from "@/lib/auth/web-origin";
 import { createClient } from "@/lib/supabase/server";
+import { requestedProvider } from "@/lib/auth/providers";
 
 type AuthMode = "login" | "signup";
 
@@ -111,8 +112,9 @@ export async function signUpWithPassword(formData: FormData) {
 }
 
 export async function signInWithOAuth(formData: FormData) {
-  // Google is the only social provider the sign-in page offers, so the form's
-  // `provider` field is ignored rather than trusted.
+  // The form names a provider, but only ones the page offers are honoured
+  // (Apple only once NEXT_PUBLIC_APPLE_SIGNIN is on).
+  const provider = requestedProvider(formData.get("provider"));
   const next = safeRelativePath(formData.get("next"), "/seeker");
 
   let supabase;
@@ -124,10 +126,11 @@ export async function signInWithOAuth(formData: FormData) {
 
   const origin = await getWebOrigin();
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
+    provider,
     options: {
       redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
-      queryParams: { prompt: "select_account" }
+      // Google's account chooser; Apple has its own and rejects unknown params.
+      ...(provider === "google" ? { queryParams: { prompt: "select_account" } } : {})
     }
   });
 
