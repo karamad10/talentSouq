@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { listPublicCompanies } from "@/data/public-companies";
 import { listPublicJobs } from "@/data/public-jobs";
+import { appLinks } from "@/lib/app-links";
 import { BRAND } from "@/lib/brand";
 
 /**
@@ -10,7 +11,8 @@ import { BRAND } from "@/lib/brand";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [board, companies] = await Promise.all([listPublicJobs({ limit: 100 }), listPublicCompanies()]);
   const now = new Date();
-  const statics: MetadataRoute.Sitemap = ["", "/jobs", "/companies", "/download", "/privacy", "/terms"].map((path) => ({
+  const paths = ["", "/jobs", "/companies", "/download", ...(appLinks().apk ? ["/android"] : []), "/privacy", "/terms"];
+  const statics: MetadataRoute.Sitemap = paths.map((path) => ({
     url: `${BRAND.origin}${path}`,
     lastModified: now,
     changeFrequency: path === "/jobs" || path === "/companies" || path === "" ? "daily" : "monthly"

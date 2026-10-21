@@ -20,9 +20,19 @@ describe("appLinks", () => {
     expect(appLinks()).toEqual({
       ios: "https://apps.apple.com/ae/app/talentsouq/id6778230487",
       android: PLAY_STORE_URL,
-      apk: { url: "https://talentsouq.it.com/downloads/talentsouq.apk", sizeMb: 38 },
+      apk: { url: "https://talentsouq.it.com/downloads/talentsouq.apk", sizeMb: 38, version: null, sha256: null },
       live: false
     });
+  });
+
+  it("shows the APK's version and checksum only when they are well formed", () => {
+    vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_URL", "https://example.com/talentsouq.apk");
+    vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_VERSION", "1.0.0 (43)");
+    vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_SHA256", "AB".repeat(32));
+    expect(appLinks().apk).toMatchObject({ version: "1.0.0 (43)", sha256: "ab".repeat(32) });
+    vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_VERSION", "<script>");
+    vi.stubEnv("NEXT_PUBLIC_ANDROID_APK_SHA256", "not-a-hash");
+    expect(appLinks().apk).toMatchObject({ version: null, sha256: null });
   });
 
   it("is live only once NEXT_PUBLIC_STORES_LIVE is 1", () => {
