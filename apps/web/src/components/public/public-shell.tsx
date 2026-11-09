@@ -177,6 +177,8 @@ export function PublicFooter({ locale }: { locale: Locale }) {
         links: [
           { href: "/privacy", label: locale === "ar" ? "الخصوصية" : "Privacy" },
           { href: "/terms", label: locale === "ar" ? "الشروط" : "Terms" },
+          { href: "/support", label: locale === "ar" ? "الدعم" : "Support" },
+          { href: "/delete-account", label: locale === "ar" ? "حذف الحساب" : "Delete account" },
         ],
       },
     ];

@@ -11,7 +11,7 @@ import { BRAND } from "@/lib/brand";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [board, companies] = await Promise.all([listPublicJobs({ limit: 100 }), listPublicCompanies()]);
   const now = new Date();
-  const paths = ["", "/jobs", "/companies", "/download", ...(appLinks().apk ? ["/android"] : []), "/privacy", "/terms"];
+  const paths = ["", "/jobs", "/companies", "/download", ...(appLinks().apk ? ["/android"] : []), "/privacy", "/terms", "/support", "/delete-account"];
   const statics: MetadataRoute.Sitemap = paths.map((path) => ({
     url: `${BRAND.origin}${path}`,
     lastModified: now,
